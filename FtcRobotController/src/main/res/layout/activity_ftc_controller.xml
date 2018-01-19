@@ -58,12 +58,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         <TextView
             android:id="@+id/textDeviceName"
-            android:layout_toEndOf="@id/robotIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/textWhite"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_toEndOf="@id/robotIcon"
             android:padding="8dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/textYellow"
             android:textStyle="bold"
             tools:text="9999-RC"/>
 
@@ -71,11 +71,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             android:id="@+id/openrc_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/robotIcon"
             android:layout_below="@id/textDeviceName"
-            android:textColor="?attr/textWhite"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_toEndOf="@+id/robotIcon"
             android:padding="8dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/textYellow"
             android:textStyle="bold"
             tools:text="OpenRC v1.0"/>
 
