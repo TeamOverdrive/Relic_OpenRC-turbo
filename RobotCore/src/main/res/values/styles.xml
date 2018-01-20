@@ -149,7 +149,7 @@
 
         <item name="backgroundLight">@color/light_teal</item>
         <item name="backgroundMediumLight">@color/medium_light_teal</item>
-        <item name="backgroundMedium">@color/medium_teal</item>
+        <item name="backgroundMedium">@color/od_black</item>
         <item name="backgroundMediumMedium">@color/medium_medium_teal</item>
         <item name="backgroundMediumDark">@color/medium_dark_teal</item>
         <item name="backgroundAlmostDark">@color/almost_dark_teal</item>
@@ -158,6 +158,16 @@
         <item name="backgroundVeryVeryDark">@color/very_very_dark_teal</item>
         <item name="lineBright">@color/bright_teal</item>
         <item name="lineLight">@color/light_teal</item>
+        <item name="feedbackBackground">@color/background_orange</item>
+        <item name="feedbackBorder">@color/border_orange</item>
+        <item name="feedbackShape">@drawable/feedback_shape_orange</item>
+    </style>
+
+    <style name = "AppTheme.Overdrive">
+
+        <item name="backgroundMedium">@color/od_black</item>
+
+        <!-- Feedback colors (Warnings etc.) -->
         <item name="feedbackBackground">@color/background_orange</item>
         <item name="feedbackBorder">@color/border_orange</item>
         <item name="feedbackShape">@drawable/feedback_shape_orange</item>

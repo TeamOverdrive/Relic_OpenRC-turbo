@@ -78,4 +78,22 @@
     <color name="very_very_dark_purple">#14012d</color>
     <color name="very_very_dark_red">#2d0104</color>
     <color name="very_very_dark_teal">#01212d</color>
+
+    <!-- Overdrive colors -->
+    <color name="od_text_white">#FFFFFFFF</color>
+    <color name="od_text_black">#000000</color>
+    <color name="od_text_yellow">#ffff00</color>
+    <color name="od_white">#FFFFFF</color>
+    <color name="od_bright_grey">#A8A8A8</color>
+    <color name="od_light_grey">#909090</color>
+    <color name="od_medium_ligh_grey">#808080</color>
+    <color name="od_medium_grey">#707070</color>
+    <color name="od_medium_medium_grey">#606060</color>
+    <color name="od_medium_dark_grey">#505050</color>
+    <color name="od_almost_dark_grey">#404040</color>
+    <color name="od_dark_grey">#303030</color>
+    <color name="od_very_dark_grey">#202020</color>
+    <color name="od_black">#000000</color>
+    <color name="od_yellow">#FFFF00</color>
+
 </resources>

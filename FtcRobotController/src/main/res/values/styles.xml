@@ -20,6 +20,9 @@
     <style name="AppThemeTealRC" parent="AppTheme.Teal">
     </style>
 
+    <style name="TeamOverdriveTheme" parent="AppTheme.Overdrive">
+    </style>
+
     <style name="SplashTheme" parent="@android:style/Theme.Holo.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_drawable</item>
     </style>

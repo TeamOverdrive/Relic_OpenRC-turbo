@@ -219,5 +219,6 @@
     <string name="tokenThemePurple">purple</string>
     <string name="tokenThemeRed">red</string>
     <string name="tokenThemeTeal">teal</string>
+    <string name="tokenThemeOverdrive">overdrive</string>
     <string name="unknown_wifi_direct_channel">Unknown channel</string>
 </resources>
