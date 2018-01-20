@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 
 
@@ -23,30 +25,9 @@ public abstract class Team2753Linear extends LinearOpMode {
     protected VuMark vumark = new VuMark();
     protected ElapsedTime runtime = new ElapsedTime();
     private boolean isAuton = false; // Are we running auto
-    //public static final double jewelTurn = 30;
 
-
-
-    public void waitForStart(LinearOpMode linearOpMode, boolean auton) {
-
-        initializeRobot(linearOpMode, auton);
-
-        if(auton) {
-            AutoTransitioner.transitionOnStop(linearOpMode, "Teleop"); //Auto Transitioning
-
-            this.isAuton = auton;
-
-            //startVuforia();
-            this.vumark.setup(FRONT);
-        }
-
-            linearOpMode.telemetry.addData("Waiting for Start", "");
-            linearOpMode.telemetry.update();
-
-
+    public void waitForStart(LinearOpMode linearOpMode) {
         linearOpMode.waitForStart();
-        //firstGrab();
-
         runtime.reset();
     }
 
@@ -55,6 +36,14 @@ public abstract class Team2753Linear extends LinearOpMode {
         getJewel().init(linearOpMode, auton);
         getHand().init(linearOpMode, auton);
         getLift().init(linearOpMode, auton);
+        if(auton){
+            AutoTransitioner.transitionOnStop(linearOpMode, "Teleop"); //Auto Transitioning
+
+            this.isAuton = auton;
+
+            //startVuforia();
+            this.vumark.setup(FRONT);
+        }
     }
 
     public void updateTelemetry(LinearOpMode linearOpMode) {

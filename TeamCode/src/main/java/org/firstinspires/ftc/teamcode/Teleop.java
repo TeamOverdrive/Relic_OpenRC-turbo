@@ -3,10 +3,13 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.Lift;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.round;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.AUTO;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.TELEOP;
 
 /**
  * Created by joshua9889 on 12/10/2017.
@@ -20,7 +23,22 @@ public class Teleop extends Team2753Linear {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        waitForStart(this, false);
+        telemetry.setAutoClear(true);
+
+        Telemetry.Item status = telemetry.addData("Status", "Initializing");
+        Telemetry.Item currentOpMode = telemetry.addData("Running", "UNKOWN");
+        Telemetry.Item phase = telemetry.addData("Phase", "Init Routine");
+        telemetry.update();
+
+        status.setValue("Initializing...");
+        currentOpMode.setValue("Teleop");
+        telemetry.update();
+        initializeRobot(this, TELEOP);
+        status.setValue("Initialized, Waiting for Start");
+        telemetry.update();
+        waitForStart(this);
+        status.setValue("Running OpMode");
+        phase.setValue("Teleop Control");
 
         // Loop while we are running Teleop
         while (opModeIsActive()){

@@ -8,6 +8,9 @@ public class AutoParams {
 
     //Parameters for All Jewel and Vuforia autonomous programs
 
+    public static final boolean AUTO = true;
+    public static final boolean TELEOP = false;
+
     /**
      * Color boolean values
      */
@@ -46,5 +49,4 @@ public class AutoParams {
     public static final int vuMarkVotes = 200;
 
     public static final int jewelVotes = 300;
-
 }

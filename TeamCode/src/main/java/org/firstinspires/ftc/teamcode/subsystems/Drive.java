@@ -67,10 +67,12 @@ public class Drive implements Subsystem {
 
     @Override
     public void outputToTelemetry(Telemetry telemetry) {
+
         telemetry.addData("Left Power", leftMotor.getPower());
         telemetry.addData("Right Power", rightMotor.getPower());
         telemetry.addData("Left Pos", leftMotor.getCurrentPosition());
         telemetry.addData("Right Pos", rightMotor.getCurrentPosition());
+
     }
 
     /**
