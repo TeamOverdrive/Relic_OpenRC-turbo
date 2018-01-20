@@ -4,14 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Team2753Linear;
 
-import static org.firstinspires.ftc.teamcode.AutoParams.BLUE;
-import static org.firstinspires.ftc.teamcode.AutoParams.jewelArmDelayMS;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.BLUE;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelArmDelayMS;
 
 /**
  * Created by David Zheng | FTC 2753 Team Overdrive on 1/10/2018.
  */
 @Autonomous(name = "Blue 1 Vuforia", group = "Vuforia")
-public class B1_Vuforia extends Team2753Linear{
+public class B1_Vuforia extends AutoLinear{
 
 
     @Override

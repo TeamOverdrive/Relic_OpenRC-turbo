@@ -18,8 +18,8 @@ import org.opencv.core.Size;
 import java.io.IOException;
 
 
-@Autonomous(name="DogeCV Relic/Generic Detector", group="DogeCV")
-
+@Autonomous(name="Relic Detector", group="DogeCV")
+@Disabled
 public class RelicOpMode extends OpMode
 {
     private ElapsedTime runtime = new ElapsedTime();

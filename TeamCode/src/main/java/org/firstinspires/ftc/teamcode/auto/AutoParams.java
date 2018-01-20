@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auto;
 
 /**
  * Created by David Zheng | FTC 2753 Team Overdrive on 1/4/2018.
@@ -40,5 +40,11 @@ public class AutoParams {
     public static final double jewelColorTimeoutS = 5;
     public static final int jewelTurn = 15;
     public static final double jewelTurnTimeoutS = 1.5;
+
+
+    //how many votes before making a decision on VuMark.
+    public static final int vuMarkVotes = 200;
+
+    public static final int jewelVotes = 300;
 
 }

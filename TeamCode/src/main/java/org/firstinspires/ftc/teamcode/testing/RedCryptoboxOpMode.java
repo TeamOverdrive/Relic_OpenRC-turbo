@@ -15,9 +15,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.io.IOException;
 
 
-@TeleOp(name="DogeCV Red Cryptobox Detector", group="DogeCV")
-
-public class CryptoboxOpMode extends OpMode
+@TeleOp(name="Red Cryptobox Detector", group="DogeCV")
+@Disabled
+public class RedCryptoboxOpMode extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();

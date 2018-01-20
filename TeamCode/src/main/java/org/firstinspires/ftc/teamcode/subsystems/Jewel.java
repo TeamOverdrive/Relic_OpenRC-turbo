@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelVotes;
+
 /**
  * Created by joshua9889 on 12/10/2017.
  */
@@ -85,7 +87,7 @@ public class Jewel implements Subsystem {
         int blueVotes = 0;
             runtime.reset();
             while (linearOpMode.opModeIsActive()
-                    &&redVotes < 300 && blueVotes < 300
+                    &&redVotes < jewelVotes && blueVotes < jewelVotes
                     && runtime.seconds() < timeoutS) {
                 switch (jewelColor()) {
                     case RED:
@@ -102,9 +104,9 @@ public class Jewel implements Subsystem {
                 linearOpMode.telemetry.update();
             }
 
-            if (redVotes == 300)
+            if (redVotes == jewelVotes)
                 return JewelColor.RED;
-            else if (blueVotes == 300)
+            else if (blueVotes == jewelVotes)
                 return JewelColor.BLUE;
             else
                 return JewelColor.UNKNOWN;

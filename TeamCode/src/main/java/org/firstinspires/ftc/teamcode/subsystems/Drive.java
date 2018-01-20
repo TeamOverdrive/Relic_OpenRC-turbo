@@ -42,10 +42,9 @@ public class Drive implements Subsystem {
         rightMotor.setDirection(DcMotor.Direction.FORWARD);
 
         if(auto){
-            // Reset Encoders to move goodly.
+            // Reset Encoders
             zeroSensors();
-
-            // Set all motors to run with or without encoders.  Switch to use RUN_USING_ENCODERS when encoders are installed.
+            //Set to run with encoders during auto
             setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         } else {
