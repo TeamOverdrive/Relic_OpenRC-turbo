@@ -6,7 +6,6 @@
         <item>@color/medium_light_blue</item>
         <item>@color/medium_light_purple</item>
         <item>@color/medium_light_orange</item>
-        <item>@color/medium_light_teal</item>
         <item>@color/od_yellow</item>
     </array>
     <integer-array name="app_theme_ids">
@@ -16,7 +15,6 @@
         <item>@style/AppTheme.Purple</item>
         <item>@style/AppTheme.Orange</item>
         <item>@style/AppTheme.Teal</item>
-        <item>@style/AppTheme.Overdrive</item>
     </integer-array>
     <string-array name="app_theme_names">
         <item>Red</item>
@@ -24,7 +22,6 @@
         <item>Blue</item>
         <item>Purple</item>
         <item>Orange</item>
-        <item>Teal</item>
         <item>Overdrive</item>
     </string-array>
     <string-array name="app_theme_tokens">
@@ -34,7 +31,6 @@
         <item>@string/tokenThemePurple</item>
         <item>@string/tokenThemeOrange</item>
         <item>@string/tokenThemeTeal</item>
-        <item>@string/tokenThemeOverdrive</item>
     </string-array>
     <string-array name="wifi_direct_channels">
         <item>Auto – device selects channel|0</item>
