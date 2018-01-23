@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Team2753Linear;
 
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.AUTO;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.RED;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.TELEOP;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelArmDelayMS;
@@ -19,17 +20,23 @@ public class R2_CV extends Team2753Linear {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        //Set up telemetry
         telemetry.setAutoClear(false);
         Telemetry.Item status = telemetry.addData("Status", "Initializing");
-        Telemetry.Item currentOpMode = telemetry.addData("Running", "UNKOWN");
+        Telemetry.Item currentOpMode = telemetry.addData("Running", "UNKNOWN");
         Telemetry.Item phase = telemetry.addData("Phase", "Init Routine");
         telemetry.update();
+
+        //Initialize
         status.setValue("Initializing...");
         currentOpMode.setValue("R2 Vuforia");
         telemetry.update();
-        initializeRobot(this, TELEOP);
+        initializeRobot(this, AUTO);
+
+        //Waiting for start
         status.setValue("Initialized, Waiting for Start");
         telemetry.update();
+
         waitForStart(this);
         status.setValue("Running OpMode");
 

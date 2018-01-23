@@ -19,17 +19,23 @@ public class B2_CV extends Team2753Linear {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        //Set up telemetry
         telemetry.setAutoClear(false);
         Telemetry.Item status = telemetry.addData("Status", "Initializing");
-        Telemetry.Item currentOpMode = telemetry.addData("Running", "UNKOWN");
+        Telemetry.Item currentOpMode = telemetry.addData("Running", "UNKNOWN");
         Telemetry.Item phase = telemetry.addData("Phase", "Init Routine");
         telemetry.update();
+
+        //Initialize
         status.setValue("Initializing...");
         currentOpMode.setValue("B2 Vuforia");
         telemetry.update();
         initializeRobot(this, AUTO);
+
+        //Waiting for start
         status.setValue("Initialized, Waiting for Start");
         telemetry.update();
+
         waitForStart(this);
         status.setValue("Running OpMode");
 

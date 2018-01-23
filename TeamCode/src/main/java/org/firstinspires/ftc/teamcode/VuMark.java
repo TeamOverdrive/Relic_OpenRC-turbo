@@ -16,6 +16,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryV
  */
 
 public class VuMark {
+
     public VuMark(){}
 
     private VuforiaTrackables relicTrackables = null;

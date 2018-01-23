@@ -34,6 +34,8 @@ public abstract class Team2753Linear extends LinearOpMode {
     public static ElapsedTime runtime = new ElapsedTime();
     private boolean isAuton = false; // Are we running auto
 
+    //Init Methods
+
     public void waitForStart(LinearOpMode linearOpMode) {
         linearOpMode.waitForStart();
         runtime.reset();
@@ -53,6 +55,10 @@ public abstract class Team2753Linear extends LinearOpMode {
             this.vumark.setup(FRONT);
         }
     }
+
+    //Auto Methods
+
+    //Lift
 
     public void initialLift(boolean color){
         if(!color) {
@@ -77,6 +83,8 @@ public abstract class Team2753Linear extends LinearOpMode {
         sleep(250);
         getLift().brakeLift();
     }
+
+    //Vuforia
 
     public RelicRecoveryVuMark columnVote(LinearOpMode linearOpMode, double timeoutS){
         int leftVotes = 0;
@@ -111,6 +119,8 @@ public abstract class Team2753Linear extends LinearOpMode {
         else
             return RelicRecoveryVuMark.UNKNOWN;
     }
+
+    //Jewel
 
     public void jewelRed(){
 
@@ -181,6 +191,8 @@ public abstract class Team2753Linear extends LinearOpMode {
                 sleep(jewelArmDelayMS);
         }
     }
+
+    //Glyph
 
     public void glyphScoreR1(){
 
@@ -451,8 +463,6 @@ public abstract class Team2753Linear extends LinearOpMode {
         sleep(300);
     }
 
-
-
     //use timeoutS to ensure we have enough time to park before the end of autonomous
     public void multiGlyphB1(double timeoutS){
 
@@ -492,6 +502,8 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     }
 
+    //Telemetry
+
     public void updateTelemetry(LinearOpMode linearOpMode) {
 
             if (!isAuton)
@@ -502,6 +514,8 @@ public abstract class Team2753Linear extends LinearOpMode {
             linearOpMode.telemetry.update();
 
     }
+
+    //Other
 
     public void finalAction(){
 
@@ -526,7 +540,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         return Hand;
     }
 
-    public org.firstinspires.ftc.teamcode.subsystems.Lift getLift () {return Lift;}
+    public org.firstinspires.ftc.teamcode.subsystems.Lift getLift () { return Lift; }
 }
 
 

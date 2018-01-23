@@ -23,22 +23,26 @@ public class Teleop extends Team2753Linear {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        //Set up Telemetry
         telemetry.setAutoClear(true);
-
         Telemetry.Item status = telemetry.addData("Status", "Initializing");
         Telemetry.Item currentOpMode = telemetry.addData("Running", "UNKOWN");
         Telemetry.Item phase = telemetry.addData("Phase", "Init Routine");
         telemetry.update();
 
+        //Initialize Robot
         status.setValue("Initializing...");
         currentOpMode.setValue("Teleop");
         telemetry.update();
         initializeRobot(this, TELEOP);
+
+        //Waiting for Start
         status.setValue("Initialized, Waiting for Start");
         telemetry.update();
         waitForStart(this);
         status.setValue("Running OpMode");
         phase.setValue("Driver Control");
+        telemetry.update();
 
         // Loop while we are running Teleop
         while (opModeIsActive()){

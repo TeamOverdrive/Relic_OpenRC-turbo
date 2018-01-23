@@ -22,7 +22,7 @@ public class R1_CV extends Team2753Linear{
         //Set up telemetry
         telemetry.setAutoClear(false);
         Telemetry.Item status = telemetry.addData("Status", "Initializing");
-        Telemetry.Item currentOpMode = telemetry.addData("Running", "UNKOWN");
+        Telemetry.Item currentOpMode = telemetry.addData("Running", "UNKNOWN");
         Telemetry.Item phase = telemetry.addData("Phase", "Init Routine");
         telemetry.update();
 
@@ -43,11 +43,10 @@ public class R1_CV extends Team2753Linear{
 
         while(opModeIsActive() && i == 0) {
 
-                vumark.closeVuforia();
+            //vumark.closeVuforia();
 
             //grab cryptokey
             initialLift(RED);
-
             //lower jewel arm
             phase.setValue("Jewel");
             telemetry.update();
