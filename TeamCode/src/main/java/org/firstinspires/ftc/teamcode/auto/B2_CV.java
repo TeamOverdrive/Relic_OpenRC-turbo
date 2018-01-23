@@ -12,8 +12,9 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelArmDelayMS;
 /**
  * Created by David Zheng | FTC 2753 Team Overdrive on 1/10/2018.
  */
-@Autonomous(name = "Blue 1 Vuforia", group = "Vuforia")
-public class B1_Vuforia extends Team2753Linear{
+
+@Autonomous(name = "Blue 2 CV", group = "CV")
+public class B2_CV extends Team2753Linear {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,7 +25,7 @@ public class B1_Vuforia extends Team2753Linear{
         Telemetry.Item phase = telemetry.addData("Phase", "Init Routine");
         telemetry.update();
         status.setValue("Initializing...");
-        currentOpMode.setValue("B1 Vuforia");
+        currentOpMode.setValue("B2 Vuforia");
         telemetry.update();
         initializeRobot(this, AUTO);
         status.setValue("Initialized, Waiting for Start");
@@ -34,10 +35,9 @@ public class B1_Vuforia extends Team2753Linear{
 
         int i = 0;
 
-        while(opModeIsActive() && i == 0) {
+        while (opModeIsActive() && i == 0) {
 
             //grab cryptokey
-
             initialLift(BLUE);
 
             //lower jewel arm
@@ -46,7 +46,7 @@ public class B1_Vuforia extends Team2753Linear{
             getJewel().deploy();
             sleep(jewelArmDelayMS);
 
-            //Hit off the blue jewel
+            // Vote and then hit jewel off
             jewelBlue();
 
             //raise jewel arm
@@ -56,12 +56,12 @@ public class B1_Vuforia extends Team2753Linear{
             //score cryptokey
             phase.setValue("Cryptokey");
             telemetry.update();
-            glyphScoreB1();
+            glyphScoreB2();
 
             //grab more glyphs
             phase.setValue("Multiglyph");
             telemetry.update();
-            multiGlyphB1(13);
+            multiGlyphB2(13);
 
             //score extra glyphs
 
@@ -69,6 +69,7 @@ public class B1_Vuforia extends Team2753Linear{
 
             i++;
         }
+
 
         finalAction();
     }

@@ -38,7 +38,7 @@ public class Teleop extends Team2753Linear {
         telemetry.update();
         waitForStart(this);
         status.setValue("Running OpMode");
-        phase.setValue("Teleop Control");
+        phase.setValue("Driver Control");
 
         // Loop while we are running Teleop
         while (opModeIsActive()){
@@ -124,6 +124,9 @@ public class Teleop extends Team2753Linear {
             getLift().setLiftPower(liftThrottle);
 
 
+            status.setValue("Running Teleop");
+            currentOpMode.setValue("Teleop");
+            phase.setValue("Driver Control");
             updateTelemetry(this);
 
         }

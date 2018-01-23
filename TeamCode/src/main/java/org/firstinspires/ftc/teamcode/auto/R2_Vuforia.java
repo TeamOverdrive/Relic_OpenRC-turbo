@@ -15,7 +15,7 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelArmDelayMS;
  */
 
 @Autonomous(name = "Red 2 Vuforia", group = "Vuforia")
-public class R2_Vuforia extends AutoLinear{
+public class R2_Vuforia extends Team2753Linear{
 
     @Override
     public void runOpMode() throws InterruptedException {

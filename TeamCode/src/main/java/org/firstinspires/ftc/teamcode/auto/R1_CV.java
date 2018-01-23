@@ -6,29 +6,36 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Team2753Linear;
 
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.AUTO;
-import static org.firstinspires.ftc.teamcode.auto.AutoParams.BLUE;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.RED;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelArmDelayMS;
 
 /**
  * Created by David Zheng | FTC 2753 Team Overdrive on 1/10/2018.
  */
-@Autonomous(name = "Blue 1 Vuforia", group = "Vuforia")
-public class B1_Vuforia extends Team2753Linear{
+
+@Autonomous(name = "Red 1 CV", group = "CV")
+public class R1_CV extends Team2753Linear{
 
     @Override
     public void runOpMode() throws InterruptedException {
 
+        //Set up telemetry
         telemetry.setAutoClear(false);
         Telemetry.Item status = telemetry.addData("Status", "Initializing");
         Telemetry.Item currentOpMode = telemetry.addData("Running", "UNKOWN");
         Telemetry.Item phase = telemetry.addData("Phase", "Init Routine");
         telemetry.update();
+
+        //Initialize
         status.setValue("Initializing...");
-        currentOpMode.setValue("B1 Vuforia");
+        currentOpMode.setValue("R1 Vuforia");
         telemetry.update();
         initializeRobot(this, AUTO);
+
+        //Waiting for start
         status.setValue("Initialized, Waiting for Start");
         telemetry.update();
+
         waitForStart(this);
         status.setValue("Running OpMode");
 
@@ -36,9 +43,10 @@ public class B1_Vuforia extends Team2753Linear{
 
         while(opModeIsActive() && i == 0) {
 
-            //grab cryptokey
+                vumark.closeVuforia();
 
-            initialLift(BLUE);
+            //grab cryptokey
+            initialLift(RED);
 
             //lower jewel arm
             phase.setValue("Jewel");
@@ -46,8 +54,8 @@ public class B1_Vuforia extends Team2753Linear{
             getJewel().deploy();
             sleep(jewelArmDelayMS);
 
-            //Hit off the blue jewel
-            jewelBlue();
+            // Vote and then hit jewel off
+            jewelRed();
 
             //raise jewel arm
             getJewel().retract();
@@ -56,12 +64,12 @@ public class B1_Vuforia extends Team2753Linear{
             //score cryptokey
             phase.setValue("Cryptokey");
             telemetry.update();
-            glyphScoreB1();
+            glyphScoreR1();
 
             //grab more glyphs
             phase.setValue("Multiglyph");
             telemetry.update();
-            multiGlyphB1(13);
+            multiGlyphR1(13);
 
             //score extra glyphs
 

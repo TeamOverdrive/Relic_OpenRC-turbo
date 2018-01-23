@@ -70,4 +70,6 @@ public class VuMark {
     public void closeVuforia() {
         this.vuforia.close();
     }
+
+
 }
