@@ -28,8 +28,10 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.vuMarkVotes;
 public abstract class Team2753Linear extends LinearOpMode {
     private org.firstinspires.ftc.teamcode.subsystems.Drive Drive = new org.firstinspires.ftc.teamcode.subsystems.Drive(); // Drivetrain
     private org.firstinspires.ftc.teamcode.subsystems.Jewel Jewel = new org.firstinspires.ftc.teamcode.subsystems.Jewel(); // Jewel mech
-    private org.firstinspires.ftc.teamcode.subsystems.Hand Hand = new org.firstinspires.ftc.teamcode.subsystems.Hand(); // Claw for glyphs and things
+    //private org.firstinspires.ftc.teamcode.subsystems.Hand Hand = new org.firstinspires.ftc.teamcode.subsystems.Hand(); // Claw for glyphs and things
     private org.firstinspires.ftc.teamcode.subsystems.Lift Lift = new org.firstinspires.ftc.teamcode.subsystems.Lift();
+    private org.firstinspires.ftc.teamcode.subsystems.Intake Intake = new org.firstinspires.ftc.teamcode.subsystems.Intake();
+    private org.firstinspires.ftc.teamcode.subsystems.Slammer Slammer = new org.firstinspires.ftc.teamcode.subsystems.Slammer();
     public static VuMark vumark = new VuMark();
     public static ElapsedTime runtime = new ElapsedTime();
     private boolean isAuton = false; // Are we running auto
@@ -44,8 +46,9 @@ public abstract class Team2753Linear extends LinearOpMode {
     public void initializeRobot(LinearOpMode linearOpMode, boolean auton){
         getDrive().init(linearOpMode, auton);
         getJewel().init(linearOpMode, auton);
-        getHand().init(linearOpMode, auton);
+        //getHand().init(linearOpMode, auton);
         getLift().init(linearOpMode, auton);
+        getIntake().init(linearOpMode, auton);
         if(auton){
             AutoTransitioner.transitionOnStop(linearOpMode, "Teleop"); //Auto Transitioning
 
@@ -63,14 +66,14 @@ public abstract class Team2753Linear extends LinearOpMode {
     public void initialLift(boolean color){
         if(!color) {
             //Blue
-            getHand().grabFrontClose();
-            getHand().grabBackOpen();
+            //getHand().grabFrontClose();
+            //getHand().grabBackOpen();
         }
 
         else if(color){
             //Red
-            getHand().grabBackClose();
-            getHand().grabFrontOpen();
+            //getHand().grabBackClose();
+            //getHand().grabFrontOpen();
         }
         sleep(300);
         getLift().setLiftPower(0.4);
@@ -121,7 +124,7 @@ public abstract class Team2753Linear extends LinearOpMode {
     }
 
     //Jewel
-
+/*
     public void jewelRed(){
 
         switch (getJewel().vote(this, jewelColorTimeoutS)) {
@@ -191,6 +194,7 @@ public abstract class Team2753Linear extends LinearOpMode {
                 sleep(jewelArmDelayMS);
         }
     }
+*/
 
     //Glyph
 
@@ -440,7 +444,7 @@ public abstract class Team2753Linear extends LinearOpMode {
 
         getDrive().encoderDrive(autoSpeed, 6, 6, 4);
 
-        getHand().grabBackOpen();
+        //getHand().grabBackOpen();
         sleep(100);
         getDrive().encoderDrive(autoSpeed, -2,-2, 2);
         liftLower();
@@ -454,7 +458,7 @@ public abstract class Team2753Linear extends LinearOpMode {
 
         getDrive().encoderDrive(autoSpeed, -6, -6, 4);
 
-        getHand().grabFrontOpen();
+        //getHand().grabFrontOpen();
         sleep(100);
         getDrive().encoderDrive(autoSpeed, 2, 2, 2);
         liftLower();
@@ -471,11 +475,11 @@ public abstract class Team2753Linear extends LinearOpMode {
 
         //double grab
         getDrive().encoderDrive(autoSpeed + 0.1, 6, 6, 3);
-        getHand().grabBackClose();
+        //getHand().grabBackClose();
         getDrive().encoderDrive(autoSpeed, -5, -5, 4);
         getDrive().turnCW(180, autoTurnSpeed, 4);
         getDrive().encoderDrive(0.7, -6, -6, 3);
-        getHand().grabFrontClose();
+        //getHand().grabFrontClose();
 
         //drive back
     }
@@ -490,11 +494,11 @@ public abstract class Team2753Linear extends LinearOpMode {
         //double grab
         getDrive().encoderDrive(autoSpeed + 0.1, -6, -6, 3);
 
-        getHand().grabBackClose();
+        //getHand().grabBackClose();
         getDrive().encoderDrive(autoSpeed, -5, -5, 4);
         getDrive().turnCW(180, autoTurnSpeed, 4);
         getDrive().encoderDrive(0.7, -6, -6, 3);
-        getHand().grabFrontClose();
+        //getHand().grabFrontClose();
 
     }
 
@@ -510,7 +514,7 @@ public abstract class Team2753Linear extends LinearOpMode {
                 linearOpMode.telemetry.addData("Match Time", 120 - runtime.seconds());
             getDrive().outputToTelemetry(linearOpMode.telemetry);
             getJewel().outputToTelemetry(linearOpMode.telemetry);
-            getHand().outputToTelemetry(linearOpMode.telemetry);
+            //getHand().outputToTelemetry(linearOpMode.telemetry);
             linearOpMode.telemetry.update();
 
     }
@@ -521,11 +525,39 @@ public abstract class Team2753Linear extends LinearOpMode {
 
             getDrive().stop();
             getJewel().stop();
-            getHand().stop();
+            //getHand().stop();
             getLift().stop();
+            getIntake().stop();
 
             requestOpModeStop();
 
+    }
+
+    public void waitForTick(long periodMs) {
+
+        long  remaining = periodMs - (long)runtime.milliseconds();
+
+        // sleep for the remaining portion of the regular cycle period.
+        if (remaining > 0) {
+            try {
+                Thread.sleep(remaining);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        // Reset the cycle clock for the next pass.
+        runtime.reset();
+    }
+
+    public void slam(){
+        getSlammer().setPower(0.1);
+        waitForTick(250);
+        getSlammer().stop();
+        waitForTick(500);
+        getSlammer().setPower(-0.1);
+        waitForTick(250);
+        getSlammer().stop();
     }
 
     public org.firstinspires.ftc.teamcode.subsystems.Drive getDrive() {
@@ -536,11 +568,13 @@ public abstract class Team2753Linear extends LinearOpMode {
         return Jewel;
     }
 
-    public org.firstinspires.ftc.teamcode.subsystems.Hand getHand() {
-        return Hand;
-    }
+    //public org.firstinspires.ftc.teamcode.subsystems.Hand getHand() {return Hand;}
 
     public org.firstinspires.ftc.teamcode.subsystems.Lift getLift () { return Lift; }
+
+    public org.firstinspires.ftc.teamcode.subsystems.Intake getIntake() {return Intake;}
+
+    public org.firstinspires.ftc.teamcode.subsystems.Slammer getSlammer() {return Slammer;}
 }
 
 

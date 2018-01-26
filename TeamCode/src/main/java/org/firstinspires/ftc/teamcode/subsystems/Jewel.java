@@ -24,14 +24,14 @@ public class Jewel implements Subsystem {
         RED, BLUE, UNKNOWN
     }
 
-    final private static double ARMUP = 0.76;
-    final private static double ARMDOWN = 0.72;
+    final private static double ARMUP = 1;
+    final private static double ARMDOWN = 0.55;
 
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {
         jewelArm = linearOpMode.hardwareMap.servo.get("jewel_arm");
-        jewelColor = linearOpMode.hardwareMap.colorSensor.get("jewel_color");
-        jewelColor.enableLed(true);
+        //jewelColor = linearOpMode.hardwareMap.colorSensor.get("jewel_color");
+        //jewelColor.enableLed(true);
         retract();
     }
 
@@ -42,13 +42,13 @@ public class Jewel implements Subsystem {
 
     @Override
     public void stop() {
-        //retract();
+        retract();
     }
 
     @Override
     public void outputToTelemetry(Telemetry telemetry) {
         telemetry.addData("Jewel arm pos", jewelArm.getPosition());
-        telemetry.addData("Jewel Color", this.jewelColor());
+        //telemetry.addData("Jewel Color", this.jewelColor());
     }
 
     // Deploy jewel mech
@@ -62,7 +62,7 @@ public class Jewel implements Subsystem {
     }
 
     // Get current Jewel color
-    public JewelColor jewelColor() {
+    /*public JewelColor jewelColor() {
         if(jewelColor.red()>jewelColor.blue())
             return JewelColor.RED;
         else if (jewelColor.red()<jewelColor.blue())
@@ -70,6 +70,8 @@ public class Jewel implements Subsystem {
         else
             return JewelColor.UNKNOWN;
     }
+*/
+
 
     protected ElapsedTime runtime = new ElapsedTime();
     // Counts "votes" based on how many times it sees red/blue
@@ -82,6 +84,7 @@ public class Jewel implements Subsystem {
      * @param timeoutS      The amount of time this method is allowed to execute.
      * @return              The color of the jewel.
      */
+    /*
     public JewelColor vote(LinearOpMode linearOpMode, double timeoutS) {
         int redVotes = 0;
         int blueVotes = 0;
@@ -111,4 +114,5 @@ public class Jewel implements Subsystem {
             else
                 return JewelColor.UNKNOWN;
     }
+    */
 }

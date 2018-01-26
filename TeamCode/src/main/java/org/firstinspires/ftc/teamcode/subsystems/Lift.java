@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
+
 /**
  * Created by joshua9889 on 12/10/2017.
  */
@@ -18,7 +21,7 @@ public class Lift implements Subsystem {
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {
         liftMotor = linearOpMode.hardwareMap.dcMotor.get("lift_motor");
-        liftMotor.setDirection(DcMotor.Direction.REVERSE);
+        liftMotor.setDirection(REVERSE);
     }
 
     @Override

@@ -53,7 +53,7 @@ public class B2_CV extends Team2753Linear {
             sleep(jewelArmDelayMS);
 
             // Vote and then hit jewel off
-            jewelBlue();
+            //jewelBlue();
 
             //raise jewel arm
             getJewel().retract();

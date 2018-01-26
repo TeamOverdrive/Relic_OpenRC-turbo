@@ -47,7 +47,7 @@ public class B1_Vuforia extends Team2753Linear{
             sleep(jewelArmDelayMS);
 
             //Hit off the blue jewel
-            jewelBlue();
+            //jewelBlue();
 
             //raise jewel arm
             getJewel().retract();

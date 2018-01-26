@@ -101,11 +101,16 @@ public class Teleop extends Team2753Linear {
                 }
             }
 
-
+            /*Intake Controls*/
+            if(gamepad1.left_bumper)
+                getIntake().setPower(-1);
+            if(gamepad1.right_bumper)
+                getIntake().setPower(1);
 
             /*Gamepad 2 Controls*/
 
             /*Grabber Controls*/
+            /*
             if(gamepad2.right_bumper){getHand().grabFrontOpen();}
             if(gamepad2.right_trigger>0){getHand().grabFrontClose();}
 
@@ -114,6 +119,10 @@ public class Teleop extends Team2753Linear {
 
             if (gamepad2.b){getHand().grabFrontStop();}
             if (gamepad2.x){getHand().grabBackStop();}
+            */
+
+            /*Intake Controls*/
+
 
 
             /*Lift Control  Gamepad 2 Left Joystick*/
@@ -127,6 +136,13 @@ public class Teleop extends Team2753Linear {
             //Apply power to motor
             getLift().setLiftPower(liftThrottle);
 
+            if(gamepad2.a)
+                slam();
+
+            if(gamepad2.left_bumper)
+                getJewel().deploy();
+            else
+                getJewel().retract();
 
             status.setValue("Running Teleop");
             currentOpMode.setValue("Teleop");

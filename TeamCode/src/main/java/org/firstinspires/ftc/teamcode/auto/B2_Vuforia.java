@@ -47,7 +47,7 @@ public class B2_Vuforia extends Team2753Linear{
             sleep(jewelArmDelayMS);
 
             // Vote and then hit jewel off
-            jewelBlue();
+            //jewelBlue();
 
             //raise jewel arm
             getJewel().retract();
