@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 
 /**
@@ -35,22 +36,13 @@ public class Intake implements Subsystem{
 
     @Override
     public void stop() {
-        intakeMotor.setZeroPowerBehavior(BRAKE);
-        intakeMotor.setPower(0);
+        intakeMotor.setZeroPowerBehavior(FLOAT);
+        setPower(0);
     }
 
     @Override
     public void outputToTelemetry(Telemetry telemetry) {
 
-    }
-
-    public void runIntake(boolean direction){
-        if(direction){
-            setPower(0.9);
-        }
-        if (!direction){
-            setPower(-0.9);
-        }
     }
 
     public void setPower(double power){

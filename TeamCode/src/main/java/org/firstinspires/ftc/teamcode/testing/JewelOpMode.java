@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.io.IOException;
 
 
-@Autonomous(name="DogeCV Jewel Detector", group="DogeCV")
+@Autonomous(name="Jewel Detector", group="DogeCV")
 @Disabled
 public class JewelOpMode extends OpMode
 {
@@ -37,7 +37,7 @@ public class JewelOpMode extends OpMode
         //Jewel Detector Settings
         jewelDetector.areaWeight = 0.02;
         jewelDetector.detectionMode = JewelDetector.JewelDetectionMode.MAX_AREA;
-        jewelDetector.perfectArea = 6500;
+        jewelDetector.perfectArea = 2500;
         jewelDetector.debugContours = true;
         jewelDetector.maxDiffrence = 15;
         jewelDetector.ratioWeight = 15;

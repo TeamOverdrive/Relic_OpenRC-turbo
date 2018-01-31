@@ -1,18 +1,25 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.detectors.JewelDetector;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
+import static com.disnodeteam.dogecv.detectors.JewelDetector.*;
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoSpeed;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoTurnSpeed;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelArmDelayMS;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelColorTimeoutS;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelTurn;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelTurnSpeed;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelTurnTimeoutS;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelVotes;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.vuMarkVotes;
 
 
@@ -28,13 +35,19 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.vuMarkVotes;
 public abstract class Team2753Linear extends LinearOpMode {
     private org.firstinspires.ftc.teamcode.subsystems.Drive Drive = new org.firstinspires.ftc.teamcode.subsystems.Drive(); // Drivetrain
     private org.firstinspires.ftc.teamcode.subsystems.Jewel Jewel = new org.firstinspires.ftc.teamcode.subsystems.Jewel(); // Jewel mech
-    //private org.firstinspires.ftc.teamcode.subsystems.Hand Hand = new org.firstinspires.ftc.teamcode.subsystems.Hand(); // Claw for glyphs and things
     private org.firstinspires.ftc.teamcode.subsystems.Lift Lift = new org.firstinspires.ftc.teamcode.subsystems.Lift();
     private org.firstinspires.ftc.teamcode.subsystems.Intake Intake = new org.firstinspires.ftc.teamcode.subsystems.Intake();
     private org.firstinspires.ftc.teamcode.subsystems.Slammer Slammer = new org.firstinspires.ftc.teamcode.subsystems.Slammer();
     public static VuMark vumark = new VuMark();
     public static ElapsedTime runtime = new ElapsedTime();
     private boolean isAuton = false; // Are we running auto
+    private JewelDetector jewelDetector = null;
+
+    public enum JewelOrientation{
+        BLUE_RED,
+        RED_BLUE,
+        UNKNOWN
+    }
 
     //Init Methods
 
@@ -46,40 +59,19 @@ public abstract class Team2753Linear extends LinearOpMode {
     public void initializeRobot(LinearOpMode linearOpMode, boolean auton){
         getDrive().init(linearOpMode, auton);
         getJewel().init(linearOpMode, auton);
-        //getHand().init(linearOpMode, auton);
         getLift().init(linearOpMode, auton);
         getIntake().init(linearOpMode, auton);
+        getSlammer().init(linearOpMode, auton);
         if(auton){
+
             AutoTransitioner.transitionOnStop(linearOpMode, "Teleop"); //Auto Transitioning
-
             this.isAuton = auton;
-
-            //startVuforia();
-            this.vumark.setup(FRONT);
         }
     }
 
     //Auto Methods
 
     //Lift
-
-    public void initialLift(boolean color){
-        if(!color) {
-            //Blue
-            //getHand().grabFrontClose();
-            //getHand().grabBackOpen();
-        }
-
-        else if(color){
-            //Red
-            //getHand().grabBackClose();
-            //getHand().grabFrontOpen();
-        }
-        sleep(300);
-        getLift().setLiftPower(0.4);
-        sleep(500);
-        getLift().brakeLift();
-    }
 
     public void liftLower(){
         getLift().setLiftPower(-0.2);
@@ -88,6 +80,10 @@ public abstract class Team2753Linear extends LinearOpMode {
     }
 
     //Vuforia
+
+    public void startVuforia(VuforiaLocalizer.CameraDirection direction){
+        this.vumark.setup(direction);
+    }
 
     public RelicRecoveryVuMark columnVote(LinearOpMode linearOpMode, double timeoutS){
         int leftVotes = 0;
@@ -123,78 +119,121 @@ public abstract class Team2753Linear extends LinearOpMode {
             return RelicRecoveryVuMark.UNKNOWN;
     }
 
+    public void closeVuforia(){vumark.closeVuforia();}
+
+
     //Jewel
-/*
+
+    public void initJewelDetector(){
+        jewelDetector = new JewelDetector();
+        jewelDetector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+
+        //Jewel Detector Settings
+        jewelDetector.areaWeight = 0.02;;
+        jewelDetector.detectionMode = JewelDetector.JewelDetectionMode.MAX_AREA;
+        jewelDetector.perfectArea = 2500;
+        jewelDetector.debugContours = false;
+        jewelDetector.maxDiffrence = 15;
+        jewelDetector.ratioWeight = 15;
+        jewelDetector.minArea = 1000;
+    }
+
+    public void enableJewelDetector(){jewelDetector.enable();}
+
+    public JewelOrientation findJewel(LinearOpMode linearOpMode, double timeoutS){
+
+        int brVotes = 0;
+        int rbVotes = 0;
+        runtime.reset();
+
+        while(opModeIsActive() &&
+                brVotes < jewelVotes && rbVotes < jewelVotes &&
+                runtime.seconds() < timeoutS)
+        {
+            switch (jewelDetector.getCurrentOrder()) {
+                case BLUE_RED:
+                    brVotes++;
+                    break;
+                case RED_BLUE:
+                    rbVotes++;
+                    break;
+            }
+            linearOpMode.telemetry.addData("Jewel Order", jewelDetector.getCurrentOrder().toString());
+            linearOpMode.telemetry.addData("BLUE_RED Votes", brVotes);
+            linearOpMode.telemetry.addData("RED_BLUE Votes", rbVotes);
+            linearOpMode.telemetry.update();
+        }
+        if(brVotes + rbVotes != 0){
+            if(brVotes == jewelVotes)
+                return JewelOrientation.BLUE_RED;
+            else if(rbVotes == jewelVotes)
+                return JewelOrientation.RED_BLUE;
+            else if (brVotes > rbVotes)
+                return JewelOrientation.BLUE_RED;
+            else if(rbVotes > brVotes)
+                return JewelOrientation.RED_BLUE;
+            else
+                return JewelOrientation.UNKNOWN;
+        }
+        else
+            return JewelOrientation.UNKNOWN;
+    }
+
     public void jewelRed(){
-
-        switch (getJewel().vote(this, jewelColorTimeoutS)) {
-            case RED:
-                //getDrive().encoderDrive(0.4, -5, -5, 5);
-                //rotate clockwise
-                getDrive().turnCW(jewelTurn, autoTurnSpeed, jewelTurnTimeoutS);
-
-
-                getJewel().retract(); // Retract Jewel arm
-                sleep(jewelArmDelayMS);
-
-                //rotate counter-clockwise
-                getDrive().turnCCW(jewelTurn, autoTurnSpeed, jewelTurnTimeoutS);
-                break;
-            case BLUE:
-                //getDrive().encoderDrive(0.4, 5, 5, 5);
-                //rotate counter-clockwise
-                getDrive().turnCCW(jewelTurn, autoTurnSpeed, jewelTurnTimeoutS);
-
-                getJewel().retract(); // Retract Jewel arm
-                sleep(jewelArmDelayMS);
-
-                //rotate clockwise
-                getDrive().turnCW(jewelTurn, autoTurnSpeed, jewelTurnTimeoutS);
-                break;
-            case UNKNOWN:
-                getJewel().retract(); // Retract Jewel arm
-                sleep(jewelArmDelayMS);
-                break;
-            default:
-                getJewel().retract(); // Retract Jewel arm
-                sleep(jewelArmDelayMS);
+        if(opModeIsActive()){
+            switch(findJewel(this, 5)){
+                case BLUE_RED:
+                    getJewel().deploy();
+                    waitForTick(jewelArmDelayMS);
+                    getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    waitForTick(100);
+                    getJewel().retract();
+                    waitForTick(100);
+                    getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    waitForTick(250);
+                    break;
+                case RED_BLUE:
+                    getJewel().deploy();
+                    waitForTick(jewelArmDelayMS);
+                    getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    waitForTick(100);
+                    getJewel().retract();
+                    waitForTick(100);
+                    getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    waitForTick(250);
+                    break;
+            }
         }
     }
 
     public void jewelBlue(){
-        switch (getJewel().vote(this, jewelColorTimeoutS)) {
-            case RED:
-                //getDrive().encoderDrive(0.2, -5, -5, 5);
-                //rotate counter-clockwise
-                getDrive().turnCCW(jewelTurn, autoTurnSpeed, jewelTurnTimeoutS);
-
-                getJewel().retract(); // Retract Jewel arm
-                sleep(jewelArmDelayMS);
-
-                //rotate clockwise
-                getDrive().turnCW(jewelTurn, autoTurnSpeed, jewelTurnTimeoutS);
-                break;
-            case BLUE:
-                //getDrive().encoderDrive(0.2, 5, 5, 5);
-                //rotate clockwise
-                getDrive().turnCW(jewelTurn, autoTurnSpeed, jewelTurnTimeoutS);
-
-                getJewel().retract(); // Retract Jewel arm
-                sleep(jewelArmDelayMS);
-
-                //rotate counter-clockwise
-                getDrive().turnCCW(jewelTurn, autoTurnSpeed, jewelTurnTimeoutS);
-                break;
-            case UNKNOWN:
-                getJewel().retract(); // Retract Jewel arm
-                sleep(jewelArmDelayMS);
-                break;
-            default:
-                getJewel().retract(); // Retract Jewel arm
-                sleep(jewelArmDelayMS);
+        if(opModeIsActive()){
+            switch(findJewel(this, 5)){
+                case BLUE_RED:
+                    getJewel().deploy();
+                    waitForTick(jewelArmDelayMS);
+                    getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    waitForTick(100);
+                    getJewel().retract();
+                    waitForTick(100);
+                    getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    waitForTick(250);
+                    break;
+                case RED_BLUE:
+                    getJewel().deploy();
+                    waitForTick(jewelArmDelayMS);
+                    getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    waitForTick(100);
+                    getJewel().retract();
+                    waitForTick(100);
+                    getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    waitForTick(250);
+                    break;
+            }
         }
     }
-*/
+
+    public void disableJewelDetector(){jewelDetector.disable();}
 
     //Glyph
 
@@ -510,12 +549,14 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     public void updateTelemetry(LinearOpMode linearOpMode) {
 
-            if (!isAuton)
-                linearOpMode.telemetry.addData("Match Time", 120 - runtime.seconds());
-            getDrive().outputToTelemetry(linearOpMode.telemetry);
-            getJewel().outputToTelemetry(linearOpMode.telemetry);
-            //getHand().outputToTelemetry(linearOpMode.telemetry);
-            linearOpMode.telemetry.update();
+        if (!isAuton)
+            linearOpMode.telemetry.addData("Match Time", 120 - runtime.seconds());
+        getDrive().outputToTelemetry(linearOpMode.telemetry);
+        getJewel().outputToTelemetry(linearOpMode.telemetry);
+        //getHand().outputToTelemetry(linearOpMode.telemetry);
+        getIntake().outputToTelemetry(linearOpMode.telemetry);
+        getSlammer().outputToTelemetry(linearOpMode.telemetry);
+        linearOpMode.telemetry.update();
 
     }
 
@@ -550,15 +591,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         runtime.reset();
     }
 
-    public void slam(){
-        getSlammer().setPower(0.1);
-        waitForTick(250);
-        getSlammer().stop();
-        waitForTick(500);
-        getSlammer().setPower(-0.1);
-        waitForTick(250);
-        getSlammer().stop();
-    }
+
 
     public org.firstinspires.ftc.teamcode.subsystems.Drive getDrive() {
         return Drive;
@@ -567,8 +600,6 @@ public abstract class Team2753Linear extends LinearOpMode {
     public org.firstinspires.ftc.teamcode.subsystems.Jewel getJewel() {
         return Jewel;
     }
-
-    //public org.firstinspires.ftc.teamcode.subsystems.Hand getHand() {return Hand;}
 
     public org.firstinspires.ftc.teamcode.subsystems.Lift getLift () { return Lift; }
 

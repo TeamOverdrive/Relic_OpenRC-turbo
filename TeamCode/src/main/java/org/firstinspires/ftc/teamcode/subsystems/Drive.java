@@ -26,10 +26,10 @@ public class Drive implements Subsystem {
 
     protected ElapsedTime runtime = new ElapsedTime();// FORWARD_SPEED was running the robot in reverse to the TeleOp program setup.  Speed is reversed to standardize the robot orientation.
 
-    private static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: TETRIX Motor Encoder
+    private static final double COUNTS_PER_MOTOR_REV = 1120;     // AndyMark NeveRest 40
     private static final double DRIVE_GEAR_REDUCTION = 0.75;     // This is < 1.0 if geared UP
     private static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
-    private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+    private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.141592);
     private static final double WHEEL_BASE = 12.25;
 
     @Override
@@ -171,19 +171,21 @@ public class Drive implements Subsystem {
             // keep looping while we are still active, and there is time left, and both motors are running.
             while (linearOpMode.opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftMotor.isBusy() && rightMotor.isBusy())) {
+                    (leftMotor.isBusy() || rightMotor.isBusy())) {
                 counter1++;
                 if (Math.abs(newLeftTarget - leftMotor.getCurrentPosition()) < (6.0 * COUNTS_PER_INCH)) {
                     setLeftRightPowers(Math.abs(speed * 0.3), Math.abs(speed * 0.3));
                     counter2++;
                 }
                 // Display it for the driver.
+                /*
                 linearOpMode.telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
                 this.outputToTelemetry(linearOpMode.telemetry);
                 linearOpMode.telemetry.addData("Distance", Math.abs(newLeftTarget - leftMotor.getCurrentPosition()));
                 linearOpMode.telemetry.addData("While counter", counter1);
                 linearOpMode.telemetry.addData("If counter", counter2);
                 linearOpMode.telemetry.update();
+                */
             }
 
             // Stop all motion;

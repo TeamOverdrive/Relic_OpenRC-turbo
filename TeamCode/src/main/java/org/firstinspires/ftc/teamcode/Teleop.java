@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -20,6 +21,11 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.TELEOP;
 
 @TeleOp(name = "Teleop")
 public class Teleop extends Team2753Linear {
+
+    private static final boolean UP = true;
+    private static final boolean DOWN = false;
+    boolean slamState;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -35,6 +41,7 @@ public class Teleop extends Team2753Linear {
         currentOpMode.setValue("Teleop");
         telemetry.update();
         initializeRobot(this, TELEOP);
+        slamState = DOWN;
 
         //Waiting for Start
         status.setValue("Initialized, Waiting for Start");
@@ -47,28 +54,33 @@ public class Teleop extends Team2753Linear {
         // Loop while we are running Teleop
         while (opModeIsActive()){
 /*
-                   _______                                    _______
-                __/_______\_____                       ______/_______\__
-              /                 \                     /                  \
-             /                   \___________________/                    \
-            |         __                                                   |
-            |      __|  |__                                 ( Y )          |
-            |     |__    __|                           ( X )     ( B )     |
-           |         |__|                                   ( A )           |
-           |                                                                |
-           |                                                                |
-           |                                                                |
-          |                                                                  |
-          |                                                                  |
-          |                                                                  |
-          |                                                                  |
-         |                                                                    |
-         |                                                                    |
-         |                                                                    |
-         |                                                                    |
-         |                                                                    |
-          \________/                                                \________/
+                     _______                                    _______
+                  __/_______\_____                       ______/_______\__
+                /                 \                     /                  \
+               /                   \___________________/                    \
+              |         __                                                   |
+              |      __|  |__                                 ( Y )          |
+              |     |__    __|                           ( X )     ( B )     |
+             |         |__|                                   ( A )           |
+             |                                                                |
+             |                                                                |
+             |                                                                |
+            |                                                                  |
+            |                                                                  |
+            |                                                                  |
+            |                                                                  |
+           |                                                                    |
+           |                                                                    |
+           |                                                                    |
+           |                                                                    |
+           |                                                                    |
+            \________/                                                \________/
+*/
 
+            status.setValue("Running Teleop");
+            currentOpMode.setValue("Teleop");
+            phase.setValue("Driver Control");
+            telemetry.update();
 
             /*Gamepad 1 Controls*/
 
@@ -102,12 +114,40 @@ public class Teleop extends Team2753Linear {
             }
 
             /*Intake Controls*/
-            if(gamepad1.left_bumper)
-                getIntake().setPower(-1);
-            if(gamepad1.right_bumper)
-                getIntake().setPower(1);
+            /*
+            boolean intakeOn = false;
+            boolean intakeState = true;
 
-            /*Gamepad 2 Controls*/
+
+            if(gamepad1.left_bumper){
+                if(!intakeOn){
+                    intakeOn = true;
+                    intakeState = true;
+                }
+                if(intakeOn)
+            }
+            if(gamepad1.right_bumper){
+
+            }
+
+            if(intakeOn){
+                if(intakeState)
+                    getIntake().setPower(1);
+                if(!intakeState)
+                    getIntake().setPower(-1);
+            }
+            */
+
+            if(gamepad1.left_bumper) {
+                getIntake().setPower(-1);
+            }
+            else if(gamepad1.right_bumper)
+                getIntake().setPower(1);
+            else
+                getIntake().setPower(0);
+
+
+            /** Gamepad 2 Controls   */
 
             /*Grabber Controls*/
             /*
@@ -136,17 +176,22 @@ public class Teleop extends Team2753Linear {
             //Apply power to motor
             getLift().setLiftPower(liftThrottle);
 
-            if(gamepad2.a)
-                slam();
+            if(gamepad2.y) {
+                getSlammer().setPower(0.25);
+            }
+            else if(gamepad2.a) {
+                getSlammer().setPower(-0.1);
+            }
+            else
+                getSlammer().setPower(0);
+
 
             if(gamepad2.left_bumper)
                 getJewel().deploy();
             else
                 getJewel().retract();
 
-            status.setValue("Running Teleop");
-            currentOpMode.setValue("Teleop");
-            phase.setValue("Driver Control");
+
             updateTelemetry(this);
 
         }

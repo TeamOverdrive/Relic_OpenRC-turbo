@@ -5,8 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Team2753Linear;
 
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.AUTO;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.BLUE;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoSpeed;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoTurnSpeed;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelArmDelayMS;
 
 /**
@@ -31,6 +34,7 @@ public class B2_CV extends Team2753Linear {
         currentOpMode.setValue("B2 Vuforia");
         telemetry.update();
         initializeRobot(this, AUTO);
+        startVuforia(FRONT);
 
         //Waiting for start
         status.setValue("Initialized, Waiting for Start");
@@ -43,35 +47,38 @@ public class B2_CV extends Team2753Linear {
 
         while (opModeIsActive() && i == 0) {
 
-            //grab cryptokey
-            initialLift(BLUE);
+            closeVuforia();
 
-            //lower jewel arm
+            //Jewel Phase
             phase.setValue("Jewel");
             telemetry.update();
-            getJewel().deploy();
-            sleep(jewelArmDelayMS);
 
-            // Vote and then hit jewel off
-            //jewelBlue();
-
-            //raise jewel arm
-            getJewel().retract();
-            sleep(jewelArmDelayMS);
+            initJewelDetector();
+            enableJewelDetector();
+            jewelBlue();
+            disableJewelDetector();
 
             //score cryptokey
             phase.setValue("Cryptokey");
             telemetry.update();
-            glyphScoreB2();
+            //glyphScoreB2();
 
             //grab more glyphs
             phase.setValue("Multiglyph");
             telemetry.update();
-            multiGlyphB2(13);
+            //multiGlyphB2(13);
 
             //score extra glyphs
 
             //park
+            phase.setValue("Parking");
+            telemetry.update();
+            //temporary code until i get glyph working
+            getDrive().encoderDrive(autoSpeed, -24,-24, 5);
+            getDrive().turnCCW(90, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            getDrive().turnCCW(90, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
 
             i++;
         }

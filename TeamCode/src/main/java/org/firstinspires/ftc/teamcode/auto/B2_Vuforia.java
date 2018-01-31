@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Team2753Linear;
 
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.AUTO;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.BLUE;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelArmDelayMS;
@@ -14,6 +17,7 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelArmDelayMS;
  */
 
 @Autonomous(name = "Blue 2 Vuforia", group = "Vuforia")
+@Disabled
 public class B2_Vuforia extends Team2753Linear{
 
     @Override
@@ -28,6 +32,7 @@ public class B2_Vuforia extends Team2753Linear{
         currentOpMode.setValue("B2 Vuforia");
         telemetry.update();
         initializeRobot(this, AUTO);
+        startVuforia(BACK);
         status.setValue("Initialized, Waiting for Start");
         telemetry.update();
         waitForStart(this);
@@ -37,31 +42,26 @@ public class B2_Vuforia extends Team2753Linear{
 
         while (opModeIsActive() && i == 0) {
 
-            //grab cryptokey
-            initialLift(BLUE);
+            closeVuforia();
 
-            //lower jewel arm
+            //Jewel Phase
             phase.setValue("Jewel");
             telemetry.update();
-            getJewel().deploy();
-            sleep(jewelArmDelayMS);
 
-            // Vote and then hit jewel off
-            //jewelBlue();
-
-            //raise jewel arm
-            getJewel().retract();
-            sleep(jewelArmDelayMS);
+            initJewelDetector();
+            enableJewelDetector();
+            jewelBlue();
+            disableJewelDetector();
 
             //score cryptokey
             phase.setValue("Cryptokey");
             telemetry.update();
-            glyphScoreB2();
+            //glyphScoreB2();
 
             //grab more glyphs
             phase.setValue("Multiglyph");
             telemetry.update();
-            multiGlyphB2(13);
+            //multiGlyphB2(13);
 
             //score extra glyphs
 

@@ -24,14 +24,12 @@ public class Jewel implements Subsystem {
         RED, BLUE, UNKNOWN
     }
 
-    final private static double ARMUP = 1;
-    final private static double ARMDOWN = 0.55;
+    final private static double ARMUP = 0.96;
+    final private static double ARMDOWN = 0.25;
 
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {
         jewelArm = linearOpMode.hardwareMap.servo.get("jewel_arm");
-        //jewelColor = linearOpMode.hardwareMap.colorSensor.get("jewel_color");
-        //jewelColor.enableLed(true);
         retract();
     }
 
@@ -48,7 +46,6 @@ public class Jewel implements Subsystem {
     @Override
     public void outputToTelemetry(Telemetry telemetry) {
         telemetry.addData("Jewel arm pos", jewelArm.getPosition());
-        //telemetry.addData("Jewel Color", this.jewelColor());
     }
 
     // Deploy jewel mech
