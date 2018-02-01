@@ -42,9 +42,7 @@ public class Drive implements Subsystem {
         rightMotor.setDirection(DcMotor.Direction.FORWARD);
 
         if(auto){
-            // Reset Encoders
             zeroSensors();
-            //Set to run with encoders during auto
             setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         } else {
@@ -70,8 +68,8 @@ public class Drive implements Subsystem {
 
         telemetry.addData("Left Power", leftMotor.getPower());
         telemetry.addData("Right Power", rightMotor.getPower());
-        telemetry.addData("Left Pos", leftMotor.getCurrentPosition());
-        telemetry.addData("Right Pos", rightMotor.getCurrentPosition());
+        //telemetry.addData("Left Pos", leftMotor.getCurrentPosition());
+        //telemetry.addData("Right Pos", rightMotor.getCurrentPosition());
 
     }
 
@@ -103,7 +101,8 @@ public class Drive implements Subsystem {
     /**
      * Method to perform a Clockwise turn
      *
-     * @param degrees       The degrees (in a circle to turn.
+     * @param degrees       The degrees (in a circle) to turn.
+     * @param speed         The speed that the motors are moving.
      * @param timeoutS      The amount of time this method is allowed to execute.
      */
     public void turnCW(double degrees, double speed, double timeoutS){
@@ -119,6 +118,7 @@ public class Drive implements Subsystem {
      * Method to perform a Counter-clockwise turn
      *
      * @param degrees       The degrees (in a circle) to turn.
+     * @param speed         The speed that the motors are moving.
      * @param timeoutS      The amount of time this method is allowed to execute.
      */
 
@@ -144,9 +144,7 @@ public class Drive implements Subsystem {
      * @param rightInches The distance that the robot should move to the right.
      * @param timeoutS    The amount of time this method is allowed to execute.
      */
-    public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS) {
+    public void encoderDrive(double speed, double leftInches, double rightInches, double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
 
@@ -197,6 +195,4 @@ public class Drive implements Subsystem {
             //  linearOpMode.sleep(250);   // optional pause after each move
         }
     }
-
-
 }

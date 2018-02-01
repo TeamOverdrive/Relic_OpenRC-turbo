@@ -15,7 +15,7 @@ import java.io.IOException;
 
 
 @Autonomous(name="Jewel Detector", group="DogeCV")
-@Disabled
+//@Disabled
 public class JewelOpMode extends OpMode
 {
     // Declare OpMode members.

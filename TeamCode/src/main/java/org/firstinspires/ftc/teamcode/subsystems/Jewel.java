@@ -15,20 +15,16 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelVotes;
 
 public class Jewel implements Subsystem {
 
-    // Robot Hardware
-    private Servo jewelArm = null;
-    private ColorSensor jewelColor = null;
 
-    // Used for color jewel
-    public enum JewelColor{
-        RED, BLUE, UNKNOWN
-    }
+    private LinearOpMode linearOpMode = null;
+    private Servo jewelArm = null;
 
     final private static double ARMUP = 0.96;
     final private static double ARMDOWN = 0.25;
 
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {
+        this.linearOpMode = linearOpMode;
         jewelArm = linearOpMode.hardwareMap.servo.get("jewel_arm");
         retract();
     }
@@ -58,8 +54,16 @@ public class Jewel implements Subsystem {
         jewelArm.setPosition(ARMUP);
     }
 
+
+
+    /**
+     * Old code for color sensor
+     */
+
     // Get current Jewel color
-    /*public JewelColor jewelColor() {
+
+    /*
+    public JewelColor jewelColor() {
         if(jewelColor.red()>jewelColor.blue())
             return JewelColor.RED;
         else if (jewelColor.red()<jewelColor.blue())
@@ -67,10 +71,10 @@ public class Jewel implements Subsystem {
         else
             return JewelColor.UNKNOWN;
     }
-*/
+    */
 
 
-    protected ElapsedTime runtime = new ElapsedTime();
+
     // Counts "votes" based on how many times it sees red/blue
 
     /**
@@ -81,7 +85,9 @@ public class Jewel implements Subsystem {
      * @param timeoutS      The amount of time this method is allowed to execute.
      * @return              The color of the jewel.
      */
+
     /*
+    protected ElapsedTime runtime = new ElapsedTime();
     public JewelColor vote(LinearOpMode linearOpMode, double timeoutS) {
         int redVotes = 0;
         int blueVotes = 0;

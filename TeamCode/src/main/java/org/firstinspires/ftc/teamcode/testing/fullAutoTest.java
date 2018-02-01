@@ -65,7 +65,7 @@ public class fullAutoTest extends Team2753Linear{
             //score cryptokey
             phase.setValue("Cryptokey");
             telemetry.update();
-            //glyphScoreB1();
+            glyphScoreB1();
 
 
 

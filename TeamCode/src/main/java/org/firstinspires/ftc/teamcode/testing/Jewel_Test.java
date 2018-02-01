@@ -19,7 +19,7 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelTurnTimeoutS;
  */
 
 @Autonomous(group = "test")
-@Disabled
+//@Disabled
 public class Jewel_Test extends Team2753Linear {
 
     @Override

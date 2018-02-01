@@ -23,7 +23,6 @@ public class Slammer implements Subsystem{
 
     protected ElapsedTime runtime = new ElapsedTime();// FORWARD_SPEED was running the robot in reverse to the TeleOp program setup.  Speed is reversed to standardize the robot orientation.
 
-
     private static final double COUNTS_PER_MOTOR_REV = 1680; //AndyMark NeveRest 60
 
 

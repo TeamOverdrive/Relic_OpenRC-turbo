@@ -18,6 +18,7 @@ public class Intake implements Subsystem{
 
     private LinearOpMode linearOpMode = null;
     private DcMotor intakeMotor = null;
+
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {
         this.linearOpMode = linearOpMode;
@@ -42,7 +43,7 @@ public class Intake implements Subsystem{
 
     @Override
     public void outputToTelemetry(Telemetry telemetry) {
-
+        telemetry.addData("Intake Power", intakeMotor.getPower());
     }
 
     public void setPower(double power){

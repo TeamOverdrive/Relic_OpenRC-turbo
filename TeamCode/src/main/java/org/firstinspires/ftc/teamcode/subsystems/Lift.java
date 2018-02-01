@@ -14,12 +14,14 @@ import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
  */
 
 public class Lift implements Subsystem {
+
+    private LinearOpMode linearOpMode = null;
     private DcMotor liftMotor = null;
     private static final double brakepower = 0;
 
-
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {
+        this.linearOpMode = linearOpMode;
         liftMotor = linearOpMode.hardwareMap.dcMotor.get("lift_motor");
         liftMotor.setDirection(REVERSE);
     }

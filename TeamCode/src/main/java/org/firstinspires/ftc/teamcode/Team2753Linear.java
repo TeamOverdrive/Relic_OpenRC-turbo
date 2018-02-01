@@ -33,11 +33,14 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.vuMarkVotes;
  */
 
 public abstract class Team2753Linear extends LinearOpMode {
+
     private org.firstinspires.ftc.teamcode.subsystems.Drive Drive = new org.firstinspires.ftc.teamcode.subsystems.Drive(); // Drivetrain
     private org.firstinspires.ftc.teamcode.subsystems.Jewel Jewel = new org.firstinspires.ftc.teamcode.subsystems.Jewel(); // Jewel mech
     private org.firstinspires.ftc.teamcode.subsystems.Lift Lift = new org.firstinspires.ftc.teamcode.subsystems.Lift();
     private org.firstinspires.ftc.teamcode.subsystems.Intake Intake = new org.firstinspires.ftc.teamcode.subsystems.Intake();
     private org.firstinspires.ftc.teamcode.subsystems.Slammer Slammer = new org.firstinspires.ftc.teamcode.subsystems.Slammer();
+    //private org.firstinspires.ftc.teamcode.subsystems.Phone Phone = new org.firstinspires.ftc.teamcode.subsystems.Phone();
+
     public static VuMark vumark = new VuMark();
     public static ElapsedTime runtime = new ElapsedTime();
     private boolean isAuton = false; // Are we running auto
@@ -62,6 +65,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         getLift().init(linearOpMode, auton);
         getIntake().init(linearOpMode, auton);
         getSlammer().init(linearOpMode, auton);
+        //phoneServo().init(linearOpMode, auton);
         if(auton){
 
             AutoTransitioner.transitionOnStop(linearOpMode, "Teleop"); //Auto Transitioning
@@ -124,18 +128,20 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     //Jewel
 
+
     public void initJewelDetector(){
         jewelDetector = new JewelDetector();
         jewelDetector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
 
         //Jewel Detector Settings
         jewelDetector.areaWeight = 0.02;;
-        jewelDetector.detectionMode = JewelDetector.JewelDetectionMode.MAX_AREA;
-        jewelDetector.perfectArea = 2500;
+        jewelDetector.detectionMode = JewelDetectionMode.PERFECT_AREA;
+        jewelDetector.perfectArea = 1600;
         jewelDetector.debugContours = false;
         jewelDetector.maxDiffrence = 15;
         jewelDetector.ratioWeight = 15;
-        jewelDetector.minArea = 1000;
+        jewelDetector.minArea = 800;
+        //getPhone.jewelPosition();
     }
 
     public void enableJewelDetector(){jewelDetector.enable();}
@@ -247,7 +253,6 @@ public abstract class Team2753Linear extends LinearOpMode {
 
                 getDrive().encoderDrive(autoSpeed, 38, 38, 4);
                 getDrive().turnCW(90, autoTurnSpeed, 4);
-                glyphRedScore();
                 getDrive().encoderDrive(autoSpeed, -6, -6, 2);
 
                 //put glyph into left column
@@ -259,7 +264,6 @@ public abstract class Team2753Linear extends LinearOpMode {
 
                 getDrive().encoderDrive(autoSpeed, 32, 32, 4);
                 getDrive().turnCW(90, autoTurnSpeed, 4);
-                glyphRedScore();
                 getDrive().encoderDrive(autoSpeed, -6, -6, 2);
 
                 //put glyph into center column
@@ -271,7 +275,6 @@ public abstract class Team2753Linear extends LinearOpMode {
 
                 getDrive().encoderDrive(autoSpeed, 26, 26, 4);
                 getDrive().turnCW(90, autoTurnSpeed, 4);
-                glyphRedScore();
                 getDrive().encoderDrive(autoSpeed, -6, -6, 2);
 
                 //put glyph into right column
@@ -282,7 +285,6 @@ public abstract class Team2753Linear extends LinearOpMode {
 
                 getDrive().encoderDrive(autoSpeed, 32, 32, 4);
                 getDrive().turnCW(90, autoTurnSpeed, 4);
-                glyphRedScore();
                 getDrive().encoderDrive(autoSpeed, -6, -6, 2);
 
                 //put glyph into center column
@@ -300,7 +302,6 @@ public abstract class Team2753Linear extends LinearOpMode {
 
                 getDrive().encoderDrive(autoSpeed, -26, -26, 4);
                 getDrive().turnCCW(90, autoTurnSpeed, 4);
-                glyphBlueScore();
                 getDrive().encoderDrive(autoSpeed, 6, 6, 2);
 
                 //put glyph into left column
@@ -312,7 +313,6 @@ public abstract class Team2753Linear extends LinearOpMode {
 
                 getDrive().encoderDrive(autoSpeed, -32, -32, 4);
                 getDrive().turnCCW(90, autoTurnSpeed, 4);
-                glyphBlueScore();
                 getDrive().encoderDrive(autoSpeed, 6, 6, 2);
 
                 //put glyph into center column
@@ -324,7 +324,6 @@ public abstract class Team2753Linear extends LinearOpMode {
 
                 getDrive().encoderDrive(autoSpeed, -38, -38, 4);
                 getDrive().turnCCW(90, autoTurnSpeed, 4);
-                glyphBlueScore();
                 getDrive().encoderDrive(autoSpeed, 6, 6, 2);
 
                 //put glyph into right column
@@ -335,7 +334,6 @@ public abstract class Team2753Linear extends LinearOpMode {
 
                 getDrive().encoderDrive(autoSpeed, -32, -32, 4);
                 getDrive().turnCCW(90, autoTurnSpeed, 4);
-                glyphBlueScore();
                 getDrive().encoderDrive(autoSpeed, 6, 6, 2);
 
                 //put glyph into center column
@@ -354,7 +352,6 @@ public abstract class Team2753Linear extends LinearOpMode {
                 getDrive().turnCCW(90, autoTurnSpeed, 4);
                 getDrive().encoderDrive(autoSpeed, 18, 18, 4);
                 getDrive().turnCW(90, autoTurnSpeed, 3);
-                glyphRedScore();
                 getDrive().encoderDrive(0.3, -3, -3, 2);
                 getDrive().turnCW(45, autoTurnSpeed, 3);
                 getDrive().encoderDrive(autoSpeed, -2, -2, 2);
@@ -370,7 +367,6 @@ public abstract class Team2753Linear extends LinearOpMode {
                 getDrive().turnCCW(90, autoTurnSpeed, 4);
                 getDrive().encoderDrive(autoSpeed, 12, 12, 4);
                 getDrive().turnCW(90, autoTurnSpeed, 3);
-                glyphRedScore();
                 getDrive().encoderDrive(0.3, -3, -3, 2);
                 getDrive().turnCW(45, autoTurnSpeed, 3);
                 getDrive().encoderDrive(autoSpeed, -2, -2, 2);
@@ -386,7 +382,6 @@ public abstract class Team2753Linear extends LinearOpMode {
                 getDrive().turnCCW(90, autoTurnSpeed, 4);
                 getDrive().encoderDrive(autoSpeed, 6, 6, 4);
                 getDrive().turnCW(90, autoTurnSpeed, 3);
-                glyphRedScore();
                 getDrive().encoderDrive(0.3, -3, -3, 2);
                 getDrive().turnCW(45, autoTurnSpeed, 3);
                 getDrive().encoderDrive(autoSpeed, -2, -2, 2);
@@ -401,7 +396,6 @@ public abstract class Team2753Linear extends LinearOpMode {
                 getDrive().turnCCW(90, autoTurnSpeed, 4);
                 getDrive().encoderDrive(autoSpeed, 12, 12, 4);
                 getDrive().turnCW(90, autoTurnSpeed, 3);
-                glyphRedScore();
                 getDrive().encoderDrive(0.3, -3, -3, 2);
                 getDrive().turnCW(45, autoTurnSpeed, 3);
                 getDrive().encoderDrive(autoSpeed, -2, -2, 2);
@@ -422,7 +416,6 @@ public abstract class Team2753Linear extends LinearOpMode {
                 getDrive().turnCW(90, autoTurnSpeed, 4);
                 getDrive().encoderDrive(autoSpeed, -6, -6, 4);
                 getDrive().turnCCW(90, autoTurnSpeed, 3);
-                glyphBlueScore();
                 getDrive().encoderDrive(0.3, 3, 3, 2);
                 getDrive().turnCCW(45, autoTurnSpeed, 3);
                 getDrive().encoderDrive(autoSpeed, 2, 2, 2);
@@ -438,7 +431,6 @@ public abstract class Team2753Linear extends LinearOpMode {
                 getDrive().turnCW(90, autoTurnSpeed, 4);
                 getDrive().encoderDrive(autoSpeed, -12, -12, 4);
                 getDrive().turnCCW(90, autoTurnSpeed, 3);
-                glyphBlueScore();
                 getDrive().encoderDrive(0.3, 3, 3, 2);
                 getDrive().turnCCW(45, autoTurnSpeed, 3);
                 getDrive().encoderDrive(autoSpeed, 2, 2, 2);
@@ -454,7 +446,6 @@ public abstract class Team2753Linear extends LinearOpMode {
                 getDrive().turnCW(90, autoTurnSpeed, 4);
                 getDrive().encoderDrive(autoSpeed, -18, -18, 4);
                 getDrive().turnCCW(90, autoTurnSpeed, 3);
-                glyphBlueScore();
                 getDrive().encoderDrive(0.3, 3, 3, 2);
                 getDrive().turnCCW(45, autoTurnSpeed, 3);
                 getDrive().encoderDrive(autoSpeed, 2, 2, 2);
@@ -469,7 +460,6 @@ public abstract class Team2753Linear extends LinearOpMode {
                 getDrive().turnCW(90, autoTurnSpeed, 4);
                 getDrive().encoderDrive(autoSpeed, -12, -12, 4);
                 getDrive().turnCCW(90, autoTurnSpeed, 3);
-                glyphBlueScore();
                 getDrive().encoderDrive(0.3, 3, 3, 2);
                 getDrive().turnCCW(45, autoTurnSpeed, 3);
                 getDrive().encoderDrive(autoSpeed, 2, 2, 2);
@@ -477,33 +467,6 @@ public abstract class Team2753Linear extends LinearOpMode {
                 //put glyph into center column
                 break;
         }
-    }
-
-    public void glyphRedScore(){
-
-        getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-
-        //getHand().grabBackOpen();
-        sleep(100);
-        getDrive().encoderDrive(autoSpeed, -2,-2, 2);
-        liftLower();
-
-        getDrive().encoderDrive(autoSpeed, 6, 6, 2);
-        sleep(300);
-        //getDrive().encoderDrive(autoSpeed, -6, -6, 2);
-    }
-
-    public void glyphBlueScore(){
-
-        getDrive().encoderDrive(autoSpeed, -6, -6, 4);
-
-        //getHand().grabFrontOpen();
-        sleep(100);
-        getDrive().encoderDrive(autoSpeed, 2, 2, 2);
-        liftLower();
-
-        getDrive().encoderDrive(0.3, -8, -8, 2);
-        sleep(300);
     }
 
     //use timeoutS to ensure we have enough time to park before the end of autonomous
@@ -549,11 +512,17 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     public void updateTelemetry(LinearOpMode linearOpMode) {
 
-        if (!isAuton)
+        if (!isAuton) {
             linearOpMode.telemetry.addData("Match Time", 120 - runtime.seconds());
+            if(runtime.seconds() > 90){
+                linearOpMode.telemetry.addData("Phase", "End game");
+            }
+            if(runtime.seconds() > 120){
+                linearOpMode.telemetry.addData("Phase", "Overtime");
+            }
+        }
         getDrive().outputToTelemetry(linearOpMode.telemetry);
         getJewel().outputToTelemetry(linearOpMode.telemetry);
-        //getHand().outputToTelemetry(linearOpMode.telemetry);
         getIntake().outputToTelemetry(linearOpMode.telemetry);
         getSlammer().outputToTelemetry(linearOpMode.telemetry);
         linearOpMode.telemetry.update();
@@ -566,7 +535,6 @@ public abstract class Team2753Linear extends LinearOpMode {
 
             getDrive().stop();
             getJewel().stop();
-            //getHand().stop();
             getLift().stop();
             getIntake().stop();
 
@@ -606,6 +574,8 @@ public abstract class Team2753Linear extends LinearOpMode {
     public org.firstinspires.ftc.teamcode.subsystems.Intake getIntake() {return Intake;}
 
     public org.firstinspires.ftc.teamcode.subsystems.Slammer getSlammer() {return Slammer;}
+
+    //public org.firstinspires.ftc.teamcode.subsystems.Phone phoneServo() {return Phone;}
 }
 
 
