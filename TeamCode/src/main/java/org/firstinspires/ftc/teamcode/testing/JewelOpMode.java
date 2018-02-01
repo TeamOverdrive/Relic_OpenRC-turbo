@@ -14,8 +14,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.io.IOException;
 
 
-@Autonomous(name="Jewel Detector", group="DogeCV")
-//@Disabled
+@Autonomous(name="Jewel Reading", group="Jewel")
+@Disabled
 public class JewelOpMode extends OpMode
 {
     // Declare OpMode members.

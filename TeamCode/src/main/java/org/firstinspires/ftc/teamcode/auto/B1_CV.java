@@ -31,7 +31,7 @@ public class B1_CV extends Team2753Linear {
 
         //Initialize Robot
         status.setValue("Initializing...");
-        currentOpMode.setValue("B1 Vuforia");
+        currentOpMode.setValue("B1 CV");
         telemetry.update();
         initializeRobot(this, AUTO);
         startVuforia(FRONT);

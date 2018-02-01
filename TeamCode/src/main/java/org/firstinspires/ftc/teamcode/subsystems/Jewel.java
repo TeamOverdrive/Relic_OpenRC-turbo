@@ -41,7 +41,7 @@ public class Jewel implements Subsystem {
 
     @Override
     public void outputToTelemetry(Telemetry telemetry) {
-        telemetry.addData("Jewel arm pos", jewelArm.getPosition());
+        telemetry.addData("Jewel Arm Position", jewelArm.getPosition());
     }
 
     // Deploy jewel mech

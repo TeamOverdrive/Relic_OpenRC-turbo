@@ -16,9 +16,10 @@ public class Phone implements Subsystem{
     private LinearOpMode linearOpMode = null;
     private Servo phoneServo = null;
 
-    private static final double INITPOS = 0.5;
-    private static final double JEWELPOS = 0;
-    private static final double CRYPTOPOS = 0;
+    private static final double INITPOS = 0.77;
+    private static final double PICPOS = 0.72;
+    private static final double JEWELPOS = 0.95;
+    private static final double CRYPTOPOS = 0.35;
 
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {
@@ -39,12 +40,14 @@ public class Phone implements Subsystem{
 
     @Override
     public void outputToTelemetry(Telemetry telemetry) {
-
+        telemetry.addData("Phone Angle", phoneServo.getPosition());
     }
 
     public void initPosition(){
         phoneServo.setPosition(INITPOS);
     }
+
+    public void picturePosition(){phoneServo.setPosition(PICPOS);}
 
     public void jewelPosition(){
         phoneServo.setPosition(JEWELPOS);

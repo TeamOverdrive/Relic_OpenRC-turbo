@@ -113,7 +113,7 @@ public class Teleop extends Team2753Linear {
                 }
             }
 
-            /*Intake Controls*/
+            /*Fancy Intake FSM Controls*/
             /*
             boolean intakeOn = false;
             boolean intakeState = true;
@@ -177,10 +177,10 @@ public class Teleop extends Team2753Linear {
             getLift().setLiftPower(liftThrottle);
 
             if(gamepad2.y) {
-                getSlammer().setPower(0.25);
+                getSlammer().setPower(0.4);
             }
             else if(gamepad2.a) {
-                getSlammer().setPower(-0.1);
+                getSlammer().setPower(-0.25);
             }
             else
                 getSlammer().setPower(0);
@@ -190,6 +190,11 @@ public class Teleop extends Team2753Linear {
                 getJewel().deploy();
             else
                 getJewel().retract();
+
+            if(gamepad2.right_bumper)
+                phoneServo().cryptoPosition();
+            else
+                phoneServo().initPosition();
 
 
             updateTelemetry(this);

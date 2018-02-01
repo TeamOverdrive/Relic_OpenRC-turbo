@@ -31,7 +31,7 @@ public class fullAutoTest extends Team2753Linear{
 
         //Initialize Robot
         status.setValue("Initializing...");
-        currentOpMode.setValue("B1 Vuforia");
+        currentOpMode.setValue("Auto Test");
         telemetry.update();
         initializeRobot(this, AUTO);
         startVuforia(FRONT);
@@ -40,6 +40,7 @@ public class fullAutoTest extends Team2753Linear{
         status.setValue("Initialized, Waiting for Start");
         telemetry.update();
         waitForStart(this);
+
         status.setValue("Running OpMode");
         telemetry.update();
 
@@ -47,7 +48,22 @@ public class fullAutoTest extends Team2753Linear{
 
         while(opModeIsActive() && i == 0) {
 
-            //confirm pic then close vuforia to allow jewel detector to start
+            int Column = 0;
+            switch(columnVoteLoop(this, 5)){
+                case LEFT:
+                    Column = 1;
+                    break;
+                case CENTER:
+                    Column = 2;
+                    break;
+                case RIGHT:
+                    Column = 3;
+                    break;
+                case UNKNOWN:
+                    Column = 0;
+                    break;
+            }
+
             closeVuforia();
 
 
@@ -57,6 +73,7 @@ public class fullAutoTest extends Team2753Linear{
 
             initJewelDetector();
             enableJewelDetector();
+            //confirm method?
             jewelBlue();
             disableJewelDetector();
 

@@ -42,12 +42,12 @@ public class AutoParams {
     public static final int jewelArmDelayMS = 200;
     public static final double jewelColorTimeoutS = 5;
     public static final int jewelTurn = 15;
-    public static final double jewelTurnSpeed = 0.3;
+    public static final double jewelTurnSpeed = 0.35;
     public static final double jewelTurnTimeoutS = 1.5;
 
 
     //how many votes before making a decision on VuMark.
-    public static final int vuMarkVotes = 200;
+    public static final int vuMarkVotes = 50;
 
-    public static final int jewelVotes = 50;
+    public static final int jewelVotes = 100;
 }

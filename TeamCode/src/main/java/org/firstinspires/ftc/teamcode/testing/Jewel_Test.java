@@ -18,8 +18,8 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelTurnTimeoutS;
  * Created by David Zheng | FTC 2753 Team Overdrive on 1/27/2018.
  */
 
-@Autonomous(group = "test")
-//@Disabled
+@Autonomous(name = "Jewel Test",group = "Jewel")
+@Disabled
 public class Jewel_Test extends Team2753Linear {
 
     @Override
