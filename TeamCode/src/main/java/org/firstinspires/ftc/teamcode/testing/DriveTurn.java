@@ -6,7 +6,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Team2753Linear;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
-import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.AUTO;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoSpeed;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoTurnSpeed;
@@ -15,8 +14,8 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoTurnSpeed;
  * Created by David Zheng | FTC 2753 Team Overdrive on 1/30/2018.
  */
 
-@Autonomous(name = "Auto Test", group = "test")
-public class fullAutoTest extends Team2753Linear{
+@Autonomous(name = "Drive Test", group = "test")
+public class DriveTurn extends Team2753Linear{
 
     //Runs position b1 for now bc its the closest on test field
 
@@ -35,9 +34,6 @@ public class fullAutoTest extends Team2753Linear{
         currentOpMode.setValue("Auto Test");
         telemetry.update();
         initializeRobot(this, AUTO);
-        startVuforia(BACK);
-
-        //initColumnVote(this);
 
         //Waiting for start
         status.setValue("Initialized, Waiting for Start");
@@ -51,46 +47,42 @@ public class fullAutoTest extends Team2753Linear{
 
         while(opModeIsActive() && i == 0) {
 
-            //Vuforia
-            columnVote(this);
-            closeVuforia();
+            //the big wall of text
 
-
-            //Jewel Phase
-            phase.setValue("Jewel");
-            telemetry.update();
-            initJewelDetector();
-            enableJewelDetector();
-            //confirm method?
-            jewelBlue();
-            disableJewelDetector();
-
-
-            //score cryptokey
-            phase.setValue("Cryptokey");
-            telemetry.update();
-            //glyphScoreB1();
-
-
-            //grab more glyphs
-            phase.setValue("Multiglyph");
-            telemetry.update();
-            //multiGlyphB1(13);
-
-
-            //score extra glyphs
-
-
-            //park
-            phase.setValue("Parking");
-            telemetry.update();
-
-            //temporary code until i get glyph and vuforia working
+            //go to cryptobox
             getDrive().encoderDrive(autoSpeed, -36,-36, 5);
             getDrive().turnCW(90, autoTurnSpeed, 4);
             getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+            waitForTick(2500);
 
-            i++;
+            //go to pile
+            getDrive().encoderDrive(autoSpeed, -30, -30, 6);
+            getIntake().intake();
+            waitForTick(2000);
+            getIntake().stop();
+
+            //back to cryptobox
+            getDrive().encoderDrive(autoSpeed, 30, 30, 6);
+
+            //drive to an empty area
+            getDrive().encoderDrive(autoSpeed, -15, -15, 4);
+            waitForTick(1000);
+
+            //turning stuff
+            getDrive().turnCW(90, autoTurnSpeed, 5);
+            waitForTick(1000);
+            getDrive().turnCCW(90, autoTurnSpeed, 5);
+            waitForTick(1000);
+            getDrive().turnCW(180, autoTurnSpeed, 5);
+            waitForTick(1000);
+            getDrive().turnCCW(180, autoTurnSpeed, 5);
+            waitForTick(1000);
+            getDrive().turnCW(360, autoTurnSpeed, 5);
+            waitForTick(1000);
+            getDrive().turnCCW(360, autoTurnSpeed, 5);
+            waitForTick(1000);
+
+            //we should be perpendicular to the will at this point
         }
 
         finalAction();

@@ -41,13 +41,14 @@ public class Teleop extends Team2753Linear {
         currentOpMode.setValue("Teleop");
         telemetry.update();
         initializeRobot(this, TELEOP);
-        slamState = DOWN;
+        //slamState = DOWN;
 
         //Waiting for Start
         status.setValue("Initialized, Waiting for Start");
         telemetry.update();
         waitForStart(this);
         status.setValue("Running OpMode");
+        currentOpMode.setValue("Teleop");
         phase.setValue("Driver Control");
         telemetry.update();
 
@@ -76,11 +77,6 @@ public class Teleop extends Team2753Linear {
            |                                                                    |
             \________/                                                \________/
 */
-
-            status.setValue("Running Teleop");
-            currentOpMode.setValue("Teleop");
-            phase.setValue("Driver Control");
-            telemetry.update();
 
             /*Gamepad 1 Controls*/
 
@@ -139,12 +135,12 @@ public class Teleop extends Team2753Linear {
             */
 
             if(gamepad1.left_bumper) {
-                getIntake().setPower(-1);
+                getIntake().intake();
             }
             else if(gamepad1.right_bumper)
-                getIntake().setPower(1);
+                getIntake().reverse();
             else
-                getIntake().setPower(0);
+                getIntake().stop();
 
 
             /** Gamepad 2 Controls   */
@@ -186,17 +182,22 @@ public class Teleop extends Team2753Linear {
                 getSlammer().setPower(0);
 
 
+            /*
             if(gamepad2.left_bumper)
                 getJewel().deploy();
             else
                 getJewel().retract();
+            */
 
             if(gamepad2.right_bumper)
-                phoneServo().cryptoPosition();
+                getPhoneServo().cryptoPosition();
             else
-                phoneServo().initPosition();
+                getPhoneServo().initPosition();
 
 
+            status.setValue("Running OpMode");
+            currentOpMode.setValue("Teleop");
+            phase.setValue("Driver Control");
             updateTelemetry(this);
 
         }

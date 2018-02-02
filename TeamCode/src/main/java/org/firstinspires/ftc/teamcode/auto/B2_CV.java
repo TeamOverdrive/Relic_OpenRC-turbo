@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Team2753Linear;
 
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.AUTO;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.BLUE;
@@ -34,7 +35,7 @@ public class B2_CV extends Team2753Linear {
         currentOpMode.setValue("B2 CV");
         telemetry.update();
         initializeRobot(this, AUTO);
-        startVuforia(FRONT);
+        startVuforia(BACK);
 
         //Waiting for start
         status.setValue("Initialized, Waiting for Start");

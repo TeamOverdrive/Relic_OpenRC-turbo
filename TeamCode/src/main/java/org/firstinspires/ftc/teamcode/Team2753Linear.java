@@ -44,7 +44,9 @@ public abstract class Team2753Linear extends LinearOpMode {
     public static VuMark vumark = new VuMark();
     public static ElapsedTime runtime = new ElapsedTime();
     private boolean isAuton = false; // Are we running auto
+    private int Column = 0;
     private JewelDetector jewelDetector = null;
+
 
     //Init Methods
 
@@ -59,7 +61,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         getLift().init(linearOpMode, auton);
         getIntake().init(linearOpMode, auton);
         getSlammer().init(linearOpMode, auton);
-        phoneServo().init(linearOpMode, auton);
+        getPhoneServo().init(linearOpMode, auton);
         if(auton){
 
             AutoTransitioner.transitionOnStop(linearOpMode, "Teleop"); //Auto Transitioning
@@ -81,9 +83,7 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     //Vuforia
 
-    public void startVuforia(VuforiaLocalizer.CameraDirection direction){
-        this.vumark.setup(direction);
-    }
+    public void startVuforia(VuforiaLocalizer.CameraDirection direction){this.vumark.setup(direction);}
 
     public RelicRecoveryVuMark initColumnVoteLoop(LinearOpMode linearOpMode, double timeoutS){
         int leftVotes = 0;
@@ -137,11 +137,14 @@ public abstract class Team2753Linear extends LinearOpMode {
                 case RIGHT:
                     rightVotes++;
                     break;
+                case UNKNOWN:
+                    getPhoneServo().picturePosition();
+                    break;
             }
-            linearOpMode.telemetry.addData("Left Votes", leftVotes);
-            linearOpMode.telemetry.addData("Center Votes", centerVotes);
-            linearOpMode.telemetry.addData("Right Votes", rightVotes);
-            linearOpMode.telemetry.update();
+            //linearOpMode.telemetry.addData("Left Votes", leftVotes);
+            //linearOpMode.telemetry.addData("Center Votes", centerVotes);
+            //linearOpMode.telemetry.addData("Right Votes", rightVotes);
+            //linearOpMode.telemetry.update();
         }
         if(leftVotes == vuMarkVotes)
             return RelicRecoveryVuMark.LEFT;
@@ -152,6 +155,73 @@ public abstract class Team2753Linear extends LinearOpMode {
         else
             return RelicRecoveryVuMark.UNKNOWN;
     }
+
+    public void initColumnVote(LinearOpMode linearOpMode){
+        switch (initColumnVoteLoop(linearOpMode, 5)){
+            case LEFT:
+                Column = 1;
+                linearOpMode.telemetry.addData("Column", "Left");
+                linearOpMode.telemetry.update();
+                break;
+            case CENTER:
+                Column = 2;
+                linearOpMode.telemetry.addData("Column", "Center");
+                linearOpMode.telemetry.update();
+                break;
+            case RIGHT:
+                Column = 3;
+                linearOpMode.telemetry.addData("Column", "Right");
+                linearOpMode.telemetry.update();
+                break;
+            case UNKNOWN:
+                Column = 0;
+                linearOpMode.telemetry.addData("Column", "Unknown");
+                linearOpMode.telemetry.update();
+                break;
+        }
+    }
+
+    public void columnVote(LinearOpMode linearOpMode){
+
+        if(Column == 0){
+            switch (columnVoteLoop(linearOpMode, 5)){
+                case LEFT:
+                    Column = 1;
+                    linearOpMode.telemetry.addData("Column", "Left");
+                    linearOpMode.telemetry.update();
+                    break;
+                case CENTER:
+                    Column = 2;
+                    linearOpMode.telemetry.addData("Column", "Center");
+                    linearOpMode.telemetry.update();
+                    break;
+                case RIGHT:
+                    Column = 3;
+                    linearOpMode.telemetry.addData("Column", "Right");
+                    linearOpMode.telemetry.update();
+                    break;
+                case UNKNOWN:
+                    Column = 0;
+                    linearOpMode.telemetry.addData("Column", "Unknown");
+                    linearOpMode.telemetry.update();
+                    break;
+            }
+        }
+        else if (Column == 1){
+            linearOpMode.telemetry.addData("Column", "Left");
+            linearOpMode.telemetry.update();
+        }
+        else if(Column == 2){
+            linearOpMode.telemetry.addData("Column", "Center");
+            linearOpMode.telemetry.update();
+        }
+        else if(Column == 3){
+            linearOpMode.telemetry.addData("Column", "Right");
+            linearOpMode.telemetry.update();
+        }
+    }
+
+    public int getColumnValue(){return Column;}
 
     public void closeVuforia(){vumark.closeVuforia();}
 
@@ -171,7 +241,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         jewelDetector.maxDiffrence = 15;
         jewelDetector.ratioWeight = 15;
         jewelDetector.minArea = 800;
-        //getPhone.jewelPosition();
+        getPhoneServo().jewelPosition();
     }
 
     public void enableJewelDetector(){jewelDetector.enable();}
@@ -194,10 +264,10 @@ public abstract class Team2753Linear extends LinearOpMode {
                     rbVotes++;
                     break;
             }
-            linearOpMode.telemetry.addData("Jewel Order", jewelDetector.getCurrentOrder().toString());
-            linearOpMode.telemetry.addData("BLUE_RED Votes", brVotes);
-            linearOpMode.telemetry.addData("RED_BLUE Votes", rbVotes);
-            linearOpMode.telemetry.update();
+            //linearOpMode.telemetry.addData("Jewel Order", jewelDetector.getCurrentOrder().toString());
+            //linearOpMode.telemetry.addData("BLUE_RED Votes", brVotes);
+            //linearOpMode.telemetry.addData("RED_BLUE Votes", rbVotes);
+            //linearOpMode.telemetry.update();
         }
         if(brVotes + rbVotes != 0){
             if(brVotes == jewelVotes)
@@ -217,7 +287,7 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     public void jewelRed(){
         if(opModeIsActive()){
-            switch(findJewel(this, 5)){
+            switch(findJewel(this, jewelColorTimeoutS)){
                 case BLUE_RED:
                     getJewel().deploy();
                     waitForTick(jewelArmDelayMS);
@@ -244,7 +314,7 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     public void jewelBlue(){
         if(opModeIsActive()){
-            switch(findJewel(this, 5)){
+            switch(findJewel(this, jewelColorTimeoutS)){
                 case BLUE_RED:
                     getJewel().deploy();
                     waitForTick(jewelArmDelayMS);
@@ -555,7 +625,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         getJewel().outputToTelemetry(linearOpMode.telemetry);
         getIntake().outputToTelemetry(linearOpMode.telemetry);
         getSlammer().outputToTelemetry(linearOpMode.telemetry);
-        phoneServo().outputToTelemetry(linearOpMode.telemetry);
+        getPhoneServo().outputToTelemetry(linearOpMode.telemetry);
         linearOpMode.telemetry.update();
     }
 
@@ -605,7 +675,7 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     public org.firstinspires.ftc.teamcode.subsystems.Slammer getSlammer() {return Slammer;}
 
-    public org.firstinspires.ftc.teamcode.subsystems.Phone phoneServo() {return Phone;}
+    public org.firstinspires.ftc.teamcode.subsystems.Phone getPhoneServo() {return Phone;}
 }
 
 

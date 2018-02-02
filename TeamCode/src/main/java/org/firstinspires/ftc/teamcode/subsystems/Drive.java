@@ -30,7 +30,7 @@ public class Drive implements Subsystem {
     private static final double DRIVE_GEAR_REDUCTION = 0.75;     // This is < 1.0 if geared UP
     private static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.141592);
-    private static final double WHEEL_BASE = 12.25;
+    private static final double WHEEL_BASE = 12.625;
 
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {

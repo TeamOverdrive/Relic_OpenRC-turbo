@@ -43,6 +43,8 @@ public class Phone implements Subsystem{
         telemetry.addData("Phone Angle", phoneServo.getPosition());
     }
 
+    public void setPosition(double position){phoneServo.setPosition(position);}
+
     public void initPosition(){
         phoneServo.setPosition(INITPOS);
     }

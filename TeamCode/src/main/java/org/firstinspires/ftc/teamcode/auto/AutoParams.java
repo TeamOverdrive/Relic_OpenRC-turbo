@@ -41,7 +41,7 @@ public class AutoParams {
 
     public static final int jewelArmDelayMS = 200;
     public static final double jewelColorTimeoutS = 5;
-    public static final int jewelTurn = 15;
+    public static final int jewelTurn = 20;
     public static final double jewelTurnSpeed = 0.35;
     public static final double jewelTurnTimeoutS = 1.5;
 

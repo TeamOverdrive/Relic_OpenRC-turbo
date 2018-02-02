@@ -15,7 +15,7 @@ import java.io.IOException;
 
 
 @Autonomous(name="Jewel Reading", group="Jewel")
-@Disabled
+//@Disabled
 public class JewelOpMode extends OpMode
 {
     // Declare OpMode members.
