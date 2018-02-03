@@ -135,10 +135,10 @@ public class Teleop extends Team2753Linear {
             */
 
             if(gamepad1.left_bumper) {
-                getIntake().intake();
+                getIntake().reverse();
             }
             else if(gamepad1.right_bumper)
-                getIntake().reverse();
+                getIntake().intake();
             else
                 getIntake().stop();
 
@@ -172,11 +172,12 @@ public class Teleop extends Team2753Linear {
             //Apply power to motor
             getLift().setLiftPower(liftThrottle);
 
+            //Slammer
             if(gamepad2.y) {
-                getSlammer().setPower(0.4);
+                getSlammer().setPower(0.35);
             }
             else if(gamepad2.a) {
-                getSlammer().setPower(-0.25);
+                getSlammer().setPower(-0.2);
             }
             else
                 getSlammer().setPower(0);
