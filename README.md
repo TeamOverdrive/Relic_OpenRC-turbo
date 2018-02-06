@@ -1,5 +1,5 @@
 
-## FTC Team 2753's 2017-2018 Relic Recovery code is powered by...
+## Team Overdrive FTC 2753 2017-2018 Relic Recovery code is powered by...
 
 # OpenRC - turbo by OpenFTC
 

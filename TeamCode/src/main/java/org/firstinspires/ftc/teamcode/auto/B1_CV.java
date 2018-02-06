@@ -41,6 +41,7 @@ public class B1_CV extends Team2753Linear {
         status.setValue("Initialized, Waiting for Start");
         telemetry.update();
         waitForStart(this);
+
         status.setValue("Running OpMode");
         telemetry.update();
 
@@ -48,36 +49,34 @@ public class B1_CV extends Team2753Linear {
 
         while(opModeIsActive() && i == 0) {
 
+            //Vuforia
+            columnVote(this);
             closeVuforia();
+
 
             //Jewel Phase
             phase.setValue("Jewel");
             telemetry.update();
-
             initJewelDetector();
             enableJewelDetector();
             jewelBlue();
             disableJewelDetector();
 
+
             //score cryptokey
             phase.setValue("Cryptokey");
             telemetry.update();
-            //glyphScoreB1();
+            glyphScoreB1();
+
 
             //grab more glyphs
             phase.setValue("Multiglyph");
             telemetry.update();
-            //multiGlyphB1(13);
-
-            //score extra glyphs
+            multiGlyphPos1(20);
 
             //park
             phase.setValue("Parking");
             telemetry.update();
-            //temporary code until i get glyph working
-            getDrive().encoderDrive(autoSpeed, -36,-36, 5);
-            getDrive().turnCW(90, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
 
             i++;
         }

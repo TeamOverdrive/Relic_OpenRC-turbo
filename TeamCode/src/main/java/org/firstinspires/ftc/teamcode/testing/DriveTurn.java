@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Team2753Linear;
@@ -15,9 +16,11 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoTurnSpeed;
  */
 
 @Autonomous(name = "Drive Test", group = "test")
+//@Disabled
 public class DriveTurn extends Team2753Linear{
 
     //Runs position b1 for now bc its the closest on test field
+    private static final double turnSpeed = 0.4;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -58,7 +61,7 @@ public class DriveTurn extends Team2753Linear{
             //go to pile
             getDrive().encoderDrive(autoSpeed, -30, -30, 6);
             getIntake().intake();
-            waitForTick(2000);
+            waitForTick(1000);
             getIntake().stop();
 
             //back to cryptobox
@@ -69,17 +72,17 @@ public class DriveTurn extends Team2753Linear{
             waitForTick(1000);
 
             //turning stuff
-            getDrive().turnCW(90, autoTurnSpeed, 5);
+            getDrive().turnCW(90, turnSpeed, 5);
             waitForTick(1000);
-            getDrive().turnCCW(90, autoTurnSpeed, 5);
+            getDrive().turnCCW(90, turnSpeed, 5);
             waitForTick(1000);
-            getDrive().turnCW(180, autoTurnSpeed, 5);
+            getDrive().turnCW(180, turnSpeed, 7);
             waitForTick(1000);
-            getDrive().turnCCW(180, autoTurnSpeed, 5);
+            getDrive().turnCCW(180, turnSpeed, 7);
             waitForTick(1000);
-            getDrive().turnCW(360, autoTurnSpeed, 5);
+            getDrive().turnCW(360, turnSpeed, 10);
             waitForTick(1000);
-            getDrive().turnCCW(360, autoTurnSpeed, 5);
+            getDrive().turnCCW(360, turnSpeed, 10);
             waitForTick(1000);
 
             //we should be perpendicular to the will at this point

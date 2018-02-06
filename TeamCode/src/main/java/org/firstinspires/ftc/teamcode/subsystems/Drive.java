@@ -28,7 +28,7 @@ public class Drive implements Subsystem {
 
     private static final double COUNTS_PER_MOTOR_REV = 1120;     // AndyMark NeveRest 40
     private static final double DRIVE_GEAR_REDUCTION = 0.75;     // This is < 1.0 if geared UP
-    private static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+    private static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference w/ wheel base
     private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.141592);
     private static final double WHEEL_BASE = 12.625;
 
@@ -185,6 +185,43 @@ public class Drive implements Subsystem {
                 linearOpMode.telemetry.update();
                 */
             }
+
+            // Stop all motion;
+            setLeftRightPowers(0,0);
+
+            // Turn off RUN_TO_POSITION
+            setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            //  linearOpMode.sleep(250);   // optional pause after each move
+        }
+    }
+
+    public void encoderDirectDrive(double speed, double leftInches, double rightInches, double timeoutS) {
+        int newLeftTarget;
+        int newRightTarget;
+
+        // Ensure that the opmode is still active
+        if (linearOpMode.opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newLeftTarget = leftMotor.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = rightMotor.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            leftMotor.setTargetPosition(newLeftTarget);
+            rightMotor.setTargetPosition(newRightTarget);
+            int counter1 = 0;
+            int counter2 = 0;
+
+            // Turn On RUN_TO_POSITION
+            setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            setLeftRightPowers(Math.abs(speed), Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            while (linearOpMode.opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (leftMotor.isBusy() || rightMotor.isBusy())) {}
 
             // Stop all motion;
             setLeftRightPowers(0,0);

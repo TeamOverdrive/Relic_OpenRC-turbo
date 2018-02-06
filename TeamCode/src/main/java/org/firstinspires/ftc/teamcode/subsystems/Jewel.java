@@ -19,8 +19,8 @@ public class Jewel implements Subsystem {
     private LinearOpMode linearOpMode = null;
     private Servo jewelArm = null;
 
-    final private static double ARMUP = 0.96;
-    final private static double ARMDOWN = 0.25;
+    final private static double ARMUP = 0.94;
+    final private static double ARMDOWN = 0.17;
 
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {

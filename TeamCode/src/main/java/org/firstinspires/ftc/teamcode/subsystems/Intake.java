@@ -18,6 +18,7 @@ public class Intake implements Subsystem{
 
     private LinearOpMode linearOpMode = null;
     private DcMotor intakeMotor = null;
+    //private Servo intakeDropper = null;
 
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {
@@ -25,7 +26,7 @@ public class Intake implements Subsystem{
         intakeMotor = linearOpMode.hardwareMap.dcMotor.get("intake_motor");
         intakeMotor.setDirection(REVERSE);
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        //intakeDropper = linearOpMode.hardwareMap.servo.get("intake_dropper");
         zeroSensors();
         stop();
     }

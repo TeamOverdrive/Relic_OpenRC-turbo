@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.teamcode.auto.AutoParams;
 
 import static com.disnodeteam.dogecv.detectors.JewelDetector.*;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
@@ -22,7 +23,6 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelTurnTimeoutS;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelVotes;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.vuMarkVotes;
 
-
 /**
  * This class extends linearopmode and makes it
  * easier to make code for the robot and not copy
@@ -34,8 +34,8 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.vuMarkVotes;
 
 public abstract class Team2753Linear extends LinearOpMode {
 
-    private org.firstinspires.ftc.teamcode.subsystems.Drive Drive = new org.firstinspires.ftc.teamcode.subsystems.Drive(); // Drivetrain
-    private org.firstinspires.ftc.teamcode.subsystems.Jewel Jewel = new org.firstinspires.ftc.teamcode.subsystems.Jewel(); // Jewel mech
+    private org.firstinspires.ftc.teamcode.subsystems.Drive Drive = new org.firstinspires.ftc.teamcode.subsystems.Drive();
+    private org.firstinspires.ftc.teamcode.subsystems.Jewel Jewel = new org.firstinspires.ftc.teamcode.subsystems.Jewel();
     private org.firstinspires.ftc.teamcode.subsystems.Lift Lift = new org.firstinspires.ftc.teamcode.subsystems.Lift();
     private org.firstinspires.ftc.teamcode.subsystems.Intake Intake = new org.firstinspires.ftc.teamcode.subsystems.Intake();
     private org.firstinspires.ftc.teamcode.subsystems.Slammer Slammer = new org.firstinspires.ftc.teamcode.subsystems.Slammer();
@@ -71,6 +71,7 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     public void resetRuntime(){runtime.reset();}
 
+
     //Auto Methods
 
     //Lift
@@ -80,6 +81,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         sleep(250);
         getLift().brakeLift();
     }
+
 
     //Vuforia
 
@@ -228,7 +230,6 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     //Jewel
 
-
     public void initJewelDetector(){
         jewelDetector = new JewelDetector();
         jewelDetector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
@@ -341,272 +342,171 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     public void disableJewelDetector(){jewelDetector.disable();}
 
+
     //Glyph
-
-    public void glyphScoreR1(){
-
-        switch (columnVoteLoop(this, 7)){
-
-            case LEFT:
-                telemetry.addData("Column", "Left");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, 38, 38, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, -6, -6, 2);
-
-                //put glyph into left column
-                break;
-
-            case CENTER:
-                telemetry.addData("Column", "Center");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, 32, 32, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, -6, -6, 2);
-
-                //put glyph into center column
-                break;
-
-            case RIGHT:
-                telemetry.addData("Column", "Right");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, 26, 26, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, -6, -6, 2);
-
-                //put glyph into right column
-                break;
-            case UNKNOWN:
-                telemetry.addData("Column", "Unknown");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, 32, 32, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, -6, -6, 2);
-
-                //put glyph into center column
-                break;
-        }
-    }
 
     public void glyphScoreB1(){
 
-        switch (columnVoteLoop(this, 7)){
-
-            case LEFT:
-                telemetry.addData("Column", "Left");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, -26, -26, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, 6, 6, 2);
-
-                //put glyph into left column
-                break;
-
-            case CENTER:
-                telemetry.addData("Column", "Center");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, -32, -32, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, 6, 6, 2);
-
-                //put glyph into center column
-                break;
-
-            case RIGHT:
-                telemetry.addData("Column", "Right");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, -38, -38, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, 6, 6, 2);
-
-                //put glyph into right column
-                break;
-            case UNKNOWN:
-                telemetry.addData("Column", "Unknown");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, -32, -32, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, 6, 6, 2);
-
-                //put glyph into center column
-                break;
+        if(Column == 1){
+            getDrive().encoderDrive(autoSpeed, -25, -25, 4);
+            getDrive().turnCW(82, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+            scoreGlyph();
         }
+        else if(Column == 2){
+            getDrive().encoderDrive(autoSpeed, -30, -30, 4);
+            getDrive().turnCW(82, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+
+            scoreGlyph();
+        }
+        else if(Column == 3){
+            getDrive().encoderDrive(autoSpeed, -38, -38, 4);
+            getDrive().turnCW(82, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+            scoreGlyph();
+        }
+        else{
+            getDrive().encoderDrive(autoSpeed, -30, -30, 4);
+            getDrive().turnCW(82, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+            scoreGlyph();
+        }
+
     }
 
-    public void glyphScoreR2(){
-        switch (columnVoteLoop(this, 7)){
+    public void glyphScoreR1(){
 
-            case LEFT:
-                telemetry.addData("Column", "Left");
-                telemetry.update();
+        if(Column == 1){
+            getDrive().encoderDrive(autoSpeed, 38, 38, 4);
+            getDrive().turnCW(82, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+            scoreGlyph();
+        }
+        else if(Column == 2){
+            getDrive().encoderDrive(autoSpeed, 30, 30, 4);
+            getDrive().turnCW(82, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
 
-                getDrive().encoderDrive(autoSpeed, 24, 24, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, 18, 18, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 3);
-                getDrive().encoderDrive(0.3, -3, -3, 2);
-                getDrive().turnCW(45, autoTurnSpeed, 3);
-                getDrive().encoderDrive(autoSpeed, -2, -2, 2);
-
-                //put glyph into left column
-                break;
-
-            case CENTER:
-                telemetry.addData("Column", "Center");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, 24, 24, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, 12, 12, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 3);
-                getDrive().encoderDrive(0.3, -3, -3, 2);
-                getDrive().turnCW(45, autoTurnSpeed, 3);
-                getDrive().encoderDrive(autoSpeed, -2, -2, 2);
-
-                //put glyph into center column
-                break;
-
-            case RIGHT:
-                telemetry.addData("Column", "Right");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, 24, 24, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 3);
-                getDrive().encoderDrive(0.3, -3, -3, 2);
-                getDrive().turnCW(45, autoTurnSpeed, 3);
-                getDrive().encoderDrive(autoSpeed, -2, -2, 2);
-
-                //put glyph into right column
-                break;
-            case UNKNOWN:
-                telemetry.addData("Column", "Unknown");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, 24, 24, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, 12, 12, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 3);
-                getDrive().encoderDrive(0.3, -3, -3, 2);
-                getDrive().turnCW(45, autoTurnSpeed, 3);
-                getDrive().encoderDrive(autoSpeed, -2, -2, 2);
-
-                //put glyph into center column
-                break;
+            scoreGlyph();
+        }
+        else if(Column == 3){
+            getDrive().encoderDrive(autoSpeed, 24, 24, 4);
+            getDrive().turnCW(82, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+            scoreGlyph();
+        }
+        else{
+            getDrive().encoderDrive(autoSpeed, 30, 30, 4);
+            getDrive().turnCW(82, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+            scoreGlyph();
         }
     }
 
     public void glyphScoreB2(){
-        switch (columnVoteLoop(this, 7)){
+        if(Column == 1){
+            getDrive().encoderDrive(autoSpeed, -18,-18, 5);
+            //getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().encoderDrive(autoSpeed, 4, 12, 4);
+            getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            scoreGlyph();
+        }
+        else if(Column == 2){
+            getDrive().encoderDrive(autoSpeed, -18,-18, 5);
+            //getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            scoreGlyph();
+        }
+        else if(Column == 3){
+            getDrive().encoderDrive(autoSpeed, -18,-18, 5);
+            //getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().encoderDrive(autoSpeed, 20, 12, 4);
+            getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            scoreGlyph();
+        }
+        else{
+            getDrive().encoderDrive(autoSpeed, -18,-18, 5);
+            //getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            scoreGlyph();
+        }
+    }
 
-            case LEFT:
-                telemetry.addData("Column", "Left");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, -24, -24, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, -6, -6, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 3);
-                getDrive().encoderDrive(0.3, 3, 3, 2);
-                getDrive().turnCCW(45, autoTurnSpeed, 3);
-                getDrive().encoderDrive(autoSpeed, 2, 2, 2);
-
-                //put glyph into left column
-                break;
-
-            case CENTER:
-                telemetry.addData("Column", "Center");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, -24, -24, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, -12, -12, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 3);
-                getDrive().encoderDrive(0.3, 3, 3, 2);
-                getDrive().turnCCW(45, autoTurnSpeed, 3);
-                getDrive().encoderDrive(autoSpeed, 2, 2, 2);
-
-                //put glyph into center column
-                break;
-
-            case RIGHT:
-                telemetry.addData("Column", "Right");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, -24, -24, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, -18, -18, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 3);
-                getDrive().encoderDrive(0.3, 3, 3, 2);
-                getDrive().turnCCW(45, autoTurnSpeed, 3);
-                getDrive().encoderDrive(autoSpeed, 2, 2, 2);
-
-                //put glyph into right column
-                break;
-            case UNKNOWN:
-                telemetry.addData("Column", "Unknown");
-                telemetry.update();
-
-                getDrive().encoderDrive(autoSpeed, -24, -24, 4);
-                getDrive().turnCW(90, autoTurnSpeed, 4);
-                getDrive().encoderDrive(autoSpeed, -12, -12, 4);
-                getDrive().turnCCW(90, autoTurnSpeed, 3);
-                getDrive().encoderDrive(0.3, 3, 3, 2);
-                getDrive().turnCCW(45, autoTurnSpeed, 3);
-                getDrive().encoderDrive(autoSpeed, 2, 2, 2);
-
-                //put glyph into center column
-                break;
+    public void glyphScoreR2(){
+        if(Column == 1){
+            getDrive().encoderDrive(autoSpeed, 18,18, 5);
+            //getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().encoderDrive(autoSpeed, 20, 20, 4);
+            getDrive().turnCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            scoreGlyph();
+        }
+        else if(Column == 2){
+            getDrive().encoderDrive(autoSpeed, 18,18, 5);
+            //getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            scoreGlyph();
+        }
+        else if(Column == 3){
+            getDrive().encoderDrive(autoSpeed, 18,18, 5);
+            //getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().encoderDrive(autoSpeed, 4, 4, 4);
+            getDrive().turnCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            scoreGlyph();
+        }
+        else{
+            getDrive().encoderDrive(autoSpeed, 18,18, 5);
+            //getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            getDrive().turnCW(85, autoTurnSpeed, 4);
+            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            scoreGlyph();
         }
     }
 
     //use timeoutS to ensure we have enough time to park before the end of autonomous
-    public void multiGlyphB1(double timeoutS){
+    public void multiGlyphPos1(double timeoutS){
 
         //drive to pile
+        getIntake().reverse();
+        getSlammer().stopperDown();
+        getDrive().encoderDirectDrive(autoSpeed, -18, -18, 5);
+        getIntake().intake();
+        getDrive().encoderDrive(autoSpeed, -6, -6, 4);
+        //getIntake().stop();
         getDrive().encoderDrive(autoSpeed, 24, 24, 5);
-
-        //double grab
-        getDrive().encoderDrive(autoSpeed + 0.1, 6, 6, 3);
-        //getHand().grabBackClose();
-        getDrive().encoderDrive(autoSpeed, -5, -5, 4);
-        getDrive().turnCW(180, autoTurnSpeed, 4);
-        getDrive().encoderDrive(0.7, -6, -6, 3);
-        //getHand().grabFrontClose();
-
-        //drive back
+        scoreGlyph();
+        getDrive().encoderDrive(autoSpeed, -4, -4, 3);
     }
 
-    public void multiGlyphB2(double timeoutS){
+    public void multiGlyphPos2(double timeoutS){}
 
+    public void scoreGlyph(){
+        getSlammer().stopperUp();
+        getSlammer().autoSlam();
+        getDrive().encoderDirectDrive(autoSpeed, -3, -3, 3);
+        getDrive().encoderDrive(autoSpeed, 6,6, 3);
+        getDrive().encoderDrive(autoSpeed, -4, -4, 3);
     }
 
-    public void multiGlyphR1(double timeoutS){
-        getDrive().encoderDrive(autoSpeed, -24, -24, 5);
-
-        //double grab
-        getDrive().encoderDrive(autoSpeed + 0.1, -6, -6, 3);
-
-        //getHand().grabBackClose();
-        getDrive().encoderDrive(autoSpeed, -5, -5, 4);
-        getDrive().turnCW(180, autoTurnSpeed, 4);
-        getDrive().encoderDrive(0.7, -6, -6, 3);
-        //getHand().grabFrontClose();
-
-    }
-
-    public void multiGlyphR2(double timeoutS){
-
-    }
 
     //Telemetry
 
@@ -629,6 +529,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         linearOpMode.telemetry.update();
     }
 
+
     //Other
 
     public void finalAction(){
@@ -637,6 +538,8 @@ public abstract class Team2753Linear extends LinearOpMode {
             getJewel().stop();
             getLift().stop();
             getIntake().stop();
+            getPhoneServo().stop();
+            getSlammer().stop();
 
             requestOpModeStop();
 
@@ -660,6 +563,7 @@ public abstract class Team2753Linear extends LinearOpMode {
     }
 
 
+    //Getter Methods
 
     public org.firstinspires.ftc.teamcode.subsystems.Drive getDrive() {
         return Drive;

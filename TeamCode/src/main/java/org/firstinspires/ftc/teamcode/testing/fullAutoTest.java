@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Team2753Linear;
@@ -16,6 +17,7 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoTurnSpeed;
  */
 
 @Autonomous(name = "Auto Test", group = "test")
+@Disabled
 public class fullAutoTest extends Team2753Linear{
 
     //Runs position b1 for now bc its the closest on test field
@@ -61,7 +63,6 @@ public class fullAutoTest extends Team2753Linear{
             telemetry.update();
             initJewelDetector();
             enableJewelDetector();
-            //confirm method?
             jewelBlue();
             disableJewelDetector();
 
@@ -69,26 +70,24 @@ public class fullAutoTest extends Team2753Linear{
             //score cryptokey
             phase.setValue("Cryptokey");
             telemetry.update();
-            //glyphScoreB1();
+            glyphScoreB1();
 
 
             //grab more glyphs
             phase.setValue("Multiglyph");
             telemetry.update();
-            //multiGlyphB1(13);
-
-
-            //score extra glyphs
-
+            multiGlyphPos1(13);
 
             //park
             phase.setValue("Parking");
             telemetry.update();
 
             //temporary code until i get glyph and vuforia working
+            /*
             getDrive().encoderDrive(autoSpeed, -36,-36, 5);
             getDrive().turnCW(90, autoTurnSpeed, 4);
             getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+            */
 
             i++;
         }

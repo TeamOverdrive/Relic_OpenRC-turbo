@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Team2753Linear;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER;
@@ -20,6 +22,10 @@ public class Slammer implements Subsystem{
 
     private LinearOpMode linearOpMode = null;
     private DcMotor slamMotor = null;
+    private Servo stopServo = null;
+
+    private static final double ARMUP = 0.95;
+    private static final double ARMDOWN = 0.35;
 
     protected ElapsedTime runtime = new ElapsedTime();// FORWARD_SPEED was running the robot in reverse to the TeleOp program setup.  Speed is reversed to standardize the robot orientation.
 
@@ -32,7 +38,12 @@ public class Slammer implements Subsystem{
         slamMotor = linearOpMode.hardwareMap.dcMotor.get("slammer");
         slamMotor.setDirection(FORWARD);
         setRunMode(RUN_WITHOUT_ENCODER);
+
+        stopServo = linearOpMode.hardwareMap.servo.get("slammer_stop");
+
         stop();
+        if(auto)
+            stopperDown();
     }
 
     @Override
@@ -55,6 +66,20 @@ public class Slammer implements Subsystem{
     public void setRunMode(DcMotor.RunMode runMode){slamMotor.setMode(runMode);}
 
     public void setPower(double power){slamMotor.setPower(power);}
+
+    public void autoSlam(){
+        stopperUp();
+        waitForTick(300);
+        setPower(0.3);
+        waitForTick(1000);
+        setPower(-0.15);
+        waitForTick(1500);
+        stop();
+    }
+
+    public void stopperDown(){stopServo.setPosition(ARMDOWN);}
+
+    public void stopperUp(){stopServo.setPosition(ARMUP);}
 
     /*
     public void setTarget(boolean direction, double angle){
@@ -100,4 +125,21 @@ public class Slammer implements Subsystem{
 
     }
     */
+
+    public void waitForTick(long periodMs) {
+
+        long  remaining = periodMs - (long)runtime.milliseconds();
+
+        // sleep for the remaining portion of the regular cycle period.
+        if (remaining > 0) {
+            try {
+                Thread.sleep(remaining);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        // Reset the cycle clock for the next pass.
+        runtime.reset();
+    }
 }

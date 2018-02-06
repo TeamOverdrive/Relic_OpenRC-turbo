@@ -109,7 +109,8 @@ public class Teleop extends Team2753Linear {
                 }
             }
 
-            /*Fancy Intake FSM Controls*/
+            //Fancy Intake FSM Controls
+
             /*
             boolean intakeOn = false;
             boolean intakeState = true;
@@ -134,6 +135,8 @@ public class Teleop extends Team2753Linear {
             }
             */
 
+            //Intake Controls
+
             if(gamepad1.left_bumper) {
                 getIntake().reverse();
             }
@@ -144,22 +147,6 @@ public class Teleop extends Team2753Linear {
 
 
             /** Gamepad 2 Controls   */
-
-            /*Grabber Controls*/
-            /*
-            if(gamepad2.right_bumper){getHand().grabFrontOpen();}
-            if(gamepad2.right_trigger>0){getHand().grabFrontClose();}
-
-            if (gamepad2.left_bumper){getHand().grabBackOpen();}
-            if (gamepad2.left_trigger>0){getHand().grabBackClose();}
-
-            if (gamepad2.b){getHand().grabFrontStop();}
-            if (gamepad2.x){getHand().grabBackStop();}
-            */
-
-            /*Intake Controls*/
-
-
 
             /*Lift Control  Gamepad 2 Left Joystick*/
             float liftThrottle = gamepad2.left_stick_y;
@@ -183,17 +170,29 @@ public class Teleop extends Team2753Linear {
                 getSlammer().setPower(0);
 
 
-            /*
+            //Stopper
             if(gamepad2.left_bumper)
+                getSlammer().stopperUp();
+            else if(gamepad2.right_bumper)
+                getSlammer().stopperDown();
+
+
+            //Jewel Test
+            /*
+            if(gamepad2.right_bumper)
                 getJewel().deploy();
             else
                 getJewel().retract();
+             */
+
+            //Phone servo test
+            /*
+            if(gamepad2.right_bumper)
+                getPhoneServo.jewelPosition();
+            else
+                getPhoneServo.initPosition();
             */
 
-            if(gamepad2.right_bumper)
-                getPhoneServo().cryptoPosition();
-            else
-                getPhoneServo().initPosition();
 
 
             status.setValue("Running OpMode");

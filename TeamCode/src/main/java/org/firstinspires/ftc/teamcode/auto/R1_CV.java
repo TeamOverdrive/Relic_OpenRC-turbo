@@ -48,6 +48,7 @@ public class R1_CV extends Team2753Linear{
 
         while(opModeIsActive() && i == 0) {
 
+            columnVote(this);
             closeVuforia();
 
             //Jewel Phase
@@ -56,28 +57,24 @@ public class R1_CV extends Team2753Linear{
 
             initJewelDetector();
             enableJewelDetector();
-            jewelBlue();
+            jewelRed();
             disableJewelDetector();
 
             //score cryptokey
             phase.setValue("Cryptokey");
             telemetry.update();
-            //glyphScoreR1();
+            glyphScoreR1();
 
             //grab more glyphs
             phase.setValue("Multiglyph");
             telemetry.update();
-            //multiGlyphR1(13);
+            //multiGlyphPos1(13);
 
             //score extra glyphs
 
             //park
             phase.setValue("Parking");
             telemetry.update();
-            //temporary code until i get glyph working
-            getDrive().encoderDrive(autoSpeed, 36, 36, 4);
-            getDrive().turnCW(90, autoTurnSpeed, 5);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
 
             i++;
         }
