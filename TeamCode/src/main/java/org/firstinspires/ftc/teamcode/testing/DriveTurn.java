@@ -49,43 +49,13 @@ public class DriveTurn extends Team2753Linear{
         int i = 0;
 
         while(opModeIsActive() && i == 0) {
+            double speed = 0.1;
 
-            //the big wall of text
-
-            //go to cryptobox
-            getDrive().encoderDrive(autoSpeed, -36,-36, 5);
-            getDrive().turnCW(90, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-            waitForTick(2500);
-
-            //go to pile
-            getDrive().encoderDrive(autoSpeed, -30, -30, 6);
-            getIntake().intake();
-            waitForTick(1000);
-            getIntake().stop();
-
-            //back to cryptobox
-            getDrive().encoderDrive(autoSpeed, 30, 30, 6);
-
-            //drive to an empty area
-            getDrive().encoderDrive(autoSpeed, -15, -15, 4);
-            waitForTick(1000);
-
-            //turning stuff
-            getDrive().turnCW(90, turnSpeed, 5);
-            waitForTick(1000);
-            getDrive().turnCCW(90, turnSpeed, 5);
-            waitForTick(1000);
-            getDrive().turnCW(180, turnSpeed, 7);
-            waitForTick(1000);
-            getDrive().turnCCW(180, turnSpeed, 7);
-            waitForTick(1000);
-            getDrive().turnCW(360, turnSpeed, 10);
-            waitForTick(1000);
-            getDrive().turnCCW(360, turnSpeed, 10);
-            waitForTick(1000);
-
-            //we should be perpendicular to the will at this point
+            while(speed <= 1){
+                getDrive().turnCW(90, speed, 10);
+                waitForTick(1000);
+                speed = speed + 0.1;
+            }
         }
 
         finalAction();
