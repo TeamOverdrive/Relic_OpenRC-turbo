@@ -16,7 +16,7 @@ import java.io.IOException;
 
 
 @TeleOp(name="Red Cryptobox Detector", group="DogeCV")
-@Disabled
+//@Disabled
 public class RedCryptoboxOpMode extends OpMode
 {
     // Declare OpMode members.

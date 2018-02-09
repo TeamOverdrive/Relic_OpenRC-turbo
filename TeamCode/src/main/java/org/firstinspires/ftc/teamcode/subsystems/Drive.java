@@ -24,7 +24,8 @@ public class Drive implements Subsystem {
     // Used to output telemetry and to stop when stop is pressed
     private LinearOpMode linearOpMode = null;
 
-    protected ElapsedTime runtime = new ElapsedTime();// FORWARD_SPEED was running the robot in reverse to the TeleOp program setup.  Speed is reversed to standardize the robot orientation.
+    protected ElapsedTime runtime = new ElapsedTime();
+    // FORWARD_SPEED was running the robot in reverse to the TeleOp program setup.  Speed is reversed to standardize the robot orientation.
 
     private static final double COUNTS_PER_MOTOR_REV = 1120;     // AndyMark NeveRest 40
     private static final double DRIVE_GEAR_REDUCTION = 0.75;     // This is < 1.0 if geared UP

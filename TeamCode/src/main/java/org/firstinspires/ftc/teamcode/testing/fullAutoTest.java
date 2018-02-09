@@ -17,7 +17,7 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoTurnSpeed;
  */
 
 @Autonomous(name = "Auto Test", group = "test")
-@Disabled
+//@Disabled
 public class fullAutoTest extends Team2753Linear{
 
     //Runs position b1 for now bc its the closest on test field
@@ -34,12 +34,10 @@ public class fullAutoTest extends Team2753Linear{
 
         //Initialize Robot
         status.setValue("Initializing...");
-        currentOpMode.setValue("Auto Test");
+        currentOpMode.setValue("B1 CV");
         telemetry.update();
         initializeRobot(this, AUTO);
         startVuforia(BACK);
-
-        //initColumnVote(this);
 
         //Waiting for start
         status.setValue("Initialized, Waiting for Start");
@@ -76,18 +74,12 @@ public class fullAutoTest extends Team2753Linear{
             //grab more glyphs
             phase.setValue("Multiglyph");
             telemetry.update();
-            multiGlyphPos1(13);
+            //multiGlyphPos1(20);
+            //disable to work on accurate turning for cryptokey
 
             //park
             phase.setValue("Parking");
             telemetry.update();
-
-            //temporary code until i get glyph and vuforia working
-            /*
-            getDrive().encoderDrive(autoSpeed, -36,-36, 5);
-            getDrive().turnCW(90, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-            */
 
             i++;
         }

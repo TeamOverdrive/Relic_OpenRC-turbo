@@ -15,16 +15,17 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.TELEOP;
 /**
  * Created by joshua9889 on 12/10/2017.
  *
- * Replicated 2753's TeleopMain_Relic with new backend.
- *Edited by David Zheng | 2753 Team Overdrive
+ * Replicated 2753's Teleop Main_Relic with new backend.
  */
 
 @TeleOp(name = "Teleop")
 public class Teleop extends Team2753Linear {
 
-    private static final boolean UP = true;
-    private static final boolean DOWN = false;
-    boolean slamState;
+    private enum intakeState{
+        OFF,
+        INTAKE,
+        REVERSE
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -41,7 +42,7 @@ public class Teleop extends Team2753Linear {
         currentOpMode.setValue("Teleop");
         telemetry.update();
         initializeRobot(this, TELEOP);
-        //slamState = DOWN;
+        intakeState currentIntakeState = intakeState.OFF;
 
         //Waiting for Start
         status.setValue("Initialized, Waiting for Start");
@@ -94,48 +95,34 @@ public class Teleop extends Team2753Linear {
 
             getDrive().setLeftRightPowers(leftThrottle, rightThrottle);
 
-            //D-pad controls for more precise movement
+            //D-pad controls for slower movement
             if (Math.abs(leftThrottle) == 0 && Math.abs(rightThrottle) == 0) {
                 if (gamepad1.dpad_up) {
                     getDrive().setLeftRightPowers(-0.3, -0.3);
-                    sleep(250);
+                    waitForTick(100);
                 }
                 else if (gamepad1.dpad_down) {
                     getDrive().setLeftRightPowers(0.3, 0.3);
-                    sleep(250);
+                    waitForTick(100);
+                }
+                else if (gamepad1.dpad_left){
+                    getDrive().setLeftRightPowers(-0.35, 0.35);
+                    waitForTick(100);
+                }
+                else if (gamepad1.dpad_right){
+                    getDrive().setLeftRightPowers(0.35, -0.35);
+                    waitForTick(100);
                 }
                 else {
                     getDrive().setLeftRightPowers(0,0);
                 }
             }
 
-            //Fancy Intake FSM Controls
 
-            /*
-            boolean intakeOn = false;
-            boolean intakeState = true;
+            /* Intake Controls */
 
+            //Press and hold control
 
-            if(gamepad1.left_bumper){
-                if(!intakeOn){
-                    intakeOn = true;
-                    intakeState = true;
-                }
-                if(intakeOn)
-            }
-            if(gamepad1.right_bumper){
-
-            }
-
-            if(intakeOn){
-                if(intakeState)
-                    getIntake().setPower(1);
-                if(!intakeState)
-                    getIntake().setPower(-1);
-            }
-            */
-
-            //Intake Controls
 
             if(gamepad1.left_bumper) {
                 getIntake().reverse();
@@ -146,7 +133,55 @@ public class Teleop extends Team2753Linear {
                 getIntake().stop();
 
 
-            /** Gamepad 2 Controls   */
+
+            //Fancy Intake FSM Controls
+
+            /*
+            //Changed states
+            if(gamepad1.left_bumper){
+                switch (currentIntakeState){
+                    case OFF:
+                        currentIntakeState = intakeState.REVERSE;
+                        break;
+                    case INTAKE:
+                        currentIntakeState = intakeState.REVERSE;
+                        break;
+                    case REVERSE:
+                        currentIntakeState = intakeState.OFF;
+                        break;
+                }
+            }
+
+            if(gamepad1.right_bumper){
+                switch (currentIntakeState){
+                    case OFF:
+                        currentIntakeState = intakeState.INTAKE;
+                        break;
+                    case INTAKE:
+                        currentIntakeState = intakeState.OFF;
+                        break;
+                    case REVERSE:
+                        currentIntakeState = intakeState.INTAKE;
+                        break;
+                }
+            }
+
+            //set the motor based on the state
+            switch(currentIntakeState){
+                case OFF:
+                    getIntake().stop();
+                    break;
+                case INTAKE:
+                    getIntake().intake();
+                    break;
+                case REVERSE:
+                    getIntake().reverse();
+                    break;
+            }
+            */
+
+
+            /*  Gamepad 2 Controls  */
 
             /*Lift Control  Gamepad 2 Left Joystick*/
             float liftThrottle = gamepad2.left_stick_y;
@@ -158,6 +193,7 @@ public class Teleop extends Team2753Linear {
             liftThrottle = liftThrottle*-1;
             //Apply power to motor
             getLift().setLiftPower(liftThrottle);
+
 
             //Slammer
             if(gamepad2.y) {
@@ -178,6 +214,7 @@ public class Teleop extends Team2753Linear {
 
 
             //Jewel Test
+
             /*
             if(gamepad2.right_bumper)
                 getJewel().deploy();
@@ -185,14 +222,15 @@ public class Teleop extends Team2753Linear {
                 getJewel().retract();
              */
 
+
             //Phone servo test
+
             /*
             if(gamepad2.right_bumper)
                 getPhoneServo.jewelPosition();
             else
                 getPhoneServo.initPosition();
             */
-
 
 
             status.setValue("Running OpMode");
