@@ -48,14 +48,15 @@ public class DriveTurn extends Team2753Linear{
 
         int i = 0;
 
-        while(opModeIsActive() && i == 0) {
-            double speed = 0.1;
+            while(opModeIsActive() && i == 0) {
 
-            while(speed <= 1){
-                getDrive().turnCW(90, speed, 10);
-                waitForTick(1000);
-                speed = speed + 0.1;
-            }
+            getSlammer().stopperUp();
+            getSlammer().autoSlam();
+            getDrive().encoderDrive(autoSpeed, -3, -3, 3);
+            getDrive().encoderDrive(autoSpeed, 6,6, 3);
+            getDrive().encoderDrive(autoSpeed, -4, -4, 3);
+
+            i++;
         }
 
         finalAction();

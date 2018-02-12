@@ -54,7 +54,7 @@ public class Teleop extends Team2753Linear {
         telemetry.update();
 
         // Loop while we are running Teleop
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
 /*
                      _______                                    _______
                   __/_______\_____                       ______/_______\__
@@ -86,8 +86,8 @@ public class Teleop extends Team2753Linear {
             float rightThrottle = gamepad1.right_stick_y;
 
             /* Clip the left and right throttle values so that they never exceed +/- 1.  */
-            leftThrottle = Range.clip(leftThrottle,-1,1);
-            rightThrottle = Range.clip(rightThrottle,-1,1);
+            leftThrottle = Range.clip(leftThrottle, -1, 1);
+            rightThrottle = Range.clip(rightThrottle, -1, 1);
 
             /* Scale the throttle values to make it easier to control the robot more precisely at slower speeds.  */
             leftThrottle = (float) OverdriveLib.scaleInput(leftThrottle);
@@ -99,45 +99,44 @@ public class Teleop extends Team2753Linear {
             if (Math.abs(leftThrottle) == 0 && Math.abs(rightThrottle) == 0) {
                 if (gamepad1.dpad_up) {
                     getDrive().setLeftRightPowers(-0.3, -0.3);
-                    waitForTick(100);
-                }
-                else if (gamepad1.dpad_down) {
+                    waitForTick(200);
+                } else if (gamepad1.dpad_down) {
                     getDrive().setLeftRightPowers(0.3, 0.3);
-                    waitForTick(100);
-                }
-                else if (gamepad1.dpad_left){
+                    waitForTick(200);
+                } else if (gamepad1.dpad_left) {
                     getDrive().setLeftRightPowers(-0.35, 0.35);
-                    waitForTick(100);
-                }
-                else if (gamepad1.dpad_right){
+                    waitForTick(200);
+                } else if (gamepad1.dpad_right) {
                     getDrive().setLeftRightPowers(0.35, -0.35);
-                    waitForTick(100);
-                }
-                else {
-                    getDrive().setLeftRightPowers(0,0);
+                    waitForTick(200);
+                } else {
+                    getDrive().setLeftRightPowers(0, 0);
                 }
             }
 
 
             /* Intake Controls */
 
+            //Both Gamepad 1 and 2
             //Press and hold control
 
 
-            if(gamepad1.left_bumper) {
+            if (gamepad1.left_bumper)
                 getIntake().reverse();
-            }
-            else if(gamepad1.right_bumper)
+            else if (gamepad1.right_bumper)
+                getIntake().intake();
+            else if (gamepad2.left_trigger > 0)
+                getIntake().reverse();
+             else if (gamepad2.right_trigger > 0)
                 getIntake().intake();
             else
                 getIntake().stop();
 
 
-
             //Fancy Intake FSM Controls
 
             /*
-            //Changed states
+            //Change states depending on what button is pushed and what the current state is
             if(gamepad1.left_bumper){
                 switch (currentIntakeState){
                     case OFF:
@@ -180,6 +179,12 @@ public class Teleop extends Team2753Linear {
             }
             */
 
+            //Jewel Arm
+            if (gamepad1.left_trigger > 0)
+                getJewel().deploy();
+            else
+                getJewel().retract();
+
 
             /*  Gamepad 2 Controls  */
 
@@ -190,38 +195,25 @@ public class Teleop extends Team2753Linear {
             //Scale
             liftThrottle = (float) OverdriveLib.scaleInput(liftThrottle);
             //Invert
-            liftThrottle = liftThrottle*-1;
+            liftThrottle = liftThrottle * -1;
             //Apply power to motor
             getLift().setLiftPower(liftThrottle);
 
 
             //Slammer
-            if(gamepad2.y) {
+            if (gamepad2.y) {
                 getSlammer().setPower(0.35);
-            }
-            else if(gamepad2.a) {
+            } else if (gamepad2.a) {
                 getSlammer().setPower(-0.2);
-            }
-            else
+            } else
                 getSlammer().setPower(0);
 
 
             //Stopper
-            if(gamepad2.left_bumper)
+            if (gamepad2.left_bumper)
                 getSlammer().stopperUp();
-            else if(gamepad2.right_bumper)
+            else if (gamepad2.right_bumper)
                 getSlammer().stopperDown();
-
-
-            //Jewel Test
-
-            /*
-            if(gamepad2.right_bumper)
-                getJewel().deploy();
-            else
-                getJewel().retract();
-             */
-
 
             //Phone servo test
 

@@ -28,7 +28,7 @@ public class Drive implements Subsystem {
     // FORWARD_SPEED was running the robot in reverse to the TeleOp program setup.  Speed is reversed to standardize the robot orientation.
 
     private static final double COUNTS_PER_MOTOR_REV = 1120;     // AndyMark NeveRest 40
-    private static final double DRIVE_GEAR_REDUCTION = 0.75;     // This is < 1.0 if geared UP
+    private static final double DRIVE_GEAR_REDUCTION = 0.6666 ;     // This is < 1.0 if geared UP
     private static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference w/ wheel base
     private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.141592);
     private static final double WHEEL_BASE = 12.625;
@@ -115,6 +115,15 @@ public class Drive implements Subsystem {
 
     }
 
+
+    public void turnDirectCW(double degrees, double speed, double timeoutS){
+        double leftDistance = (WHEEL_BASE*PI*degrees)/-360;
+        double rightDistance = (WHEEL_BASE*PI*degrees)/360;
+
+        encoderDirectDrive(speed, leftDistance, rightDistance, timeoutS);
+    }
+
+
     /**
      * Method to perform a Counter-clockwise turn
      *
@@ -131,6 +140,15 @@ public class Drive implements Subsystem {
         encoderDrive(speed, leftDistance, rightDistance, timeoutS);
 
     }
+
+
+    public void turnDirectCCW(double degrees, double speed, double timeoutS){
+        double leftDistance = (WHEEL_BASE*PI*degrees)/360;
+        double rightDistance = (WHEEL_BASE*PI*degrees)/-360;
+
+        encoderDirectDrive(speed, leftDistance, rightDistance, timeoutS);
+    }
+
 
     /**
      * Method to perform a relative move, based on encoder counts.
@@ -157,8 +175,8 @@ public class Drive implements Subsystem {
             newRightTarget = rightMotor.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
             leftMotor.setTargetPosition(newLeftTarget);
             rightMotor.setTargetPosition(newRightTarget);
-            int counter1 = 0;
-            int counter2 = 0;
+            //int counter1 = 0;
+            //int counter2 = 0;
 
             // Turn On RUN_TO_POSITION
             setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -171,22 +189,11 @@ public class Drive implements Subsystem {
             while (linearOpMode.opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (leftMotor.isBusy() || rightMotor.isBusy())) {
-                counter1++;
-                if (Math.abs(newLeftTarget - leftMotor.getCurrentPosition()) < (6.0 * COUNTS_PER_INCH)) {
-                    setLeftRightPowers(Math.abs(speed * 0.3), Math.abs(speed * 0.3));
-                    counter2++;
+                //slow the motors down when we get within 3 inches of our target and the speed is greater than 0.1.
+                if ((Math.abs(newLeftTarget - leftMotor.getCurrentPosition()) < (2.0 * COUNTS_PER_INCH)) && speed > 0.1) {
+                    setLeftRightPowers(Math.abs(speed * 0.5), Math.abs(speed * 0.5));
                 }
-                // Display it for the driver.
-                /*
-                linearOpMode.telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-                this.outputToTelemetry(linearOpMode.telemetry);
-                linearOpMode.telemetry.addData("Distance", Math.abs(newLeftTarget - leftMotor.getCurrentPosition()));
-                linearOpMode.telemetry.addData("While counter", counter1);
-                linearOpMode.telemetry.addData("If counter", counter2);
-                linearOpMode.telemetry.update();
-                */
             }
-
             // Stop all motion;
             setLeftRightPowers(0,0);
 
@@ -197,6 +204,8 @@ public class Drive implements Subsystem {
         }
     }
 
+
+    //same as encoderDrive except without the slowdown before reaching target
     public void encoderDirectDrive(double speed, double leftInches, double rightInches, double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
@@ -209,8 +218,6 @@ public class Drive implements Subsystem {
             newRightTarget = rightMotor.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
             leftMotor.setTargetPosition(newLeftTarget);
             rightMotor.setTargetPosition(newRightTarget);
-            int counter1 = 0;
-            int counter2 = 0;
 
             // Turn On RUN_TO_POSITION
             setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -232,5 +239,13 @@ public class Drive implements Subsystem {
 
             //  linearOpMode.sleep(250);   // optional pause after each move
         }
+    }
+
+
+    //only implements Kp right now.
+    //if only Kp returns a desired resutl, i will leave it like that
+    public void proportionControl(double leftTarget, double rightTarget, double speed, double P){
+        double leftError = Math.abs(leftTarget - leftMotor.getCurrentPosition());
+        double rightError = Math.abs(rightTarget - rightMotor.getCurrentPosition());
     }
 }

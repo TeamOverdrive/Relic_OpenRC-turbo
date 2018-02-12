@@ -69,10 +69,10 @@ public class Slammer implements Subsystem{
 
     public void autoSlam(){
         stopperUp();
-        waitForTick(300);
+        waitForTick(350);
         setPower(0.3);
         waitForTick(1000);
-        setPower(-0.15);
+        setPower(-0.25);
         waitForTick(1500);
         stop();
     }

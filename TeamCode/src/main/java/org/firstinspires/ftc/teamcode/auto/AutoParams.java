@@ -27,7 +27,7 @@ public class AutoParams {
      */
 
     public static final double autoSpeed = 0.35;
-    public static final double autoTurnSpeed = 0.4;
+    public static final double autoTurnSpeed = 0.25;
 
 
     /**
@@ -39,11 +39,11 @@ public class AutoParams {
      * @param jewelTurnTimeoutS amount of time in s before timing out from the jewelTurn
      */
 
-    public static final int jewelArmDelayMS = 200;
+    public static final int jewelArmDelayMS = 300;
     public static final double jewelColorTimeoutS = 5;
     public static final int jewelTurn = 20;
-    public static final double jewelTurnSpeed = 0.35;
-    public static final double jewelTurnTimeoutS = 1.5;
+    public static final double jewelTurnSpeed = 0.25;
+    public static final double jewelTurnTimeoutS = 2;
 
 
     //how many votes before making a decision on VuMark.
