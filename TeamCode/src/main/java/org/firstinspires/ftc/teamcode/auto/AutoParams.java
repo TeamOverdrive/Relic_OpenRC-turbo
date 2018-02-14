@@ -27,7 +27,7 @@ public class AutoParams {
      */
 
     public static final double autoSpeed = 0.35;
-    public static final double autoTurnSpeed = 0.25;
+    public static final double autoTurnSpeed = 0.3;
 
 
     /**

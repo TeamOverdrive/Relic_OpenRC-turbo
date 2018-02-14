@@ -189,9 +189,13 @@ public class Drive implements Subsystem {
             while (linearOpMode.opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (leftMotor.isBusy() || rightMotor.isBusy())) {
-                //slow the motors down when we get within 3 inches of our target and the speed is greater than 0.1.
-                if ((Math.abs(newLeftTarget - leftMotor.getCurrentPosition()) < (2.0 * COUNTS_PER_INCH)) && speed > 0.1) {
+                //slow the motors down to half the original speed when we get within 4 inches of our target and the speed is greater than 0.1.
+                if ((Math.abs(newLeftTarget - leftMotor.getCurrentPosition()) < (4.0 * COUNTS_PER_INCH)) && speed > 0.1) {
                     setLeftRightPowers(Math.abs(speed * 0.5), Math.abs(speed * 0.5));
+                }
+                //slow the motors down to 3/10ths of the original speed when we get within 2 inches of our target and the speed is greater than 0.1.
+                if ((Math.abs(newLeftTarget - leftMotor.getCurrentPosition()) < (2.0 * COUNTS_PER_INCH)) && speed > 0.1) {
+                    setLeftRightPowers(Math.abs(speed * 0.3), Math.abs(speed * 0.3));
                 }
             }
             // Stop all motion;

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.testing;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.detectors.JewelDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -19,8 +20,10 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelTurnTimeoutS;
  */
 
 @Autonomous(name = "Jewel Test",group = "Jewel")
-@Disabled
+//@Disabled
 public class Jewel_Test extends Team2753Linear {
+
+    private JewelDetector jewelDetector = null;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -32,7 +35,20 @@ public class Jewel_Test extends Team2753Linear {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        initJewelDetector();
+        //initJewelDetector();
+        jewelDetector = new JewelDetector();
+        jewelDetector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+
+        //Jewel Detector Settings
+        jewelDetector.areaWeight = 0.02;
+        //jewelDetector.detectionMode = JewelDetector.JewelDetectionMode.PERFECT_AREA;
+        jewelDetector.detectionMode = JewelDetector.JewelDetectionMode.MAX_AREA;
+        jewelDetector.perfectArea = 1600;
+        jewelDetector.debugContours = false;
+        jewelDetector.maxDiffrence = 15;
+        jewelDetector.ratioWeight = 15;
+        jewelDetector.minArea = 800;
+        //getPhoneServo().jewelPosition();
 
         waitForStart(this);
 

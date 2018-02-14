@@ -237,15 +237,19 @@ public abstract class Team2753Linear extends LinearOpMode {
         //Jewel Detector Settings
         jewelDetector.areaWeight = 0.02;
         jewelDetector.detectionMode = JewelDetectionMode.PERFECT_AREA;
+        //jewelDetector.detectionMode = JewelDetectionMode.MAX_AREA;
         jewelDetector.perfectArea = 1600;
         jewelDetector.debugContours = false;
         jewelDetector.maxDiffrence = 15;
         jewelDetector.ratioWeight = 15;
         jewelDetector.minArea = 800;
-        getPhoneServo().jewelPosition();
+        //getPhoneServo().jewelPosition();
     }
 
-    public void enableJewelDetector(){jewelDetector.enable();}
+    public void enableJewelDetector(){
+        jewelDetector.enable();
+        getPhoneServo().jewelPosition();
+    }
 
     public JewelOrder findJewel(LinearOpMode linearOpMode, double timeoutS){
 
@@ -341,133 +345,101 @@ public abstract class Team2753Linear extends LinearOpMode {
 
         if(Column == 1){
             getDrive().encoderDrive(autoSpeed, -28, -28, 4);
-            getDrive().turnCW(82, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-            scoreGlyph();
         }
         else if(Column == 2){
             getDrive().encoderDrive(autoSpeed, -36, -36, 4);
-            getDrive().turnCW(82, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-            scoreGlyph();
         }
         else if(Column == 3){
-            getDrive().encoderDrive(autoSpeed, -44, -44, 4);
-            getDrive().turnCW(82, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-            scoreGlyph();
+            getDrive().encoderDrive(autoSpeed, -44, -44, 4);;
         }
         else{
             getDrive().encoderDrive(autoSpeed, -36, -36, 4);
-            getDrive().turnCW(82, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-            scoreGlyph();
         }
-
+        getDrive().turnCW(90, autoTurnSpeed, 4);
+        getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+        waitForTick(100);
+        scoreGlyph();
     }
 
     public void glyphScoreR1(){
 
         if(Column == 1){
             getDrive().encoderDrive(autoSpeed, 44, 44, 4);
-            getDrive().turnCW(82, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-            scoreGlyph();
         }
         else if(Column == 2){
             getDrive().encoderDrive(autoSpeed, 36, 36, 4);
-            getDrive().turnCW(82, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-
-            scoreGlyph();
         }
         else if(Column == 3){
             getDrive().encoderDrive(autoSpeed, 28, 28, 4);
-            getDrive().turnCW(82, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-            scoreGlyph();
         }
         else{
             getDrive().encoderDrive(autoSpeed, 36, 36, 4);
-            getDrive().turnCW(82, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 6, 6, 4);
-            scoreGlyph();
         }
+        getDrive().turnCW(90, autoTurnSpeed, 4);
+        getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+        waitForTick(100);
+        scoreGlyph();
     }
 
     public void glyphScoreB2(){
+
+        getDrive().encoderDrive(autoSpeed, -20,-20, 5);
+        getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+
         if(Column == 1){
-            getDrive().encoderDrive(autoSpeed, -18,-18, 5);
-            //getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
-            getDrive().encoderDrive(autoSpeed, 4, 12, 4);
-            getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
-            scoreGlyph();
+            getDrive().encoderDrive(autoSpeed, 4, 4, 5);
         }
         else if(Column == 2){
-            getDrive().encoderDrive(autoSpeed, -18,-18, 5);
-            //getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
             getDrive().encoderDrive(autoSpeed, 12, 12, 4);
-            getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
-            scoreGlyph();
+
         }
         else if(Column == 3){
-            getDrive().encoderDrive(autoSpeed, -18,-18, 5);
-            //getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
             getDrive().encoderDrive(autoSpeed, 20, 12, 4);
-            getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
-            scoreGlyph();
+
         }
         else{
-            getDrive().encoderDrive(autoSpeed, -18,-18, 5);
-            //getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
             getDrive().encoderDrive(autoSpeed, 12, 12, 4);
-            getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
-            scoreGlyph();
+
         }
+        getDrive().turnCCW(90, autoTurnSpeed, 4);
+        getDrive().encoderDrive(autoSpeed, 10, 10, 4);
+        scoreGlyph();
     }
 
     public void glyphScoreR2(){
         if(Column == 1){
             getDrive().encoderDrive(autoSpeed, 18,18, 5);
-            //getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().turnCCW(90, autoTurnSpeed, 4);
+            //getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
             getDrive().encoderDrive(autoSpeed, 20, 20, 4);
-            getDrive().turnCW(85, autoTurnSpeed, 4);
+            getDrive().turnCW(90, autoTurnSpeed, 4);
             getDrive().encoderDrive(autoSpeed, 12, 12, 4);
             scoreGlyph();
         }
         else if(Column == 2){
             getDrive().encoderDrive(autoSpeed, 18,18, 5);
-            //getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().turnCCW(90, autoTurnSpeed, 4);
+            //getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
             getDrive().encoderDrive(autoSpeed, 12, 12, 4);
-            getDrive().turnCCW(85, autoTurnSpeed, 4);
+            getDrive().turnCCW(90, autoTurnSpeed, 4);
             getDrive().encoderDrive(autoSpeed, 12, 12, 4);
             scoreGlyph();
         }
         else if(Column == 3){
             getDrive().encoderDrive(autoSpeed, 18,18, 5);
-            //getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().turnCCW(90, autoTurnSpeed, 4);
+            //getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
             getDrive().encoderDrive(autoSpeed, 4, 4, 4);
-            getDrive().turnCW(85, autoTurnSpeed, 4);
+            getDrive().turnCW(90, autoTurnSpeed, 4);
             getDrive().encoderDrive(autoSpeed, 12, 12, 4);
             scoreGlyph();
         }
         else{
             getDrive().encoderDrive(autoSpeed, 18,18, 5);
-            //getDrive().turnCCW(85, autoTurnSpeed, 4);
-            getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
+            getDrive().turnCCW(90, autoTurnSpeed, 4);
+            //getDrive().encoderDirectDrive(autoSpeed - 0.1, 0, -19.8, 3);
             getDrive().encoderDrive(autoSpeed, 12, 12, 4);
-            getDrive().turnCW(85, autoTurnSpeed, 4);
+            getDrive().turnCW(90, autoTurnSpeed, 4);
             getDrive().encoderDrive(autoSpeed, 12, 12, 4);
             scoreGlyph();
         }
@@ -492,7 +464,6 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     public void scoreGlyph(){
         getSlammer().stopperUp();
-        getSlammer().stopperUp();
         waitForTick(350);
         getSlammer().setPower(0.3);
         waitForTick(750);
@@ -501,7 +472,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         getDrive().encoderDirectDrive(autoSpeed, -3, -3, 3);
         getSlammer().stop();
         getDrive().encoderDrive(autoSpeed, 6,6, 3);
-        getDrive().encoderDrive(autoSpeed, -4, -4, 3);
+        getDrive().encoderDrive(autoSpeed, -6, -6, 3);
     }
 
 
