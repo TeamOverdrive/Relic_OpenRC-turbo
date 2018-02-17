@@ -51,7 +51,7 @@ public class R2_Vuforia extends Team2753Linear{
 
             initJewelDetector();
             enableJewelDetector();
-            jewelRed();
+            jewelRed(this);
             disableJewelDetector();
 
             //score cryptokey

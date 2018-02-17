@@ -304,9 +304,9 @@ public abstract class Team2753Linear extends LinearOpMode {
             }
     }
 
-    public void jewelRed(){
+    public void jewelRed(LinearOpMode linearOpMode){
         if(opModeIsActive()){
-            switch(findJewel(this, jewelColorTimeoutS)){
+            switch(findJewel(linearOpMode, jewelColorTimeoutS)){
                 case BLUE_RED:
                     getJewel().deploy();
                     waitForTick(jewelArmDelayMS);
@@ -327,9 +327,9 @@ public abstract class Team2753Linear extends LinearOpMode {
         }
     }
 
-    public void jewelBlue(){
+    public void jewelBlue(LinearOpMode linearOpMode){
         if(opModeIsActive()){
-            switch(findJewel(this, jewelColorTimeoutS)){
+            switch(findJewel(linearOpMode, jewelColorTimeoutS)){
                 case BLUE_RED:
                     getJewel().deploy();
                     waitForTick(jewelArmDelayMS);
@@ -397,34 +397,38 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     public void glyphScoreB2(){
 
-        getDrive().encoderDrive(autoSpeed, -22,-22, 5);
-        getDrive().encoderDrive(autoSpeed + 0.05, 0, -19.83, 4);
+        getDrive().encoderDrive(autoSpeed, -24,-24, 5);
+        //getDrive().encoderDrive(autoSpeed + 0.05, 0, -19.83, 4);
+        getDrive().turnCW(90, autoTurnSpeed, 4);
 
         if(Column == 1){
-            getDrive().encoderDrive(autoSpeed, 4, 4, 5);
+            getDrive().encoderDrive(autoSpeed + 0.1, -2, -2, 5);
         }
         else if(Column == 2){
-            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
-
+            getDrive().encoderDrive(autoSpeed, -12, -12, 4);
         }
         else if(Column == 3){
-            getDrive().encoderDrive(autoSpeed, 20, 12, 4);
+            getDrive().encoderDrive(autoSpeed, -20, -12, 4);
 
         }
         else{
-            getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+            getDrive().encoderDrive(autoSpeed, -12, -12, 4);
 
         }
 
-        getDrive().turnCCW(90, autoTurnSpeed, 4);
-        getDrive().encoderDrive(autoSpeed, 10, 10, 4);
+        //wubba-lubba-dub-dub
+        //wubba-lubba-dub-dub
+        waitForTick(1500);
+        getDrive().turnCW(90, autoTurnSpeed, 4);
+        getDrive().encoderDrive(autoSpeed, 5, 5, 4);
         scoreGlyph();
     }
 
     public void glyphScoreR2(){
 
-        getDrive().encoderDrive(autoSpeed, 22,22, 5);
-        getDrive().encoderDrive(autoSpeed + 0.05, 0, -19.83, 4);
+        getDrive().encoderDrive(autoSpeed, 24,24, 5);
+        //getDrive().encoderDrive(autoSpeed + 0.05, 0, -19.83, 4);
+        getDrive().turnCCW(90, autoTurnSpeed, 4);
 
         if(Column == 1){
             getDrive().encoderDrive(autoSpeed, 20, 20, 4);
@@ -439,8 +443,9 @@ public abstract class Team2753Linear extends LinearOpMode {
             getDrive().encoderDrive(autoSpeed, 12, 12, 4);
         }
 
+        waitForTick(100);
         getDrive().turnCW(90, autoTurnSpeed, 4);
-        getDrive().encoderDrive(autoSpeed, 12, 12, 4);
+        getDrive().encoderDrive(autoSpeed, 5, 5, 4);
         scoreGlyph();
     }
 
@@ -464,13 +469,13 @@ public abstract class Team2753Linear extends LinearOpMode {
     public void scoreGlyph(){
         getSlammer().stopperUp();
         waitForTick(350);
-        getSlammer().setPower(0.3);
-        waitForTick(750);
-        getSlammer().setPower(-0.2);
-        //waitForTick(1500);
-        getDrive().encoderDirectDrive(autoSpeed, -3, -3, 3);
+        getSlammer().setPower(0.35);
+        waitForTick(500);
         getSlammer().stop();
+        getDrive().encoderDirectDrive(autoSpeed, -3, -3, 3);
+        getSlammer().setPower(-0.3);
         getDrive().encoderDrive(autoSpeed, 6,6, 3);
+        getSlammer().stop();
         getDrive().encoderDrive(autoSpeed, -6, -6, 3);
     }
 

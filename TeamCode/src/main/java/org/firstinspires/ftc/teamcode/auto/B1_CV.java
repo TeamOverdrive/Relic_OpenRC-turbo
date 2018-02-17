@@ -59,7 +59,7 @@ public class B1_CV extends Team2753Linear {
             telemetry.update();
             initJewelDetector();
             enableJewelDetector();
-            jewelBlue();
+            jewelBlue(this);
             disableJewelDetector();
 
 

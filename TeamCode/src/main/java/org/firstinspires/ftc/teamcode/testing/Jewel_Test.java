@@ -57,7 +57,7 @@ public class Jewel_Test extends Team2753Linear {
 
             enableJewelDetector();
 
-            jewelRed();
+            jewelRed(this);
 
             disableJewelDetector();
 

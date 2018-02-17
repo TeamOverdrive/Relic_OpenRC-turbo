@@ -57,7 +57,7 @@ public class B2_CV extends Team2753Linear {
 
             initJewelDetector();
             enableJewelDetector();
-            jewelBlue();
+            jewelBlue(this);
             disableJewelDetector();
 
             //score cryptokey

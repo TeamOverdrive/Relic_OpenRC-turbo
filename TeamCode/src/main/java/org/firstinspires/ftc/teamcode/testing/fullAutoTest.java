@@ -61,7 +61,7 @@ public class fullAutoTest extends Team2753Linear{
             telemetry.update();
             initJewelDetector();
             enableJewelDetector();
-            jewelBlue();
+            jewelBlue(this);
             disableJewelDetector();
 
 

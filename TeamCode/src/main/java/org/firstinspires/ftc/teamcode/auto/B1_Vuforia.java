@@ -49,7 +49,7 @@ public class B1_Vuforia extends Team2753Linear{
 
             initJewelDetector();
             enableJewelDetector();
-            jewelBlue();
+            jewelBlue(this);
             disableJewelDetector();
 
             //score cryptokey
