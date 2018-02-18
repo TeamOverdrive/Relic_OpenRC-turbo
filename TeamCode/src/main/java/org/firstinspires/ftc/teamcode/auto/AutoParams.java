@@ -34,16 +34,16 @@ public class AutoParams {
      * Jewel params during the jewel phase of autonomous
      *
      * @param jewelArmDelayMS amount of time in ms to wait for the jewel arm to deploy and retract
-     * @param jewelColorTimeoutS amount of time in s
+     * @param jewelColorTimeoutS amount of time in seconds
      * @param jewelTurn degrees to turn when hitting the jewel off
      * @param jewelTurnTimeoutS amount of time in s before timing out from the jewelTurn
      */
 
     public static final int jewelArmDelayMS = 300;
     public static final double jewelColorTimeoutS = 5;
-    public static final int jewelTurn = 20;
-    public static final double jewelTurnSpeed = 0.25;
-    public static final double jewelTurnTimeoutS = 2;
+    public static final int jewelTurn = 25;
+    public static final double jewelTurnSpeed = 0.3;
+    public static final double jewelTurnTimeoutS = 3;
 
 
     //how many votes before making a decision on VuMark.

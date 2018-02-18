@@ -27,6 +27,8 @@ public class Teleop extends Team2753Linear {
         REVERSE
     }
 
+    private int releaseState = 0;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -186,6 +188,15 @@ public class Teleop extends Team2753Linear {
                 getJewel().retract();
 
 
+            //Intake Release
+
+            if (gamepad1.x) {
+                getIntake().releaseIntake();
+            }
+            else if (gamepad1.y){
+                getIntake().releaseLock();
+            }
+
             /*  Gamepad 2 Controls  */
 
             /*Lift Control  Gamepad 2 Left Joystick*/
@@ -209,6 +220,7 @@ public class Teleop extends Team2753Linear {
                 getSlammer().setPower(0);
 
 
+
             //Stopper
             if (gamepad2.left_bumper)
                 getSlammer().stopperUp();
@@ -219,10 +231,11 @@ public class Teleop extends Team2753Linear {
 
             /*
             if(gamepad2.right_bumper)
-                getPhoneServo.jewelPosition();
+                getPhoneServo().jewelPosition();
             else
-                getPhoneServo.initPosition();
+                getPhoneServo().initPosition();
             */
+
 
 
             status.setValue("Running OpMode");

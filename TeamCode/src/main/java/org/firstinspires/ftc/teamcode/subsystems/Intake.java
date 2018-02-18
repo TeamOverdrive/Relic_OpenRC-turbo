@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -18,7 +19,7 @@ public class Intake implements Subsystem{
 
     private LinearOpMode linearOpMode = null;
     private DcMotor intakeMotor = null;
-    //private Servo intakeDropper = null;
+    private Servo intakeRelease = null;
 
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {
@@ -26,7 +27,8 @@ public class Intake implements Subsystem{
         intakeMotor = linearOpMode.hardwareMap.dcMotor.get("intake_motor");
         intakeMotor.setDirection(REVERSE);
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //intakeDropper = linearOpMode.hardwareMap.servo.get("intake_dropper");
+        intakeRelease = linearOpMode.hardwareMap.servo.get("intake_servo");
+        intakeRelease.setPosition(0.16);
         zeroSensors();
         stop();
     }
@@ -54,4 +56,8 @@ public class Intake implements Subsystem{
     public void intake(){setPower(1);}
 
     public void reverse(){setPower(-1);}
+
+    public void releaseLock(){intakeRelease.setPosition(0.35);}
+
+    public void releaseIntake(){intakeRelease.setPosition(0.16);}
 }

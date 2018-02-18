@@ -312,16 +312,18 @@ public abstract class Team2753Linear extends LinearOpMode {
                     waitForTick(jewelArmDelayMS);
                     getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     getJewel().retract();
+                    waitForTick(150);
                     getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
-                    waitForTick(250);
+                    waitForTick(100);
                     break;
                 case RED_BLUE:
                     getJewel().deploy();
                     waitForTick(jewelArmDelayMS);
                     getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     getJewel().retract();
+                    waitForTick(150);
                     getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
-                    waitForTick(250);
+                    waitForTick(100);
                     break;
             }
         }
@@ -335,16 +337,18 @@ public abstract class Team2753Linear extends LinearOpMode {
                     waitForTick(jewelArmDelayMS);
                     getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     getJewel().retract();
+                    waitForTick(150);
                     getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
-                    waitForTick(250);
+                    waitForTick(100);
                     break;
                 case RED_BLUE:
                     getJewel().deploy();
                     waitForTick(jewelArmDelayMS);
                     getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     getJewel().retract();
+                    waitForTick(150);
                     getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
-                    waitForTick(250);
+                    waitForTick(100);
                     break;
             }
         }
@@ -397,6 +401,8 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     public void glyphScoreB2(){
 
+        //if(retarded){kms}
+
         getDrive().encoderDrive(autoSpeed, -24,-24, 5);
         //getDrive().encoderDrive(autoSpeed + 0.05, 0, -19.83, 4);
         getDrive().turnCW(90, autoTurnSpeed, 4);
@@ -408,7 +414,7 @@ public abstract class Team2753Linear extends LinearOpMode {
             getDrive().encoderDrive(autoSpeed, -12, -12, 4);
         }
         else if(Column == 3){
-            getDrive().encoderDrive(autoSpeed, -20, -12, 4);
+            getDrive().encoderDrive(autoSpeed, -20, -20, 4);
 
         }
         else{
@@ -416,9 +422,7 @@ public abstract class Team2753Linear extends LinearOpMode {
 
         }
 
-        //wubba-lubba-dub-dub
-        //wubba-lubba-dub-dub
-        waitForTick(1500);
+        //waitForTick(1500);
         getDrive().turnCW(90, autoTurnSpeed, 4);
         getDrive().encoderDrive(autoSpeed, 5, 5, 4);
         scoreGlyph();
@@ -426,9 +430,10 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     public void glyphScoreR2(){
 
-        getDrive().encoderDrive(autoSpeed, 24,24, 5);
+        getDrive().encoderDrive(autoSpeed, 26,26, 5);
         //getDrive().encoderDrive(autoSpeed + 0.05, 0, -19.83, 4);
-        getDrive().turnCCW(90, autoTurnSpeed, 4);
+        //getDrive().turnCCW(90, autoTurnSpeed, 4);
+        getDrive().turnCW(-90, autoTurnSpeed, 4);
 
         if(Column == 1){
             getDrive().encoderDrive(autoSpeed, 20, 20, 4);
@@ -443,9 +448,9 @@ public abstract class Team2753Linear extends LinearOpMode {
             getDrive().encoderDrive(autoSpeed, 12, 12, 4);
         }
 
-        waitForTick(100);
+        //waitForTick(100);
         getDrive().turnCW(90, autoTurnSpeed, 4);
-        getDrive().encoderDrive(autoSpeed, 5, 5, 4);
+        getDrive().encoderDrive(autoSpeed, 4, 4, 4);
         scoreGlyph();
     }
 

@@ -20,7 +20,7 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelTurnTimeoutS;
  */
 
 @Autonomous(name = "Jewel Test",group = "Jewel")
-//@Disabled
+@Disabled
 public class Jewel_Test extends Team2753Linear {
 
     private JewelDetector jewelDetector = null;

@@ -191,15 +191,15 @@ public class Drive implements Subsystem {
                     (leftMotor.isBusy() || rightMotor.isBusy())) {
                 //slow the motors down to half the original speed when we get within 4 inches of our target and the speed is greater than 0.1.
                 if ((Math.abs(newLeftTarget - leftMotor.getCurrentPosition()) < (4.0 * COUNTS_PER_INCH))
-                        && (Math.abs(newLeftTarget - rightMotor.getCurrentPosition()) < (4.0 * COUNTS_PER_INCH))
+                        && (Math.abs(newRightTarget - rightMotor.getCurrentPosition()) < (4.0 * COUNTS_PER_INCH))
                         && speed > 0.1) {
-                    setLeftRightPowers(Math.abs(speed * 0.5), Math.abs(speed * 0.5));
+                    setLeftRightPowers(Math.abs(speed * 0.75), Math.abs(speed * 0.75));
                 }
                 //slow the motors down to 0.35 of the original speed when we get within 2 inches of our target and the speed is greater than 0.1.
                 if ((Math.abs(newLeftTarget - leftMotor.getCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
-                        && (Math.abs(newLeftTarget - rightMotor.getCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
+                        && (Math.abs(newRightTarget - rightMotor.getCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
                         && speed > 0.1) {
-                    setLeftRightPowers(Math.abs(speed * 0.35), Math.abs(speed * 0.35));
+                    setLeftRightPowers(Math.abs(speed * 0.4), Math.abs(speed * 0.4));
                 }
             }
             // Stop all motion;
@@ -251,7 +251,7 @@ public class Drive implements Subsystem {
 
 
     //only implements Kp right now.
-    //if only Kp returns a desired resutl, i will leave it like that
+    //if only Kp returns a desired result, i will leave it like that
     public void proportionControl(double leftTarget, double rightTarget, double speed, double P){
         double leftError = Math.abs(leftTarget - leftMotor.getCurrentPosition());
         double rightError = Math.abs(rightTarget - rightMotor.getCurrentPosition());
