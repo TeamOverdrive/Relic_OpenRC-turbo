@@ -190,10 +190,10 @@ public class Teleop extends Team2753Linear {
 
             //Intake Release
 
-            if (gamepad1.x) {
+            if (gamepad1.y) {
                 getIntake().releaseIntake();
             }
-            else if (gamepad1.y){
+            else if (gamepad1.x){
                 getIntake().releaseLock();
             }
 

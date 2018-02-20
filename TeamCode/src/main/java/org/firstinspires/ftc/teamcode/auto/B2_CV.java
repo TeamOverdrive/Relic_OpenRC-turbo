@@ -36,6 +36,7 @@ public class B2_CV extends Team2753Linear {
         telemetry.update();
         initializeRobot(this, AUTO);
         startVuforia(BACK);
+        initJewelDetector();
 
         //Waiting for start
         status.setValue("Initialized, Waiting for Start");
@@ -55,7 +56,7 @@ public class B2_CV extends Team2753Linear {
             phase.setValue("Jewel");
             telemetry.update();
 
-            initJewelDetector();
+            //initJewelDetector();
             enableJewelDetector();
             jewelBlue(this);
             disableJewelDetector();

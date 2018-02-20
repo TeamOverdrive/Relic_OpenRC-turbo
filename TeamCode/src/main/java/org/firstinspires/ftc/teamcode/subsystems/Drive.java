@@ -199,7 +199,7 @@ public class Drive implements Subsystem {
                 if ((Math.abs(newLeftTarget - leftMotor.getCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
                         && (Math.abs(newRightTarget - rightMotor.getCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
                         && speed > 0.1) {
-                    setLeftRightPowers(Math.abs(speed * 0.4), Math.abs(speed * 0.4));
+                    setLeftRightPowers(Math.abs(speed * 0.3), Math.abs(speed * 0.3));
                 }
             }
             // Stop all motion;

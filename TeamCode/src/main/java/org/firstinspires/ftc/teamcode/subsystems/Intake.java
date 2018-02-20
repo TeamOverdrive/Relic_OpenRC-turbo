@@ -28,7 +28,7 @@ public class Intake implements Subsystem{
         intakeMotor.setDirection(REVERSE);
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeRelease = linearOpMode.hardwareMap.servo.get("intake_servo");
-        intakeRelease.setPosition(0.16);
+        releaseLock();
         zeroSensors();
         stop();
     }
@@ -57,7 +57,7 @@ public class Intake implements Subsystem{
 
     public void reverse(){setPower(-1);}
 
-    public void releaseLock(){intakeRelease.setPosition(0.35);}
+    public void releaseLock(){intakeRelease.setPosition(0.16);}
 
-    public void releaseIntake(){intakeRelease.setPosition(0.16);}
+    public void releaseIntake(){intakeRelease.setPosition(0.35);}
 }

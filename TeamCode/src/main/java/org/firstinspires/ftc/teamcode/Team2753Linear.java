@@ -318,12 +318,14 @@ public abstract class Team2753Linear extends LinearOpMode {
                     break;
                 case RED_BLUE:
                     getJewel().deploy();
+
                     waitForTick(jewelArmDelayMS);
                     getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     getJewel().retract();
                     waitForTick(150);
                     getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     waitForTick(100);
+
                     break;
             }
         }
@@ -376,7 +378,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         getDrive().turnCW(90, autoTurnSpeed, 4);
         getDrive().encoderDrive(autoSpeed, 6, 6, 4);
         //waitForTick(75);
-        scoreGlyph();
+        scoreGlyph1();
     }
 
     public void glyphScoreR1(){
@@ -396,7 +398,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         getDrive().turnCW(90, autoTurnSpeed, 4);
         getDrive().encoderDrive(autoSpeed, 6, 6, 4);
         //waitForTick(75);
-        scoreGlyph();
+        scoreGlyph1();
     }
 
     public void glyphScoreB2(){
@@ -408,7 +410,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         getDrive().turnCW(90, autoTurnSpeed, 4);
 
         if(Column == 1){
-            getDrive().encoderDrive(autoSpeed + 0.1, -2, -2, 5);
+            getDrive().encoderDrive(autoSpeed + 0.1, -4, -4, 5);
         }
         else if(Column == 2){
             getDrive().encoderDrive(autoSpeed, -12, -12, 4);
@@ -425,7 +427,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         //waitForTick(1500);
         getDrive().turnCW(90, autoTurnSpeed, 4);
         getDrive().encoderDrive(autoSpeed, 5, 5, 4);
-        scoreGlyph();
+        scoreGlyph2();
     }
 
     public void glyphScoreR2(){
@@ -451,7 +453,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         //waitForTick(100);
         getDrive().turnCW(90, autoTurnSpeed, 4);
         getDrive().encoderDrive(autoSpeed, 4, 4, 4);
-        scoreGlyph();
+        scoreGlyph2();
     }
 
     //use timeoutS to ensure we have enough time to park before the end of autonomous
@@ -465,18 +467,19 @@ public abstract class Team2753Linear extends LinearOpMode {
         getDrive().encoderDrive(autoSpeed, -6, -6, 4);
         //getIntake().stop();
         getDrive().encoderDrive(autoSpeed, 24, 24, 5);
-        scoreGlyph();
+        scoreGlyph1();
         getDrive().encoderDrive(autoSpeed, -4, -4, 3);
     }
 
     public void multiGlyphPos2(double timeoutS){}
 
-    public void scoreGlyph(){
+    public void scoreGlyph1(){
         getSlammer().stopperUp();
         waitForTick(350);
         getSlammer().setPower(0.35);
         waitForTick(500);
         getSlammer().stop();
+        getIntake().releaseIntake();
         getDrive().encoderDirectDrive(autoSpeed, -3, -3, 3);
         getSlammer().setPower(-0.3);
         getDrive().encoderDrive(autoSpeed, 6,6, 3);
@@ -484,6 +487,19 @@ public abstract class Team2753Linear extends LinearOpMode {
         getDrive().encoderDrive(autoSpeed, -6, -6, 3);
     }
 
+    public void scoreGlyph2(){
+        getSlammer().stopperUp();
+        waitForTick(350);
+        getSlammer().setPower(0.35);
+        waitForTick(500);
+        getSlammer().stop();
+        getIntake().releaseLock();
+        getDrive().encoderDirectDrive(autoSpeed, -3, -3, 3);
+        getSlammer().setPower(-0.3);
+        getDrive().encoderDrive(autoSpeed, 6,6, 3);
+        getSlammer().stop();
+        getDrive().encoderDrive(autoSpeed, -6, -6, 3);
+    }
 
     //Telemetry
 
