@@ -30,7 +30,7 @@ public class Drive implements Subsystem {
     private static final double COUNTS_PER_MOTOR_REV = 1120;     // AndyMark NeveRest 40
     private static final double DRIVE_GEAR_REDUCTION = 0.6666 ;     // This is < 1.0 if geared UP
     private static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference w/ wheel base
-    private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.141592);
+    public static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.141592);
     private static final double WHEEL_BASE = 12.625;
 
     @Override
@@ -89,6 +89,11 @@ public class Drive implements Subsystem {
         rightMotor.setPower(right);
     }
 
+    public void setLeftRightTarget(int leftTarget, int rightTarget){
+        leftMotor.setTargetPosition(leftTarget);
+        rightMotor.setTargetPosition(rightTarget);
+    }
+
     public void setRunMode(DcMotor.RunMode runMode){
         leftMotor.setMode(runMode);
         rightMotor.setMode(runMode);
@@ -98,6 +103,14 @@ public class Drive implements Subsystem {
         leftMotor.setZeroPowerBehavior(zeroPowerBehavior);
         rightMotor.setZeroPowerBehavior(zeroPowerBehavior);
     }
+
+    public int leftCurrentPosition(){return leftMotor.getCurrentPosition();}
+
+    public int rightCurrentPosition(){return rightMotor.getCurrentPosition();}
+
+    public boolean leftIsBusy(){return leftMotor.isBusy();}
+
+    public boolean rightIsBusy(){return rightMotor.isBusy();}
 
     /**
      * Method to perform a Clockwise turn

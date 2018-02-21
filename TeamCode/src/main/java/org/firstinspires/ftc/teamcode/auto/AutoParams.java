@@ -39,7 +39,7 @@ public class AutoParams {
      * @param jewelTurnTimeoutS amount of time in s before timing out from the jewelTurn
      */
 
-    public static final int jewelArmDelayMS = 300;
+    public static final int jewelArmDelayMS = 350;
     public static final double jewelColorTimeoutS = 5;
     public static final int jewelTurn = 25;
     public static final double jewelTurnSpeed = 0.3;
