@@ -27,7 +27,7 @@ public class B1_Multi extends Team2753Linear{
 
         //Initialize Robot
         status.setValue("Initializing...");
-        currentOpMode.setValue("B1 CV");
+        currentOpMode.setValue("B1 Multiglyph");
         telemetry.update();
         initializeRobot(this, AUTO);
         startVuforia(BACK);
@@ -61,7 +61,7 @@ public class B1_Multi extends Team2753Linear{
             //score cryptokey
             phase.setValue("Cryptokey");
             telemetry.update();
-            glyphScoreB1();
+            glyphScoreB1(this);
 
 
             //grab more glyphs

@@ -313,13 +313,13 @@ public abstract class Team2753Linear extends LinearOpMode {
                 case BLUE_RED:
                     getJewel().deploy();
                     waitForTick(jewelArmDelayMS);
-
+                    /*
                     getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     getJewel().retract();
                     waitForTick(150);
                     getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     waitForTick(100);
-
+                    */
                     break;
                 case RED_BLUE:
                     getJewel().deploy();
@@ -327,7 +327,8 @@ public abstract class Team2753Linear extends LinearOpMode {
                     getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     getJewel().retract();
                     waitForTick(150);
-                    getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    //getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    jewelTurnReturn(linearOpMode, jewelTurnSpeed, jewelTurnTimeoutS);
                     waitForTick(100);
                     break;
             }
@@ -354,7 +355,8 @@ public abstract class Team2753Linear extends LinearOpMode {
                     getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     getJewel().retract();
                     waitForTick(150);
-                    getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    //getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    jewelTurnReturn(linearOpMode, jewelTurnSpeed, jewelTurnTimeoutS);
                     waitForTick(100);
                     break;
             }
@@ -369,8 +371,8 @@ public abstract class Team2753Linear extends LinearOpMode {
         if (linearOpMode.opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = getDrive().leftCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            newRightTarget = getDrive().rightCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            newLeftTarget = getDrive().getLeftCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = getDrive().getRightCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
             getDrive().setLeftRightTarget(newLeftTarget, newRightTarget);
             //int counter1 = 0;
             //int counter2 = 0;
@@ -386,18 +388,59 @@ public abstract class Team2753Linear extends LinearOpMode {
             while (linearOpMode.opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (getDrive().leftIsBusy() || getDrive().rightIsBusy())) {
-                if((Math.abs(getDrive().leftCurrentPosition())>(newLeftTarget-(leftInches*COUNTS_PER_INCH)+(6*COUNTS_PER_INCH)))){
+                if((Math.abs(getDrive().getLeftCurrentPosition())>(newLeftTarget-(leftInches*COUNTS_PER_INCH)+(6*COUNTS_PER_INCH)))){
                     getJewel().retract();
                 }
                 //slow the motors down to half the original speed when we get within 4 inches of our target and the speed is greater than 0.1.
-                if ((Math.abs(newLeftTarget - getDrive().leftCurrentPosition()) < (4.0 * COUNTS_PER_INCH))
-                        && (Math.abs(newRightTarget - getDrive().rightCurrentPosition()) < (4.0 * COUNTS_PER_INCH))
+                if ((Math.abs(newLeftTarget - getDrive().getLeftCurrentPosition()) < (4.0 * COUNTS_PER_INCH))
+                        && (Math.abs(newRightTarget - getDrive().getRightCurrentPosition()) < (4.0 * COUNTS_PER_INCH))
                         && speed > 0.1) {
                     getDrive().setLeftRightPowers(Math.abs(speed * 0.75), Math.abs(speed * 0.75));
                 }
                 //slow the motors down to 0.3 of the original speed when we get within 2 inches of our target and the speed is greater than 0.1.
-                if ((Math.abs(newLeftTarget - getDrive().leftCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
-                        && (Math.abs(newRightTarget - getDrive().rightCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
+                if ((Math.abs(newLeftTarget - getDrive().getLeftCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
+                        && (Math.abs(newRightTarget - getDrive().getRightCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
+                        && speed > 0.1) {
+                    getDrive().setLeftRightPowers(Math.abs(speed * 0.3), Math.abs(speed * 0.3));
+                }
+            }
+            // Stop all motion;
+            getDrive().setLeftRightPowers(0,0);
+
+            // Turn off RUN_TO_POSITION
+            getDrive().setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            //  linearOpMode.sleep(250);   // optional pause after each move
+        }
+    }
+
+    public void jewelTurnReturn(LinearOpMode linearOpMode, double speed, double timeoutS) {
+
+        // Ensure that the opmode is still active
+        if(linearOpMode.opModeIsActive()){
+
+            getDrive().setLeftRightTarget(0, 0);
+
+            // Turn On RUN_TO_POSITION
+            getDrive().setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            getDrive().setLeftRightPowers(Math.abs(speed), Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            while (linearOpMode.opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (getDrive().leftIsBusy() || getDrive().rightIsBusy())) {
+                //slow the motors down to half the original speed when we get within 4 inches of our target and the speed is greater than 0.1.
+                if ((Math.abs(getDrive().getLeftCurrentPosition()) < (4.0 * COUNTS_PER_INCH))
+                        && (Math.abs(getDrive().getRightCurrentPosition()) < (4.0 * COUNTS_PER_INCH))
+                        && speed > 0.1) {
+                    getDrive().setLeftRightPowers(Math.abs(speed * 0.75), Math.abs(speed * 0.75));
+                }
+                //slow the motors down to 0.3 of the original speed when we get within 2 inches of our target and the speed is greater than 0.1.
+                if ((Math.abs(getDrive().getLeftCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
+                        && (Math.abs(getDrive().getRightCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
                         && speed > 0.1) {
                     getDrive().setLeftRightPowers(Math.abs(speed * 0.3), Math.abs(speed * 0.3));
                 }
@@ -417,19 +460,19 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     //Glyph
 
-    public void glyphScoreB1(){
+    public void glyphScoreB1(LinearOpMode linearOpMode){
 
         if(Column == 1){
-            jewelDrive(this, autoSpeed, -28, -28, 4);
+            jewelDrive(linearOpMode, autoSpeed, -28, -28, 4);
         }
         else if(Column == 2){
-            jewelDrive(this, autoSpeed, -36, -36, 4);
+            jewelDrive(linearOpMode, autoSpeed, -36, -36, 4);
         }
         else if(Column == 3){
-            jewelDrive(this, autoSpeed, -44, -44, 4);;
+            jewelDrive(linearOpMode, autoSpeed, -44, -44, 4);;
         }
         else{
-            jewelDrive(this, autoSpeed, -36, -36, 4);
+            jewelDrive(linearOpMode, autoSpeed, -36, -36, 4);
         }
         getDrive().turnCW(90, autoTurnSpeed, 4);
         getDrive().encoderDrive(autoSpeed, 6, 6, 4);
@@ -437,22 +480,22 @@ public abstract class Team2753Linear extends LinearOpMode {
         scoreGlyphDropIntake();
     }
 
-    public void glyphScoreR1(){
+    public void glyphScoreR1(LinearOpMode linearOpMode){
 
         if(Column == 1){
-            jewelDrive(this, autoSpeed, 44, 44, 4);
+            jewelDrive(linearOpMode, autoSpeed, 44, 44, 4);
         }
         else if(Column == 2){
-            jewelDrive(this, autoSpeed, 36, 36, 4);
+            jewelDrive(linearOpMode, autoSpeed, 36, 36, 4);
         }
         else if(Column == 3){
-            jewelDrive(this, autoSpeed, 28, 28, 4);
+            jewelDrive(linearOpMode, autoSpeed, 28, 28, 4);
         }
         else{
-            jewelDrive(this, autoSpeed, 36, 36, 4);
+            jewelDrive(linearOpMode, autoSpeed, 36, 36, 4);
         }
         getDrive().turnCW(90, autoTurnSpeed, 4);
-        getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+        getDrive().encoderDrive(autoSpeed, 8, 8, 4);
         //waitForTick(75);
         scoreGlyphDropIntake();
     }
@@ -514,40 +557,6 @@ public abstract class Team2753Linear extends LinearOpMode {
         scoreGlyph();
     }
 
-    //use timeoutS to ensure we have enough time to park before the end of autonomous
-    public void multiGlyphPos1(double timeoutS){
-
-        //drive to pile
-        getIntake().reverse();
-        getSlammer().stopperDown();
-        getDrive().encoderDirectDrive(autoSpeed, -22, -22, 5);
-        getIntake().intake();
-        getDrive().encoderDrive(autoSpeed, -4, -4, 2);
-        //getIntake().stop();
-        waitForTick(250);
-        getIntake().stop();
-        getDrive().encoderDrive(autoSpeed, 30, 30, 5);
-        getDrive().encoderDrive(autoSpeed, 0, 2, 2);
-        scoreGlyph();
-        getDrive().encoderDrive(autoSpeed, -2, -2, 3);
-    }
-
-    public void multiGlyphPos2(double timeoutS){}
-
-    public void scoreGlyphDropIntake(){
-        getSlammer().stopperUp();
-        waitForTick(350);
-        getSlammer().setPower(0.35);
-        waitForTick(500);
-        getSlammer().stop();
-        getIntake().releaseIntake();
-        getDrive().encoderDirectDrive(autoSpeed, -3, -3, 3);
-        getSlammer().setPower(-0.3);
-        getDrive().encoderDrive(autoSpeed, 6,6, 3);
-        getSlammer().stop();
-        getDrive().encoderDrive(autoSpeed, -6, -6, 3);
-    }
-
     public void scoreGlyph(){
         getSlammer().stopperUp();
         waitForTick(350);
@@ -561,6 +570,65 @@ public abstract class Team2753Linear extends LinearOpMode {
         getSlammer().stop();
         getDrive().encoderDrive(autoSpeed, -6, -6, 3);
     }
+
+    //use timeoutS to ensure we have enough time to park before the end of autonomous
+    public void multiGlyphPos1(double timeoutS){
+
+        //drive to pile
+        /*
+        getIntake().reverse();
+        getSlammer().stopperDown();
+        getDrive().encoderDirectDrive(autoSpeed + 0.15, -22, -22, 5);
+        getIntake().intake();
+        getDrive().encoderDrive(autoSpeed, -6, -6, 2);
+        //getIntake().stop();
+        waitForTick(250);
+        getIntake().stop();
+        getDrive().encoderDrive(autoSpeed, 30, 30, 5);
+        getDrive().encoderDrive(autoSpeed, 0, 3, 2);
+        scoreGlyph();
+        getDrive().encoderDrive(autoSpeed, -4, -4, 3);
+        */
+
+        getIntake().reverse();
+        getSlammer().stopperDown();
+        getDrive().encoderDirectDrive(autoSpeed + 0.15, -20, -20, 3);
+        getIntake().intake();
+        getDrive().encoderDrive(0.75, -4, -4, 2);
+        waitForTick(200);
+        int leftPosition = getDrive().getLeftCurrentPosition();
+        int rightPosition = getDrive().getRightCurrentPosition();
+        getDrive().encoderDrive(0.75, -9.915, 0, 2);
+        getDrive().encoderTargetDrive(autoSpeed, leftPosition, rightPosition, 2);
+        //getIntake().stop();
+        waitForTick(250);
+        getIntake().stop();
+        getDrive().encoderDrive(autoSpeed, 26, 26, 3);
+        getDrive().encoderDrive(autoSpeed, 0, 3, 1.5);
+        scoreGlyph();
+    }
+
+    public void multiGlyphR2(double timeoutS){}
+
+    public void multiGlyphB2(double timeoutS){}
+
+    public void intakeDrive(){}
+
+    public void scoreGlyphDropIntake(){
+        getSlammer().stopperUp();
+        waitForTick(350);
+        getSlammer().setPower(0.35);
+        waitForTick(500);
+        getSlammer().stop();
+        getIntake().releaseIntake();
+        getDrive().encoderDirectDrive(autoSpeed, -3, -3, 3);
+        getSlammer().setPower(-0.3);
+        getDrive().encoderDrive(autoSpeed, 6,6, 3);
+        getSlammer().stop();
+        //getDrive().encoderDrive(autoSpeed, -6, -6, 3);
+    }
+
+
 
     //Telemetry
 

@@ -66,7 +66,7 @@ public class B1_CV extends Team2753Linear {
             //score cryptokey
             phase.setValue("Cryptokey");
             telemetry.update();
-            glyphScoreB1();
+            glyphScoreB1(this);
 
 
             //grab more glyphs

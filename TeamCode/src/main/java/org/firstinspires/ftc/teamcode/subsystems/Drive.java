@@ -104,9 +104,9 @@ public class Drive implements Subsystem {
         rightMotor.setZeroPowerBehavior(zeroPowerBehavior);
     }
 
-    public int leftCurrentPosition(){return leftMotor.getCurrentPosition();}
+    public int getLeftCurrentPosition(){return leftMotor.getCurrentPosition();}
 
-    public int rightCurrentPosition(){return rightMotor.getCurrentPosition();}
+    public int getRightCurrentPosition(){return rightMotor.getCurrentPosition();}
 
     public boolean leftIsBusy(){return leftMotor.isBusy();}
 
@@ -225,6 +225,49 @@ public class Drive implements Subsystem {
         }
     }
 
+    public void encoderTargetDrive(double speed, double leftTarget, double rightTarget, double timeoutS) {
+        // Ensure that the opmode is still active
+        if (linearOpMode.opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            leftMotor.setTargetPosition((int) leftTarget);
+            rightMotor.setTargetPosition((int) rightTarget);
+            //int counter1 = 0;
+            //int counter2 = 0;
+
+            // Turn On RUN_TO_POSITION
+            setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            setLeftRightPowers(Math.abs(speed), Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            while (linearOpMode.opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (leftMotor.isBusy() || rightMotor.isBusy())) {
+                //slow the motors down to half the original speed when we get within 4 inches of our target and the speed is greater than 0.1.
+                if ((Math.abs(leftTarget - leftMotor.getCurrentPosition()) < (4.0 * COUNTS_PER_INCH))
+                        && (Math.abs(rightTarget - rightMotor.getCurrentPosition()) < (4.0 * COUNTS_PER_INCH))
+                        && speed > 0.1) {
+                    setLeftRightPowers(Math.abs(speed * 0.75), Math.abs(speed * 0.75));
+                }
+                //slow the motors down to 0.35 of the original speed when we get within 2 inches of our target and the speed is greater than 0.1.
+                if ((Math.abs(leftTarget - leftMotor.getCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
+                        && (Math.abs(rightTarget - rightMotor.getCurrentPosition()) < (2.0 * COUNTS_PER_INCH))
+                        && speed > 0.1) {
+                    setLeftRightPowers(Math.abs(speed * 0.3), Math.abs(speed * 0.3));
+                }
+            }
+            // Stop all motion;
+            setLeftRightPowers(0,0);
+
+            // Turn off RUN_TO_POSITION
+            setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            //  linearOpMode.sleep(250);   // optional pause after each move
+        }
+    }
 
     //same as encoderDrive except without the slowdown before reaching target
     public void encoderDirectDrive(double speed, double leftInches, double rightInches, double timeoutS) {
