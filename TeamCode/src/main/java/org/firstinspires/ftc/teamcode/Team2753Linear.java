@@ -475,7 +475,7 @@ public abstract class Team2753Linear extends LinearOpMode {
             jewelDrive(linearOpMode, autoSpeed, -36, -36, 4);
         }
         getDrive().turnCW(90, autoTurnSpeed, 4);
-        getDrive().encoderDrive(autoSpeed, 6, 6, 4);
+        getDrive().encoderDrive(autoSpeed, 6, 6, 2);
         //waitForTick(75);
         scoreGlyphDropIntake();
     }
@@ -495,7 +495,7 @@ public abstract class Team2753Linear extends LinearOpMode {
             jewelDrive(linearOpMode, autoSpeed, 36, 36, 4);
         }
         getDrive().turnCW(90, autoTurnSpeed, 4);
-        getDrive().encoderDrive(autoSpeed, 8, 8, 4);
+        getDrive().encoderDrive(autoSpeed, 8, 8, 2);
         //waitForTick(75);
         scoreGlyphDropIntake();
     }
@@ -557,63 +557,6 @@ public abstract class Team2753Linear extends LinearOpMode {
         scoreGlyph();
     }
 
-    public void scoreGlyph(){
-        getSlammer().stopperUp();
-        waitForTick(350);
-        getSlammer().setPower(0.35);
-        waitForTick(500);
-        getSlammer().stop();
-        getIntake().releaseLock();
-        getDrive().encoderDirectDrive(autoSpeed, -3, -3, 3);
-        getSlammer().setPower(-0.3);
-        getDrive().encoderDrive(autoSpeed, 6,6, 3);
-        getSlammer().stop();
-        getDrive().encoderDrive(autoSpeed, -6, -6, 3);
-    }
-
-    //use timeoutS to ensure we have enough time to park before the end of autonomous
-    public void multiGlyphPos1(double timeoutS){
-
-        //drive to pile
-        /*
-        getIntake().reverse();
-        getSlammer().stopperDown();
-        getDrive().encoderDirectDrive(autoSpeed + 0.15, -22, -22, 5);
-        getIntake().intake();
-        getDrive().encoderDrive(autoSpeed, -6, -6, 2);
-        //getIntake().stop();
-        waitForTick(250);
-        getIntake().stop();
-        getDrive().encoderDrive(autoSpeed, 30, 30, 5);
-        getDrive().encoderDrive(autoSpeed, 0, 3, 2);
-        scoreGlyph();
-        getDrive().encoderDrive(autoSpeed, -4, -4, 3);
-        */
-
-        getIntake().reverse();
-        getSlammer().stopperDown();
-        getDrive().encoderDirectDrive(autoSpeed + 0.15, -20, -20, 3);
-        getIntake().intake();
-        getDrive().encoderDrive(0.75, -4, -4, 2);
-        waitForTick(200);
-        int leftPosition = getDrive().getLeftCurrentPosition();
-        int rightPosition = getDrive().getRightCurrentPosition();
-        getDrive().encoderDrive(0.75, -9.915, 0, 2);
-        getDrive().encoderTargetDrive(autoSpeed, leftPosition, rightPosition, 2);
-        //getIntake().stop();
-        waitForTick(250);
-        getIntake().stop();
-        getDrive().encoderDrive(autoSpeed, 26, 26, 3);
-        getDrive().encoderDrive(autoSpeed, 0, 3, 1.5);
-        scoreGlyph();
-    }
-
-    public void multiGlyphR2(double timeoutS){}
-
-    public void multiGlyphB2(double timeoutS){}
-
-    public void intakeDrive(){}
-
     public void scoreGlyphDropIntake(){
         getSlammer().stopperUp();
         waitForTick(350);
@@ -628,12 +571,83 @@ public abstract class Team2753Linear extends LinearOpMode {
         //getDrive().encoderDrive(autoSpeed, -6, -6, 3);
     }
 
+    public void scoreGlyph(){
+        getSlammer().stopperUp();
+        waitForTick(350);
+        getSlammer().setPower(0.35);
+        waitForTick(500);
+        getSlammer().stop();
+        getIntake().releaseLock();
+        getDrive().encoderDirectDrive(autoSpeed, -3, -3, 2);
+        if(getRuntime() < 27) {
+            getDrive().encoderDrive(autoSpeed, 6, 6, 1.5);
+            getSlammer().setPower(-0.3);
+            getDrive().encoderDrive(autoSpeed, -6, -6, 3);
+            getSlammer().stop();
+        }
+        else {
+
+        }
+    }
+
+    //use timeoutS to ensure we have enough time to park before the end of autonomous
+    public void multiGlyphPos1(){
+        //v 2.0 - Final version tune for more consistent results and for different columns
+
+        getIntake().reverse();
+        getSlammer().stopperDown();
+        getDrive().encoderDirectDrive(autoSpeed + 0.15, -20, -20, 3);
+        getIntake().intake();
+        getDrive().encoderDrive(0.75, -4, -4, 2);
+        waitForTick(200);
+        int leftPosition = getDrive().getLeftCurrentPosition();
+        int rightPosition = getDrive().getRightCurrentPosition();
+        if(Column == 1) {
+            getDrive().encoderDrive(0.75, 0, -9.915, 2);
+            getDrive().encoderTargetDrive(autoSpeed, leftPosition, rightPosition, 2);
+        }
+        else {
+            getDrive().encoderDrive(0.75, -9.915, 0, 2);
+            getDrive().encoderTargetDrive(autoSpeed, leftPosition, rightPosition, 2);
+        }
+        waitForTick(250);
+        getIntake().stop();
+        if(Column == 1){
+            getDrive().turnCW(27, autoTurnSpeed, 2);
+            getDrive().encoderDrive(autoSpeed, 26.83, 26.83,2);
+            getDrive().turnCCW(63, autoTurnSpeed, 2);
+        }
+        else if (Column == 2){
+            getDrive().turnCCW(14, autoTurnSpeed, 2);
+            getDrive().encoderDrive(autoSpeed, 24.73, 24.73, 2);
+            getDrive().turnCW(76, autoTurnSpeed, 2);
+        }
+        else if (Column == 3){
+            getDrive().turnCCW(27, autoTurnSpeed, 2);
+            getDrive().encoderDrive(autoSpeed, 26.83, 26.83, 2);
+            getDrive().turnCW(63, autoTurnSpeed, 2);
+        }
+        else
+            getDrive().encoderDrive(autoSpeed, 24, 24, 3);
+        //getDrive().encoderDrive(autoSpeed, 0, 2, 1.5);
+        scoreGlyph();
+
+    }
+
+    public void multiGlyphR2(){}
+
+    public void multiGlyphB2(){}
+
+    public void intakeDrive(){}
 
 
     //Telemetry
 
     public void updateTelemetry(LinearOpMode linearOpMode) {
 
+        if(isAuton){
+            linearOpMode.telemetry.addData("Match Time", 30 - getRuntime());
+        }
         if (!isAuton) {
             linearOpMode.telemetry.addData("Match Time", 120 - runtime.seconds());
             if(runtime.seconds() > 90){
@@ -646,6 +660,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         getDrive().outputToTelemetry(linearOpMode.telemetry);
         getJewel().outputToTelemetry(linearOpMode.telemetry);
         getIntake().outputToTelemetry(linearOpMode.telemetry);
+        getLift().outputToTelemetry(linearOpMode.telemetry);
         getSlammer().outputToTelemetry(linearOpMode.telemetry);
         getPhoneServo().outputToTelemetry(linearOpMode.telemetry);
         linearOpMode.telemetry.update();

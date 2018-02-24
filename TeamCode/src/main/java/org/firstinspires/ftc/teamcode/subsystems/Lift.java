@@ -35,7 +35,9 @@ public class Lift implements Subsystem {
     }
 
     @Override
-    public void outputToTelemetry(Telemetry telemetry) {}
+    public void outputToTelemetry(Telemetry telemetry) {
+        telemetry.addData("Intake Power", liftMotor.getPower());
+    }
 
 
     public void setLiftPower(double power){

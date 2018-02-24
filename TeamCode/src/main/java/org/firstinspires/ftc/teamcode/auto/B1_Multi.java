@@ -67,7 +67,7 @@ public class B1_Multi extends Team2753Linear{
             //grab more glyphs
             phase.setValue("Multiglyph");
             telemetry.update();
-            multiGlyphPos1(15);
+            multiGlyphPos1();
 
             //park
             phase.setValue("Parking");

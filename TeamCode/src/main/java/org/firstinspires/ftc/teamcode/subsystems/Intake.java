@@ -29,6 +29,8 @@ public class Intake implements Subsystem{
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeRelease = linearOpMode.hardwareMap.servo.get("intake_servo");
         releaseLock();
+        if(!auto)
+            releaseIntake();
         zeroSensors();
         stop();
     }

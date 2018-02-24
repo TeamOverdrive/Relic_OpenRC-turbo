@@ -18,7 +18,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.Drive.COUNTS_PER_INCH;
  */
 
 @Autonomous(name = "Auto Test", group = "test")
-//@Disabled
+@Disabled
 public class fullAutoTest extends Team2753Linear{
 
     //Runs position b1 for now bc its the closest on test field
@@ -71,60 +71,7 @@ public class fullAutoTest extends Team2753Linear{
             //grab more glyphs
             phase.setValue("Multiglyph");
             telemetry.update();
-            //multiGlyphPos1(15);
-
-            /*
-            getIntake().reverse();
-            getSlammer().stopperDown();
-            getDrive().encoderDirectDrive(autoSpeed + 0.15, -22, -22, 5);
-            getIntake().intake();
-            getDrive().encoderDrive(autoSpeed + 0.1, -6, -6, 2);
-            //getIntake().stop();
-            waitForTick(250);
-            getIntake().stop();
-            getDrive().encoderDrive(autoSpeed, 28, 28, 5);
-            getDrive().encoderDrive(autoSpeed, 0, 3, 2);
-            scoreGlyph();
-            //getDrive().encoderDrive(autoSpeed, -4, -4, 3);
-            */
-
-
-
-            getIntake().reverse();
-            getSlammer().stopperDown();
-            getDrive().encoderDirectDrive(autoSpeed + 0.15, -20, -20, 3);
-            getIntake().intake();
-            getDrive().encoderDrive(0.75, -4, -4, 2);
-            waitForTick(200);
-            int leftPosition = getDrive().getLeftCurrentPosition();
-            int rightPosition = getDrive().getRightCurrentPosition();
-            getDrive().encoderDrive(0.75, -9.915, 0, 2);
-            getDrive().encoderTargetDrive(autoSpeed, leftPosition, rightPosition, 2);
-            //getIntake().stop();
-            waitForTick(250);
-            getIntake().stop();
-            getDrive().encoderDrive(autoSpeed, 24, 24, 3);
-            getDrive().encoderDrive(autoSpeed, 0, 3, 1.5);
-            scoreGlyph();
-
-
-            /*
-            getIntake().reverse();
-            getSlammer().stopperDown();
-            getDrive().encoderDirectDrive(autoSpeed + 0.15, -22, -22, 5);
-            getIntake().intake();
-            getDrive().encoderDrive(autoSpeed + 0.1, -6, -6, 2);
-            leftPosition = getDrive().getLeftCurrentPosition();
-            rightPosition = getDrive().getRightCurrentPosition();
-            getDrive().encoderDrive(autoSpeed + 0.1, 0, -6, 4);
-            getDrive().encoderDrive(autoSpeed, leftPosition*COUNTS_PER_INCH, rightPosition*COUNTS_PER_INCH, 5);
-            //getIntake().stop();
-            waitForTick(250);
-            getIntake().stop();
-            getDrive().encoderDrive(autoSpeed, 30, 30, 5);
-            getDrive().encoderDrive(autoSpeed, 0, 3, 2);
-            scoreGlyph();
-            */
+            multiGlyphPos1();
 
             getDrive().encoderDrive(autoSpeed, -4, -4, 3);
 
