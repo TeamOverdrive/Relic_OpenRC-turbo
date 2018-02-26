@@ -79,11 +79,13 @@ public abstract class Team2753Linear extends LinearOpMode {
 
     //Lift
 
+    /*
     public void liftLower(){
         getLift().setLiftPower(-0.2);
         sleep(250);
         getLift().brakeLift();
     }
+    */
 
 
     //Vuforia
@@ -326,10 +328,10 @@ public abstract class Team2753Linear extends LinearOpMode {
                     waitForTick(jewelArmDelayMS);
                     getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     getJewel().retract();
-                    waitForTick(150);
+                    //waitForTick(150);
                     //getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     jewelTurnReturn(linearOpMode, jewelTurnSpeed, jewelTurnTimeoutS);
-                    waitForTick(100);
+                    //waitForTick(100);
                     break;
             }
         }
@@ -354,10 +356,10 @@ public abstract class Team2753Linear extends LinearOpMode {
                     waitForTick(jewelArmDelayMS);
                     getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     getJewel().retract();
-                    waitForTick(150);
+                    //waitForTick(150);
                     //getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     jewelTurnReturn(linearOpMode, jewelTurnSpeed, jewelTurnTimeoutS);
-                    waitForTick(100);
+                    //waitForTick(100);
                     break;
             }
         }
@@ -475,7 +477,7 @@ public abstract class Team2753Linear extends LinearOpMode {
             jewelDrive(linearOpMode, autoSpeed, -36, -36, 4);
         }
         getDrive().turnCW(90, autoTurnSpeed, 4);
-        getDrive().encoderDrive(autoSpeed, 6, 6, 2);
+        getDrive().encoderDrive(autoSpeed, 8, 8, 2);
         //waitForTick(75);
         scoreGlyphDropIntake();
     }
@@ -561,14 +563,14 @@ public abstract class Team2753Linear extends LinearOpMode {
         getSlammer().stopperUp();
         waitForTick(350);
         getSlammer().setPower(0.35);
-        waitForTick(500);
+        waitForTick(450);
         getSlammer().stop();
         getIntake().releaseIntake();
-        getDrive().encoderDirectDrive(autoSpeed, -3, -3, 3);
+        getDrive().encoderDirectDrive(autoSpeed, -3, -3, 1);
         getSlammer().setPower(-0.3);
-        getDrive().encoderDrive(autoSpeed, 6,6, 3);
+        getDrive().encoderDrive(autoSpeed, 6,6, 1.5);
         getSlammer().stop();
-        //getDrive().encoderDrive(autoSpeed, -6, -6, 3);
+        getDrive().encoderDrive(autoSpeed, -6, -6, 3);
     }
 
     public void scoreGlyph(){
@@ -579,15 +581,10 @@ public abstract class Team2753Linear extends LinearOpMode {
         getSlammer().stop();
         getIntake().releaseLock();
         getDrive().encoderDirectDrive(autoSpeed, -3, -3, 2);
-        if(getRuntime() < 27) {
-            getDrive().encoderDrive(autoSpeed, 6, 6, 1.5);
-            getSlammer().setPower(-0.3);
-            getDrive().encoderDrive(autoSpeed, -6, -6, 3);
-            getSlammer().stop();
-        }
-        else {
-
-        }
+        getDrive().encoderDrive(autoSpeed, 6, 6, 1.5);
+        getSlammer().setPower(-0.3);
+        getDrive().encoderDrive(autoSpeed, -6, -6, 1.5);
+        getSlammer().stop();
     }
 
     //use timeoutS to ensure we have enough time to park before the end of autonomous
@@ -612,6 +609,7 @@ public abstract class Team2753Linear extends LinearOpMode {
         }
         waitForTick(250);
         getIntake().stop();
+        /*
         if(Column == 1){
             getDrive().turnCW(27, autoTurnSpeed, 2);
             getDrive().encoderDrive(autoSpeed, 26.83, 26.83,2);
@@ -627,9 +625,9 @@ public abstract class Team2753Linear extends LinearOpMode {
             getDrive().encoderDrive(autoSpeed, 26.83, 26.83, 2);
             getDrive().turnCW(63, autoTurnSpeed, 2);
         }
-        else
-            getDrive().encoderDrive(autoSpeed, 24, 24, 3);
-        //getDrive().encoderDrive(autoSpeed, 0, 2, 1.5);
+        else*/
+            getDrive().encoderDrive(autoSpeed + 0.15 , 23, 23, 3);
+        getDrive().encoderDrive(autoSpeed, 0, 2, 1.5);
         scoreGlyph();
 
     }

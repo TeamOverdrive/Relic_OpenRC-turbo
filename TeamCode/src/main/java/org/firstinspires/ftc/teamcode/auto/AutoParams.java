@@ -26,8 +26,8 @@ public class AutoParams {
      * @param autoTurnSpeed speed when turning
      */
 
-    public static final double autoSpeed = 0.35;
-    public static final double autoTurnSpeed = 0.3;
+    public static final double autoSpeed = 0.4;
+    public static final double autoTurnSpeed = 0.4;
 
 
     /**

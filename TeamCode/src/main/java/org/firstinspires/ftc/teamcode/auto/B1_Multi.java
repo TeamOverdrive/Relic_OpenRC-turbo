@@ -31,6 +31,7 @@ public class B1_Multi extends Team2753Linear{
         telemetry.update();
         initializeRobot(this, AUTO);
         startVuforia(BACK);
+        initJewelDetector();
 
         //Waiting for start
         status.setValue("Initialized, Waiting for Start");
@@ -48,11 +49,10 @@ public class B1_Multi extends Team2753Linear{
             columnVote(this);
             closeVuforia();
 
-
             //Jewel Phase
             phase.setValue("Jewel");
             telemetry.update();
-            initJewelDetector();
+            //initJewelDetector();
             enableJewelDetector();
             jewelBlue(this);
             disableJewelDetector();
