@@ -15,7 +15,6 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.jewelVotes;
 
 public class Jewel implements Subsystem {
 
-
     private LinearOpMode linearOpMode = null;
     private Servo jewelArm = null;
 
