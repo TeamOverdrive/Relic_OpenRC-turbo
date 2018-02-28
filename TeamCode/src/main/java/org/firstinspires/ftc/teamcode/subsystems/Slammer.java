@@ -24,8 +24,8 @@ public class Slammer implements Subsystem{
     private DcMotor slamMotor = null;
     private Servo stopServo = null;
 
-    private static final double ARMUP = 0.95;
-    private static final double ARMDOWN = 0.35;
+    private static final double ARMUP = 0.35;
+    private static final double ARMDOWN = 0.95;
 
     protected ElapsedTime runtime = new ElapsedTime();// FORWARD_SPEED was running the robot in reverse to the TeleOp program setup.  Speed is reversed to standardize the robot orientation.
 

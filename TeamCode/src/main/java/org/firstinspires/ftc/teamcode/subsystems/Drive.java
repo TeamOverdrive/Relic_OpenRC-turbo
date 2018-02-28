@@ -11,6 +11,9 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.lang.Math.PI;
 import static java.lang.Thread.sleep;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.Kd;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.Ki;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.Kp;
 
 /**
  * Created by joshua9889 on 12/10/2017.
@@ -136,6 +139,14 @@ public class Drive implements Subsystem {
         encoderDirectDrive(speed, leftDistance, rightDistance, timeoutS);
     }
 
+    public void turnPIDCW(LinearOpMode linearOpMode, double degrees, double timeoutS, double P, double I, double D){
+
+        double leftDistance = (WHEEL_BASE*PI*degrees)/-360;
+        double rightDistance = (WHEEL_BASE*PI*degrees)/360;
+
+        encoderPIDDrive(linearOpMode, leftDistance, rightDistance, 10, P, I, D);
+    }
+
 
     /**
      * Method to perform a Counter-clockwise turn
@@ -162,6 +173,13 @@ public class Drive implements Subsystem {
         encoderDirectDrive(speed, leftDistance, rightDistance, timeoutS);
     }
 
+    public void turnPIDCCW(LinearOpMode linearOpMode, double degrees, double timeoutS, double P, double I, double D){
+
+        double leftDistance = (WHEEL_BASE*PI*degrees)/360;
+        double rightDistance = (WHEEL_BASE*PI*degrees)/-360;
+
+        encoderPIDDrive(linearOpMode, leftDistance, rightDistance, 10, Kp, Ki, Kd);
+    }
 
     /**
      * Method to perform a relative move, based on encoder counts.
@@ -305,11 +323,93 @@ public class Drive implements Subsystem {
         }
     }
 
+    public void encoderPIDDrive(LinearOpMode linearOpMode, double leftInches, double rightInches, double timeoutS, double P, double I, double D){
+        int newLeftTarget;
+        int newRightTarget;
+
+        // Ensure that the opmode is still active
+        if (linearOpMode.opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newLeftTarget = leftMotor.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = rightMotor.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            //setLeftRightTarget(newLeftTarget, newRightTarget);
+
+            setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            double left_error = Math.abs(newLeftTarget - leftMotor.getCurrentPosition());
+            double right_error = Math.abs(newRightTarget - rightMotor.getCurrentPosition());
+            double left_error_prior = 0;
+            double right_error_prior = 0;
+            double iterationStartS = linearOpMode.getRuntime();
+            double iterationtimeS = 0;
+
+
+            double integralL = 0;
+            integralL = integralL + (left_error*iterationtimeS);
+            double derivativeL = (left_error - left_error_prior)/iterationtimeS;
+            double outputL = P*left_error + I*integralL + D*derivativeL;
+
+            double integralR = 0;
+            integralR = integralR + (right_error*iterationtimeS);
+            double derivativeR = (right_error - right_error_prior)/iterationtimeS;
+            double outputR = P*right_error + I*integralR + D*derivativeR;
+
+            runtime.reset();
+
+            outputL = Range.clip(outputL, -1, 1);
+            outputR = Range.clip(outputR, -1,1);
+            setLeftRightPowers(Math.abs(outputL), Math.abs(outputR));
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            while (linearOpMode.opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (leftMotor.isBusy() || rightMotor.isBusy())) {
+
+                iterationtimeS = Math.abs(iterationStartS-linearOpMode.getRuntime());
+                iterationStartS = linearOpMode.getRuntime();
+
+                left_error = Math.abs(newLeftTarget - leftMotor.getCurrentPosition());
+                integralL = integralL + (left_error*iterationtimeS);
+                derivativeL = (left_error - left_error_prior)/iterationtimeS;
+                outputL = P*left_error + I*integralL + D*derivativeL;
+                left_error_prior = left_error;
+
+                right_error = Math.abs(newRightTarget - rightMotor.getCurrentPosition());
+                integralR = integralR + (right_error*iterationtimeS);
+                derivativeR = (right_error - right_error_prior)/iterationtimeS;
+                outputR = P*right_error + I*integralR + D*derivativeR;
+                right_error_prior = right_error;
+
+                outputL = Range.clip(outputL, -1, 1);
+                outputR = Range.clip(outputR, -1,1);
+                setLeftRightPowers(Math.abs(outputL), Math.abs(outputR));
+            }
+            // Stop all motion;
+            setLeftRightPowers(0,0);
+
+            // Turn off RUN_WITHOUT_ENCODER
+            setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
+    public double startEncoderPIDControl(DcMotor motor, double target, double P, double I, double D) {
+        double error_prior = 0;
+        double time_prior = 0;
+        double integral = 0;
+        double error = Math.abs(target - motor.getCurrentPosition());
+        double iterationtime = 0;
+        integral = integral + (error * iterationtime);
+        double derivative = (error - error_prior) / iterationtime;
+        double output = P*error + I*integral + D*derivative;
+        error_prior = error;
+        return output;
+    }
 
     //only implements Kp right now.
     //if only Kp returns a desired result, i will leave it like that
-    public void proportionControl(double leftTarget, double rightTarget, double speed, double P){
-        double leftError = Math.abs(leftTarget - leftMotor.getCurrentPosition());
-        double rightError = Math.abs(rightTarget - rightMotor.getCurrentPosition());
+    public void proportionControl(double leftTarget, double rightTarget, double speed, double P, double I, double D){
+        //double leftError = Math.abs(leftTarget - leftMotor.getCurrentPosition());
+        //double rightError = Math.abs(rightTarget - rightMotor.getCurrentPosition());
+
     }
 }

@@ -50,4 +50,13 @@ public class AutoParams {
     public static final int vuMarkVotes = 50;
 
     public static final int jewelVotes = 100;
+
+
+
+    /*PID Values for encoderPIDDrive*/
+    //these need to be tuned
+    public static final double Kp = 1;
+    public static final double Ki = 0.3;
+    public static final double Kd = 0.1;
+
 }

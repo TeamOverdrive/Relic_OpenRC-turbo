@@ -8,6 +8,9 @@ import org.firstinspires.ftc.teamcode.Team2753Linear;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.AUTO;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.Kd;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.Ki;
+import static org.firstinspires.ftc.teamcode.auto.AutoParams.Kp;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoSpeed;
 import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoTurnSpeed;
 
@@ -16,7 +19,7 @@ import static org.firstinspires.ftc.teamcode.auto.AutoParams.autoTurnSpeed;
  */
 
 @Autonomous(name = "Drive Test", group = "test")
-@Disabled
+//@Disabled
 public class DriveTurn extends Team2753Linear{
 
     //Runs position b1 for now bc its the closest on test field
@@ -50,11 +53,15 @@ public class DriveTurn extends Team2753Linear{
 
             while(opModeIsActive() && i == 0) {
 
-            getSlammer().stopperUp();
-            getSlammer().autoSlam();
-            getDrive().encoderDrive(autoSpeed, -3, -3, 3);
-            getDrive().encoderDrive(autoSpeed, 6,6, 3);
-            getDrive().encoderDrive(autoSpeed, -4, -4, 3);
+                getDrive().encoderPIDDrive(this, 24, 24, 10, Kp, Ki, Kd);
+                waitForTick(2000);
+                getDrive().encoderPIDDrive(this, -24, -24, 10, Kp, Ki, Kd);
+                waitForTick(2000);
+                getDrive().encoderPIDDrive(this, 12, 12, 10, Kp, Ki, Kd);
+                waitForTick(2000);
+                getDrive().turnPIDCCW(this, 90, 10, Kp, Ki, Kd);
+                waitForTick(2000);
+                getDrive().turnPIDCW(this, 90, 10, Kp, Ki, Kd);
 
             i++;
         }

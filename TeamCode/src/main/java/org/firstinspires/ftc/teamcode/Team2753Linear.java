@@ -644,7 +644,7 @@ public abstract class Team2753Linear extends LinearOpMode {
     public void updateTelemetry(LinearOpMode linearOpMode) {
 
         if(isAuton){
-            linearOpMode.telemetry.addData("Match Time", 30 - getRuntime());
+            linearOpMode.telemetry.addData("Match Time", 30 - linearOpMode.getRuntime());
         }
         if (!isAuton) {
             linearOpMode.telemetry.addData("Match Time", 120 - runtime.seconds());
