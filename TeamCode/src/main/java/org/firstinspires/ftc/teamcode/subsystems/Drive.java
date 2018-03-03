@@ -131,6 +131,13 @@ public class Drive implements Subsystem {
 
     }
 
+    public void turnProportionCW(double degrees, double timeoutS){
+
+        double leftDistance = (WHEEL_BASE*PI*degrees)/-360;
+        double rightDistance = (WHEEL_BASE*PI*degrees)/360;
+
+        encoderProportionDrive(0.0111111, 0, 0.1, leftDistance, rightDistance, timeoutS);
+    }
 
     public void turnDirectCW(double degrees, double speed, double timeoutS){
         double leftDistance = (WHEEL_BASE*PI*degrees)/-360;
@@ -165,6 +172,13 @@ public class Drive implements Subsystem {
 
     }
 
+    public void turnProportionCCW(double degrees, double timeoutS){
+
+        double leftDistance = (WHEEL_BASE*PI*degrees)/360;
+        double rightDistance = (WHEEL_BASE*PI*degrees)/-360;
+
+        encoderProportionDrive(0.0111111, 0, 0.1, leftDistance, rightDistance, timeoutS);
+    }
 
     public void turnDirectCCW(double degrees, double speed, double timeoutS){
         double leftDistance = (WHEEL_BASE*PI*degrees)/360;
@@ -194,6 +208,7 @@ public class Drive implements Subsystem {
      * @param rightInches The distance that the robot should move to the right.
      * @param timeoutS    The amount of time this method is allowed to execute.
      */
+
     public void encoderDrive(double speed, double leftInches, double rightInches, double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
@@ -243,6 +258,7 @@ public class Drive implements Subsystem {
         }
     }
 
+
     public void encoderTargetDrive(double speed, double leftTarget, double rightTarget, double timeoutS) {
         // Ensure that the opmode is still active
         if (linearOpMode.opModeIsActive()) {
@@ -284,6 +300,67 @@ public class Drive implements Subsystem {
             setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  linearOpMode.sleep(250);   // optional pause after each move
+        }
+    }
+
+    public void encoderProportionDrive(double squareProportion, double proportion, double bias, double leftInches, double rightInches, double timeoutS) {
+        int newLeftTarget;
+        int newRightTarget;
+
+        // Ensure that the opmode is still active
+        if (linearOpMode.opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newLeftTarget = leftMotor.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = rightMotor.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            leftMotor.setTargetPosition(newLeftTarget);
+            rightMotor.setTargetPosition(newRightTarget);
+            //int counter1 = 0;
+            //int counter2 = 0;
+
+            // Turn On RUN_TO_POSITION
+            setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            //Change these to parameters when we want to tune
+            /*
+            final double squareProportion = 0.0375;
+            final double proportion = 0.0;
+            final double bias = 0.15; //constant in the polynomial
+            */
+
+            double leftDistanceLeft = Math.abs(newLeftTarget - leftMotor.getCurrentPosition());
+            double rightDistanceLeft = Math.abs(newRightTarget - rightMotor.getCurrentPosition());
+
+            double newLeftSpeed = Math.abs(Math.pow(squareProportion*leftDistanceLeft,2) + proportion*leftDistanceLeft + bias);
+            double newRightSpeed = Math.abs(Math.pow(squareProportion*rightDistanceLeft,2) + proportion*rightDistanceLeft + bias);
+
+            newLeftSpeed = Range.clip(newLeftSpeed, -1, 1);
+            newRightSpeed = Range.clip(newRightSpeed, -1, 1);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            setLeftRightPowers(Math.abs(newLeftSpeed), Math.abs(newRightSpeed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            while (linearOpMode.opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (leftMotor.isBusy() || rightMotor.isBusy())) {
+
+                leftDistanceLeft = Math.abs(newLeftTarget - leftMotor.getCurrentPosition());
+                rightDistanceLeft = Math.abs(newRightTarget - rightMotor.getCurrentPosition());
+                newLeftSpeed = Math.abs(Math.pow(squareProportion*leftDistanceLeft,2) + proportion*leftDistanceLeft + bias);
+                newRightSpeed = Math.abs(Math.pow(squareProportion*rightDistanceLeft,2) + proportion*rightDistanceLeft + bias);
+
+                newLeftSpeed = Range.clip(newLeftSpeed, -1, 1);
+                newRightSpeed = Range.clip(newRightSpeed, -1, 1);
+
+                setLeftRightPowers(newLeftSpeed, newRightSpeed);
+            }
+            // Stop all motion;
+            setLeftRightPowers(0,0);
+
+            // Turn off RUN_TO_POSITION
+            setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
 

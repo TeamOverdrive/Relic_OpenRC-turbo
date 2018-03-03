@@ -53,15 +53,17 @@ public class DriveTurn extends Team2753Linear{
 
             while(opModeIsActive() && i == 0) {
 
-                getDrive().encoderPIDDrive(this, 24, 24, 10, Kp, Ki, Kd);
+                getDrive().encoderProportionDrive(0.0375, 0, 0.015, 24, 24, 10);
                 waitForTick(2000);
-                getDrive().encoderPIDDrive(this, -24, -24, 10, Kp, Ki, Kd);
+                getDrive().encoderProportionDrive(0.0375, 0, 0.015, -24, -24, 10);
                 waitForTick(2000);
-                getDrive().encoderPIDDrive(this, 12, 12, 10, Kp, Ki, Kd);
+                getDrive().encoderProportionDrive(0.0375, 0, 0.015, 3, 3, 10);
                 waitForTick(2000);
-                getDrive().turnPIDCCW(this, 90, 10, Kp, Ki, Kd);
+                getDrive().encoderProportionDrive(0.0375, 0, 0.015, -3, -3, 10);
                 waitForTick(2000);
-                getDrive().turnPIDCW(this, 90, 10, Kp, Ki, Kd);
+                getDrive().turnProportionCCW(90, 10);
+                waitForTick(2000);
+                getDrive().turnProportionCW(90, 10);
 
             i++;
         }

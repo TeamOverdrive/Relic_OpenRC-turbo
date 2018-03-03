@@ -44,6 +44,8 @@ public class Slammer implements Subsystem{
         stop();
         if(auto)
             stopperDown();
+        else
+            stopperUp();
     }
 
     @Override
