@@ -136,7 +136,7 @@ public class Drive implements Subsystem {
         double leftDistance = (WHEEL_BASE*PI*degrees)/-360;
         double rightDistance = (WHEEL_BASE*PI*degrees)/360;
 
-        encoderProportionDrive(0.0111111, 0, 0.1, leftDistance, rightDistance, timeoutS);
+        encoderProportionDrive(0.0114286, 0, 0.0755714, leftDistance, rightDistance, timeoutS);
     }
 
     public void turnDirectCW(double degrees, double speed, double timeoutS){
@@ -177,7 +177,7 @@ public class Drive implements Subsystem {
         double leftDistance = (WHEEL_BASE*PI*degrees)/360;
         double rightDistance = (WHEEL_BASE*PI*degrees)/-360;
 
-        encoderProportionDrive(0.0111111, 0, 0.1, leftDistance, rightDistance, timeoutS);
+        encoderProportionDrive(0.0114286, 0, 0.0755714, leftDistance, rightDistance, timeoutS);
     }
 
     public void turnDirectCCW(double degrees, double speed, double timeoutS){

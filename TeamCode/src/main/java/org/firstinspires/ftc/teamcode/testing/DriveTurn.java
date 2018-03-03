@@ -53,13 +53,13 @@ public class DriveTurn extends Team2753Linear{
 
             while(opModeIsActive() && i == 0) {
 
-                getDrive().encoderProportionDrive(0.0375, 0, 0.015, 24, 24, 10);
+                getDrive().encoderProportionDrive(0.00625, 0, 0.1, 24, 24, 10);
                 waitForTick(2000);
-                getDrive().encoderProportionDrive(0.0375, 0, 0.015, -24, -24, 10);
+                getDrive().encoderProportionDrive(0.00625, 0, 0.1, -24, -24, 10);
                 waitForTick(2000);
-                getDrive().encoderProportionDrive(0.0375, 0, 0.015, 3, 3, 10);
+                getDrive().encoderProportionDrive(0.00625, 0, 0.1, 3, 3, 10);
                 waitForTick(2000);
-                getDrive().encoderProportionDrive(0.0375, 0, 0.015, -3, -3, 10);
+                getDrive().encoderProportionDrive(0.00625, 0, 0.1, -3, -3, 10);
                 waitForTick(2000);
                 getDrive().turnProportionCCW(90, 10);
                 waitForTick(2000);
