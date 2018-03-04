@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
+import static org.firstinspires.ftc.teamcode.subsystems.Lift.liftState.INTAKING;
 
 /**
  * Created by joshua9889 on 12/10/2017.
@@ -24,10 +25,19 @@ public class Lift implements Subsystem {
         this.linearOpMode = linearOpMode;
         liftMotor = linearOpMode.hardwareMap.dcMotor.get("lift_motor");
         liftMotor.setDirection(REVERSE);
+        setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        stop();
+        zeroSensors();
     }
 
     @Override
-    public void zeroSensors() {}
+    public void zeroSensors() {
+        stop();
+        while(liftMotor.getCurrentPosition() != 0) {
+            setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+        setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
 
     @Override
     public void stop() {
@@ -37,8 +47,57 @@ public class Lift implements Subsystem {
     @Override
     public void outputToTelemetry(Telemetry telemetry) {
         telemetry.addData("Intake Power", liftMotor.getPower());
+        telemetry.addData("Current Lift Position", liftMotor.getCurrentPosition());
+        telemetry.addData("Current Lift State", currentState);
     }
 
+    public void setRunMode(DcMotor.RunMode runMode){
+        liftMotor.setMode(runMode);
+    }
+
+    enum liftState{
+        ZEROING,
+        INTAKING,
+        LOWER,
+        UPPER
+    }
+
+    private liftState currentState = INTAKING;
+
+    public void goTo(liftState wanted){
+        if(wanted != currentState){
+            //setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+            switch(wanted){
+                case INTAKING:
+                    setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    //liftMotor.setTargetPosition();
+                    break;
+                case LOWER:
+                    setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    //liftMotor.setTargetPosition();
+                    break;
+                case UPPER:
+                    setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    //liftMotor.setTargetPosition();
+                    break;
+                case ZEROING:
+                    setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    if(isLimitPressed()) {
+                        zeroSensors();
+                        currentState = wanted;
+                    }
+                    break;
+            }
+        }
+        else {
+            setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            stop();
+        }
+    }
+
+    private boolean isLimitPressed(){
+        return true;
+    }
 
     public void setLiftPower(double power){
         liftMotor.setPower(power);

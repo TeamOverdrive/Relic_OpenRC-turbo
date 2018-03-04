@@ -357,7 +357,7 @@ public abstract class Team2753Linear extends LinearOpMode {
                     getDrive().turnCCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     getJewel().retract();
                     //waitForTick(150);
-                    //getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
+                    getDrive().turnCW(jewelTurn, jewelTurnSpeed, jewelTurnTimeoutS);
                     jewelTurnReturn(linearOpMode, jewelTurnSpeed, jewelTurnTimeoutS);
                     //waitForTick(100);
                     break;
