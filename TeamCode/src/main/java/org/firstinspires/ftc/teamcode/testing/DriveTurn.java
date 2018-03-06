@@ -37,7 +37,7 @@ public class DriveTurn extends Team2753Linear{
 
         //Initialize Robot
         status.setValue("Initializing...");
-        currentOpMode.setValue("Auto Test");
+        currentOpMode.setValue("Drive Test");
         telemetry.update();
         initializeRobot(this, AUTO);
 

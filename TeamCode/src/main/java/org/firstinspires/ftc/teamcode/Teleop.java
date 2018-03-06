@@ -127,6 +127,12 @@ public class Teleop extends Team2753Linear {
                 getIntake().reverse();
             else if (gamepad1.right_bumper)
                 getIntake().intake();
+            /*
+            else if (gamepad1.left_trigger > 0)
+                getIntake().shiftLeft();
+                */
+            else if (gamepad1.right_trigger > 0)
+                getIntake().shiftRight();
             else if (gamepad2.left_trigger > 0)
                 getIntake().reverse();
              else if (gamepad2.right_trigger > 0)

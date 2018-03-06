@@ -146,12 +146,12 @@ public class Drive implements Subsystem {
         encoderDirectDrive(speed, leftDistance, rightDistance, timeoutS);
     }
 
-    public void turnPIDCW(LinearOpMode linearOpMode, double degrees, double timeoutS, double P, double I, double D){
+    public void turnPIDCW(LinearOpMode linearOpMode, double degrees, double timeoutS, double P, double I, double D, double bias){
 
         double leftDistance = (WHEEL_BASE*PI*degrees)/-360;
         double rightDistance = (WHEEL_BASE*PI*degrees)/360;
 
-        encoderPIDDrive(linearOpMode, leftDistance, rightDistance, 10, P, I, D);
+        encoderPIDDrive(linearOpMode, leftDistance, rightDistance, 10, P, I, D, bias);
     }
 
 
@@ -187,12 +187,12 @@ public class Drive implements Subsystem {
         encoderDirectDrive(speed, leftDistance, rightDistance, timeoutS);
     }
 
-    public void turnPIDCCW(LinearOpMode linearOpMode, double degrees, double timeoutS, double P, double I, double D){
+    public void turnPIDCCW(LinearOpMode linearOpMode, double degrees, double timeoutS, double P, double I, double D, double bias){
 
         double leftDistance = (WHEEL_BASE*PI*degrees)/360;
         double rightDistance = (WHEEL_BASE*PI*degrees)/-360;
 
-        encoderPIDDrive(linearOpMode, leftDistance, rightDistance, 10, Kp, Ki, Kd);
+        encoderPIDDrive(linearOpMode, leftDistance, rightDistance, 10, P, I, D, bias);
     }
 
     /**
@@ -257,7 +257,6 @@ public class Drive implements Subsystem {
             //  linearOpMode.sleep(250);   // optional pause after each move
         }
     }
-
 
     public void encoderTargetDrive(double speed, double leftTarget, double rightTarget, double timeoutS) {
         // Ensure that the opmode is still active
@@ -364,6 +363,80 @@ public class Drive implements Subsystem {
         }
     }
 
+    public void encoderPDDrive(LinearOpMode linearOpMode, double Kp2, double Kp, double Kd, double bias, double leftInches, double rightInches, double timeoutS) {
+        int newLeftTarget;
+        int newRightTarget;
+
+        // Ensure that the opmode is still active
+        if (linearOpMode.opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newLeftTarget = leftMotor.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = rightMotor.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            leftMotor.setTargetPosition(newLeftTarget);
+            rightMotor.setTargetPosition(newRightTarget);
+            //int counter1 = 0;
+            //int counter2 = 0;
+
+            // Turn On RUN_TO_POSITION
+            setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            //Change these to parameters when we want to tune
+            /*
+            final double squareProportion = 0.0375;
+            final double proportion = 0.0;
+            final double bias = 0.15; //constant in the polynomial
+            */
+
+            double leftDistanceLeft = Math.abs(newLeftTarget - leftMotor.getCurrentPosition());
+            double rightDistanceLeft = Math.abs(newRightTarget - rightMotor.getCurrentPosition());
+
+            double leftDerivative = 0;
+            double rightDerivative = 0;
+            double leftErrorPrior = 0;
+            double rightErrorPrior = 0;
+
+            double iteration_time;
+            double startIteration = linearOpMode.getRuntime();
+
+            double newLeftSpeed = Math.abs(Math.pow(Kp2*leftDistanceLeft,2) + (Kp*leftDistanceLeft) + (Kd*leftDerivative) + bias);
+            double newRightSpeed = Math.abs(Math.pow(Kp2*rightDistanceLeft,2) + (Kp*rightDistanceLeft) + (Kd*rightDerivative) + bias);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            setLeftRightPowers(Math.abs(newLeftSpeed), Math.abs(newRightSpeed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            while (linearOpMode.opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (leftMotor.isBusy() || rightMotor.isBusy())) {
+
+                iteration_time = Math.abs(linearOpMode.getRuntime() - startIteration);
+                startIteration = linearOpMode.getRuntime();
+
+                leftDistanceLeft = Math.abs(newLeftTarget - leftMotor.getCurrentPosition());
+                rightDistanceLeft = Math.abs(newRightTarget - rightMotor.getCurrentPosition());
+
+                leftDerivative = (leftDistanceLeft - leftErrorPrior)/iteration_time;
+                rightDerivative = (rightDistanceLeft - rightErrorPrior)/iteration_time;
+
+                newLeftSpeed = Math.abs(Math.pow(Kp2*leftDistanceLeft,2) + (Kp*leftDistanceLeft) + (Kd*leftDerivative) + bias);
+                newRightSpeed = Math.abs(Math.pow(Kp2*rightDistanceLeft,2) + (Kp*rightDistanceLeft) + (Kd*rightDerivative) + bias);
+
+                setLeftRightPowers(newLeftSpeed, newRightSpeed);
+
+
+                leftErrorPrior = leftDistanceLeft;
+                rightErrorPrior = rightDistanceLeft;
+            }
+            // Stop all motion;
+            setLeftRightPowers(0,0);
+
+            // Turn off RUN_TO_POSITION
+            setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
     //same as encoderDrive except without the slowdown before reaching target
     public void encoderDirectDrive(double speed, double leftInches, double rightInches, double timeoutS) {
         int newLeftTarget;
@@ -400,7 +473,7 @@ public class Drive implements Subsystem {
         }
     }
 
-    public void encoderPIDDrive(LinearOpMode linearOpMode, double leftInches, double rightInches, double timeoutS, double P, double I, double D){
+    public void encoderPIDDrive(LinearOpMode linearOpMode, double leftInches, double rightInches, double timeoutS, double P, double I, double D, double bias){
         int newLeftTarget;
         int newRightTarget;
 
@@ -412,7 +485,7 @@ public class Drive implements Subsystem {
             newRightTarget = rightMotor.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
             //setLeftRightTarget(newLeftTarget, newRightTarget);
 
-            setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             double left_error = Math.abs(newLeftTarget - leftMotor.getCurrentPosition());
             double right_error = Math.abs(newRightTarget - rightMotor.getCurrentPosition());
@@ -425,12 +498,12 @@ public class Drive implements Subsystem {
             double integralL = 0;
             integralL = integralL + (left_error*iterationtimeS);
             double derivativeL = (left_error - left_error_prior)/iterationtimeS;
-            double outputL = P*left_error + I*integralL + D*derivativeL;
+            double outputL = P*left_error + I*integralL + D*derivativeL + bias;
 
             double integralR = 0;
             integralR = integralR + (right_error*iterationtimeS);
             double derivativeR = (right_error - right_error_prior)/iterationtimeS;
-            double outputR = P*right_error + I*integralR + D*derivativeR;
+            double outputR = P*right_error + I*integralR + D*derivativeR + bias;
 
             runtime.reset();
 

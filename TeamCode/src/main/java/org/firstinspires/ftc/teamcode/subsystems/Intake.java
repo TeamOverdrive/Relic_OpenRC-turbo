@@ -18,15 +18,18 @@ import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 public class Intake implements Subsystem{
 
     private LinearOpMode linearOpMode = null;
-    private DcMotor intakeMotor = null;
+    private DcMotor leftIntake, rightIntake = null;
     private Servo intakeRelease = null;
 
     @Override
     public void init(LinearOpMode linearOpMode, boolean auto) {
         this.linearOpMode = linearOpMode;
-        intakeMotor = linearOpMode.hardwareMap.dcMotor.get("intake_motor");
-        intakeMotor.setDirection(REVERSE);
-        intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftIntake = linearOpMode.hardwareMap.dcMotor.get("intake_left");
+        leftIntake.setDirection(REVERSE);
+        rightIntake = linearOpMode.hardwareMap.dcMotor.get("intake_right");
+        rightIntake.setDirection(REVERSE);
+
+        setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeRelease = linearOpMode.hardwareMap.servo.get("intake_servo");
         releaseLock();
         if(!auto)
@@ -42,22 +45,40 @@ public class Intake implements Subsystem{
 
     @Override
     public void stop() {
-        intakeMotor.setZeroPowerBehavior(FLOAT);
+        leftIntake.setZeroPowerBehavior(FLOAT);
+        rightIntake.setZeroPowerBehavior(FLOAT);
         setPower(0);
     }
 
     @Override
     public void outputToTelemetry(Telemetry telemetry) {
-        telemetry.addData("Intake Power", intakeMotor.getPower());
+        telemetry.addData("Left Intake Power", leftIntake.getPower());
+        telemetry.addData("Right Intake Power", rightIntake.getPower());
     }
 
     public void setPower(double power){
-        intakeMotor.setPower(power);
+        leftIntake.setPower(power);
+        rightIntake.setPower(power);
+    }
+
+    public void setRunMode(DcMotor.RunMode runMode){
+        leftIntake.setMode(runMode);
+        rightIntake.setMode(runMode);
     }
 
     public void intake(){setPower(1.0);}
 
     public void reverse(){setPower(-1.0);}
+
+    public void shiftLeft(){
+        setPower(1.0);
+        rightIntake.setPower(0.8);
+    }
+
+    public void shiftRight(){
+        setPower(1.0);
+        leftIntake.setPower(0.8);
+    }
 
     public void releaseLock(){intakeRelease.setPosition(0.16);}
 
