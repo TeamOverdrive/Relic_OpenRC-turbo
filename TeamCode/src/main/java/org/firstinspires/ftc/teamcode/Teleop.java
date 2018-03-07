@@ -29,6 +29,8 @@ public class Teleop extends Team2753Linear {
 
     private int releaseState = 0;
 
+    org.firstinspires.ftc.teamcode.subsystems.Lift.liftState wantedState = org.firstinspires.ftc.teamcode.subsystems.Lift.liftState.INTAKING;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -106,10 +108,10 @@ public class Teleop extends Team2753Linear {
                     getDrive().setLeftRightPowers(0.3, 0.3);
                     waitForTick(200);
                 } else if (gamepad1.dpad_left) {
-                    getDrive().setLeftRightPowers(-0.35, 0.35);
+                    getDrive().setLeftRightPowers(0.35, -0.35);
                     waitForTick(200);
                 } else if (gamepad1.dpad_right) {
-                    getDrive().setLeftRightPowers(0.35, -0.35);
+                    getDrive().setLeftRightPowers(-0.35, 0.35);
                     waitForTick(200);
                 } else {
                     getDrive().setLeftRightPowers(0, 0);
@@ -206,15 +208,34 @@ public class Teleop extends Team2753Linear {
             /*  Gamepad 2 Controls  */
 
             /*Lift Control  Gamepad 2 Left Joystick*/
-            float liftThrottle = gamepad2.left_stick_y;
-            //CLip
-            liftThrottle = Range.clip(liftThrottle, -1, 1);
-            //Scale
-            liftThrottle = (float) OverdriveLib.scaleInput(liftThrottle);
-            //Invert
-            liftThrottle = liftThrottle * -1;
-            //Apply power to motor
-            getLift().setLiftPower(liftThrottle);
+
+
+
+
+                if(Math.abs(gamepad2.left_stick_y)<0.01){
+                    if(gamepad2.dpad_up){
+                        getSlammer().stopperUp();
+                        wantedState = org.firstinspires.ftc.teamcode.subsystems.Lift.liftState.UPPER;
+                        getIntake().stop();
+                    }
+                    else if (gamepad2.dpad_down){
+                        wantedState = org.firstinspires.ftc.teamcode.subsystems.Lift.liftState.INTAKING;
+                    }
+
+                    getLift().goTo(wantedState);
+                } else {
+                    getLift().setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    float liftThrottle = gamepad2.left_stick_y;
+                    //CLip
+                    liftThrottle = Range.clip(liftThrottle, -1, 1);
+                    //Scale
+                    liftThrottle = (float) OverdriveLib.scaleInput(liftThrottle);
+                    //Invert
+                    liftThrottle = liftThrottle * -1;
+                    //Apply power to motor
+                    getLift().setLiftPower(liftThrottle);
+                }
+
 
 
             //Slammer

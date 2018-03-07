@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 
 /**
@@ -25,7 +26,7 @@ public class Intake implements Subsystem{
     public void init(LinearOpMode linearOpMode, boolean auto) {
         this.linearOpMode = linearOpMode;
         leftIntake = linearOpMode.hardwareMap.dcMotor.get("intake_left");
-        leftIntake.setDirection(REVERSE);
+        leftIntake.setDirection(FORWARD);
         rightIntake = linearOpMode.hardwareMap.dcMotor.get("intake_right");
         rightIntake.setDirection(REVERSE);
 
@@ -71,12 +72,12 @@ public class Intake implements Subsystem{
     public void reverse(){setPower(-1.0);}
 
     public void shiftLeft(){
-        setPower(1.0);
+        leftIntake.setPower(1.0);
         rightIntake.setPower(0.8);
     }
 
     public void shiftRight(){
-        setPower(1.0);
+        rightIntake.setPower(1.0);
         leftIntake.setPower(0.8);
     }
 
